@@ -1,4 +1,4 @@
-﻿namespace scbot.slack
+﻿namespace scbot
 {
     public interface IBot
     {

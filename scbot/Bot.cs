@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace scbot.slack
+﻿namespace scbot
 {
     class Bot : IBot
     {
+        private readonly IMessageProcessor m_Processor;
+
+        public Bot(IMessageProcessor processor)
+        {
+            m_Processor = processor;
+        }
+
         public MessageResult Hello()
         {
             return MessageResult.Empty;
@@ -20,7 +21,7 @@ namespace scbot.slack
 
         public MessageResult Message(Message message)
         {
-            return MessageResult.Empty;
+            return m_Processor.ProcessMessage(message);
         }
     }
 }

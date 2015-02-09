@@ -19,17 +19,23 @@ namespace scbot.slack
         public void Handle(string json)
         {
             var message = Json.Decode(json);
+            MessageResult result;
             switch ((string)message.type)
             {
                 case "hello": 
-                    m_Handler.Hello();
+                    result = m_Handler.Hello();
                     break;
                 case "message":
-                    m_Handler.Message(new Message(message.channel, message.user, message.text));
+                    result = m_Handler.Message(new Message(message.channel, message.user, message.text));
                     break;
                 default:
-                    m_Handler.Unknown(json);
+                    result = m_Handler.Unknown(json);
                     break;
+            }
+
+            foreach (var response in result.Responses)
+            {
+                Console.WriteLine("I want to respond with " + response.Message);
             }
         }
     }
