@@ -18,8 +18,19 @@ namespace slowtests
             var slackApi = new SlackApi(Configuration.SlackApiKey);
             using (var rtm = await slackApi.StartRtm())
             {
+                var json = await rtm.Receive(new CancellationToken());
+                Assert.AreEqual("{\"type\":\"hello\"}", json);
+            }
+        }
+
+        [Test, Explicit]
+        public async void CanTestApi()
+        {
+            var slackApi = new SlackApi(Configuration.SlackApiKey);
+            using (var rtm = await slackApi.StartRtm())
+            {
                 var handler = new SlackMessageHandler(new LoggingBot());
-                for (int i = 0; i < 2; i++)
+                while (true)
                 {
                     var message = await rtm.Receive(new CancellationToken());
                     handler.Handle(message);
