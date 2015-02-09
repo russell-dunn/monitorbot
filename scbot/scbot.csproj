@@ -56,7 +56,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
+    <Compile Include="slack\IBot.cs" />
     <Compile Include="slack\SlackApi.cs" />
+    <Compile Include="slack\Bot.cs" />
+    <Compile Include="slack\SlackMessageHandler.cs" />
     <Compile Include="slack\SlackRealTimeMessaging.cs" />
   </ItemGroup>
   <ItemGroup>
