@@ -17,13 +17,18 @@ namespace fasttests
         {
             var bot = new Mock<IBot>();
             var parser = new SlackMessageHandler(bot.Object);
-            parser.Handle(CreateMessage("{ \"type\": \"hello\" }"));
+            parser.Handle("{ \"type\": \"hello\" }");
             bot.Verify(x => x.Hello());
         }
 
-        private dynamic CreateMessage(string json)
+        [Test]
+        public void CanParseUnknownMessage()
         {
-            return Json.Decode(json);
+            var bot = new Mock<IBot>();
+            var parser = new SlackMessageHandler(bot.Object);
+            var json = "{ \"type\": \"a never-before seen message type\" }";
+            parser.Handle(json);
+            bot.Verify(x => x.UnknownMessage(json)); 
         }
     }
 }

@@ -3,5 +3,6 @@
     public interface IBot
     {
         MessageResult Hello();
+        MessageResult UnknownMessage(string json);
     }
 }

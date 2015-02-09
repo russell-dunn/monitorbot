@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace scbot.slack
 {
@@ -15,12 +16,16 @@ namespace scbot.slack
             m_Handler = handler;
         }
 
-        public void Handle(dynamic message)
+        public void Handle(string json)
         {
+            var message = Json.Decode(json);
             switch ((string)message.type)
             {
                 case "hello": 
                     m_Handler.Hello();
+                    break;
+                default:
+                    m_Handler.UnknownMessage(json);
                     break;
             }
         }

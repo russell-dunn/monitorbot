@@ -16,9 +16,15 @@ namespace slowtests
         public async void CanGetRealTimeMessagingApi()
         {
             var slackApi = new SlackApi(Configuration.SlackApiKey);
-            var rtm = await slackApi.StartRtm();
-            var message = await rtm.Receive(new CancellationToken());
-            Console.WriteLine(message.type);
+            using (var rtm = await slackApi.StartRtm())
+            {
+                var handler = new SlackMessageHandler(new LoggingBot());
+                for (int i = 0; i < 2; i++)
+                {
+                    var message = await rtm.Receive(new CancellationToken());
+                    handler.Handle(message);
+                }
+            }
         }
     }
 }

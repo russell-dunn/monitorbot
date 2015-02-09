@@ -23,10 +23,9 @@ namespace scbot.slack
             return new SlackRealTimeMessaging(webSocket);
         }
 
-        public async Task<dynamic> Receive(CancellationToken cancellationToken)
+        public async Task<string> Receive(CancellationToken cancellationToken)
         {
-            var json = await ReceiveString(cancellationToken);
-            return Json.Decode(json);
+            return await ReceiveString(cancellationToken);
         }
 
         private async Task<string> ReceiveString(CancellationToken cancellationToken)
