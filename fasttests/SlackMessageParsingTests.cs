@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using Moq;
 using NUnit.Framework;
+using scbot;
 using scbot.slack;
 
 namespace fasttests
@@ -28,7 +29,17 @@ namespace fasttests
             var parser = new SlackMessageHandler(bot.Object);
             var json = "{ \"type\": \"a never-before seen message type\" }";
             parser.Handle(json);
-            bot.Verify(x => x.UnknownMessage(json)); 
+            bot.Verify(x => x.Unknown(json)); 
+        }
+
+        [Test]
+        public void CanParseBasicMessage()
+        {
+            var bot = new Mock<IBot>();
+            var parser = new SlackMessageHandler(bot.Object);
+            var json = "{\"type\":\"message\",\"channel\":\"D03JWF44C\",\"user\":\"U03JU40UP\",\"text\":\"this is a test\",\"ts\":\"1423514301.000002\",\"team\":\"T03JU3JV5\"}";
+            parser.Handle(json);
+            bot.Verify(x => x.Message(new Message("D03JWF44C", "U03JU40UP", "this is a test")));
         }
     }
 }

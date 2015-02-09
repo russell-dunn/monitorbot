@@ -13,7 +13,12 @@ namespace scbot.slack
             return MessageResult.Empty;
         }
 
-        public MessageResult UnknownMessage(string json)
+        public MessageResult Unknown(string json)
+        {
+            return MessageResult.Empty;
+        }
+
+        public MessageResult Message(Message message)
         {
             return MessageResult.Empty;
         }

@@ -24,8 +24,11 @@ namespace scbot.slack
                 case "hello": 
                     m_Handler.Hello();
                     break;
+                case "message":
+                    m_Handler.Message(new Message(message.channel, message.user, message.text));
+                    break;
                 default:
-                    m_Handler.UnknownMessage(json);
+                    m_Handler.Unknown(json);
                     break;
             }
         }

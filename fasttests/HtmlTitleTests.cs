@@ -18,7 +18,7 @@ namespace fasttests
             htmlTitleParser.Setup(x => x.GetHtmlTitle(url)).Returns(title);
             var htmlTitle = new HtmlTitleProcessor(htmlTitleParser.Object);
             // see https://api.slack.com/docs/formatting for how slack messages are formatted
-            var response = htmlTitle.ProcessMessage(new Message("some-user", string.Format("this is a link: <{0}>", url)));
+            var response = htmlTitle.ProcessMessage(new Message("a-channel", "some-user", string.Format("this is a link: <{0}>", url)));
             Assert.AreEqual(title, response.Responses.Single().Message);
         }
 
@@ -31,7 +31,7 @@ namespace fasttests
             htmlTitleParser.Setup(x => x.GetHtmlTitle(url)).Returns(expectedTitle);
             var htmlTitle = new HtmlTitleProcessor(htmlTitleParser.Object);
             // see https://api.slack.com/docs/formatting for how slack messages are formatted
-            var response = htmlTitle.ProcessMessage(new Message("some-user", string.Format("this is a link: <{0}>", url)));
+            var response = htmlTitle.ProcessMessage(new Message("a-channel", "some-user", string.Format("this is a link: <{0}>", url)));
             CollectionAssert.IsEmpty(response.Responses);
         }
 

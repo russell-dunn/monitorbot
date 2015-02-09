@@ -3,6 +3,7 @@
     public interface IBot
     {
         MessageResult Hello();
-        MessageResult UnknownMessage(string json);
+        MessageResult Unknown(string json);
+        MessageResult Message(Message message);
     }
 }
