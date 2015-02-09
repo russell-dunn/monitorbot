@@ -31,7 +31,7 @@ namespace scbot.slack
         private async Task<string> ReceiveString(CancellationToken cancellationToken)
         {
             // code based on https://msdn.microsoft.com/en-us/magazine/jj863133.aspx
-            var buffer = new byte[1024];
+            var buffer = new byte[50*1024];
             while (true)
             {
                 var segment = new ArraySegment<byte>(buffer);
