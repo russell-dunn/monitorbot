@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot", "scbot\scbot.csproj", "{B2258502-E3A8-4E53-86B8-56C62D32B92B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "slowtests", "slowtests\slowtests.csproj", "{8224A461-5C13-4A0C-B40F-28193EE95E62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fasttests", "fasttests\fasttests.csproj", "{EAC09188-021B-4650-8CF9-815753C00A1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B2258502-E3A8-4E53-86B8-56C62D32B92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2258502-E3A8-4E53-86B8-56C62D32B92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2258502-E3A8-4E53-86B8-56C62D32B92B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8224A461-5C13-4A0C-B40F-28193EE95E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8224A461-5C13-4A0C-B40F-28193EE95E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8224A461-5C13-4A0C-B40F-28193EE95E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8224A461-5C13-4A0C-B40F-28193EE95E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC09188-021B-4650-8CF9-815753C00A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC09188-021B-4650-8CF9-815753C00A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC09188-021B-4650-8CF9-815753C00A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC09188-021B-4650-8CF9-815753C00A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
