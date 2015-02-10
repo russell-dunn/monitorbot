@@ -22,6 +22,11 @@ namespace scbot.slack
             return new SlackRealTimeMessaging(ws);
         }
 
+        public async Task Send(string str, CancellationToken cancellationToken)
+        {
+            await m_StringClientWebSocket.SendString(str, cancellationToken);
+        }
+
         public async Task<string> Receive(CancellationToken cancellationToken)
         {
             return await m_StringClientWebSocket.ReceiveString(cancellationToken);
