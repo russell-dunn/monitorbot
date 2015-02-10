@@ -9,10 +9,12 @@ namespace scbot.slack
     public class StringClientWebSocket : IDisposable
     {
         private readonly ClientWebSocket m_WebSocket;
+        private readonly UTF8Encoding m_Encoding;
 
         private StringClientWebSocket(ClientWebSocket webSocket)
         {
             m_WebSocket = webSocket;
+            m_Encoding = new UTF8Encoding(false);
         }
 
         public static async Task<StringClientWebSocket> Connect(Uri wsUrl, CancellationToken cancellationToken)
@@ -25,6 +27,13 @@ namespace scbot.slack
         public void Dispose()
         {
             if (m_WebSocket != null) m_WebSocket.Dispose();
+        }
+
+        public async Task SendString(string str, CancellationToken cancellationToken)
+        {
+            var bytes = m_Encoding.GetBytes(str);
+
+            await m_WebSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, cancellationToken);
         }
 
         public async Task<string> ReceiveString(CancellationToken cancellationToken)
@@ -61,7 +70,7 @@ namespace scbot.slack
                     result = await m_WebSocket.ReceiveAsync(segment, cancellationToken);
                     count += result.Count;
                 }
-                var message = new UTF8Encoding(false).GetString(buffer, 0, count);
+                var message = m_Encoding.GetString(buffer, 0, count);
                 return message;
             }
         }
