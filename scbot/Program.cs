@@ -15,10 +15,16 @@ namespace scbot
             var bot = new Bot(new HtmlTitleProcessor(new HtmlTitleParser()));
             var handler = new SlackMessageHandler(bot);
             var slack = new SlackApi(Configuration.SlackApiKey).StartRtm().Result;
+            var cancellationToken = new CancellationToken();
+            var slackMessageEncoder = new SlackMessageEncoder();
             while (true)
             {
-                var nextMessage = slack.Receive(new CancellationToken()).Result;
-                handler.Handle(nextMessage);
+                var nextMessage = slack.Receive(cancellationToken).Result;
+                var result = handler.Handle(nextMessage);
+                foreach (var response in result.Responses)
+                {
+                    slack.Send(slackMessageEncoder.ToJSON(response), cancellationToken).Wait(cancellationToken);
+                }
             }
         }
     }

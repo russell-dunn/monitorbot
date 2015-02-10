@@ -16,7 +16,7 @@ namespace scbot.slack
             m_Handler = handler;
         }
 
-        public void Handle(string json)
+        public MessageResult Handle(string json)
         {
             var message = Json.Decode(json);
             MessageResult result;
@@ -33,10 +33,7 @@ namespace scbot.slack
                     break;
             }
 
-            foreach (var response in result.Responses)
-            {
-                Console.WriteLine("I want to respond with " + response.Message);
-            }
+            return result;
         }
     }
 }

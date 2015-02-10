@@ -23,7 +23,7 @@ namespace scbot
         {
             var urls = s_SlackUrlRegex.Matches(message.MessageText).Cast<Match>().Select(x => x.Groups[1].ToString());
             var titles = urls.Select(x => m_HtmlTitleParser.GetHtmlTitle(x)).Where(x => x != null);
-            var responses = titles.Select(x => new Response(x));
+            var responses = titles.Select(x => Response.ToMessage(message, x));
             return new MessageResult(responses);
         }
     }
