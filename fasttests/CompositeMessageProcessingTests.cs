@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using scbot;
+using scbot.processors;
 
 namespace fasttests
 {

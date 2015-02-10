@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using scbot.processors;
 using scbot.services;
 using scbot.slack;
 

@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompositeMessageProcessor.cs" />
-    <Compile Include="ConcattingMessageProcessor.cs" />
+    <Compile Include="processors\CompositeMessageProcessor.cs" />
+    <Compile Include="processors\ConcattingMessageProcessor.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="HtmlTitleProcessor.cs" />
-    <Compile Include="JiraBugProcessor.cs" />
+    <Compile Include="processors\HtmlTitleProcessor.cs" />
+    <Compile Include="processors\JiraBugProcessor.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />
     <Compile Include="IMessageProcessor.cs" />

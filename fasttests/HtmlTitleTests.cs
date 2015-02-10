@@ -3,6 +3,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using scbot;
+using scbot.processors;
 using scbot.services;
 
 namespace fasttests

@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using scbot.services;
 
-namespace scbot
+namespace scbot.processors
 {
     public class HtmlTitleProcessor : IMessageProcessor
     {

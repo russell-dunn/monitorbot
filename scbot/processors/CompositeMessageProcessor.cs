@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace scbot
+namespace scbot.processors
 {
     public class CompositeMessageProcessor : IMessageProcessor
     {

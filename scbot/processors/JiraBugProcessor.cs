@@ -1,9 +1,8 @@
-using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using scbot.services;
 
-namespace scbot
+namespace scbot.processors
 {
     public class JiraBugProcessor : IMessageProcessor
     {
