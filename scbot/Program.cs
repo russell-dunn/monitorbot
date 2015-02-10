@@ -13,10 +13,11 @@ namespace scbot
     {
         public static void Main(string[] args)
         {
+            var htmlDomainBlacklist = new[] {"jira", "jira.red-gate.com", "rg-jira01", "rg-jira01.red-gate.com", "redgatesupport.zendesk.com"};
             var processor = new ConcattingMessageProcessor(
                 new CompositeMessageProcessor(
                     new JiraBugProcessor(new JiraApi()),
-                    new HtmlTitleProcessor(new HtmlTitleParser())));
+                    new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist)));
             var bot = new Bot(processor);
             var slackApi = new SlackApi(Configuration.SlackApiKey);
             var slackRtm = slackApi.StartRtm().Result;
