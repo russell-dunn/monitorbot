@@ -62,6 +62,7 @@
     <Compile Include="Bot.cs" />
     <Compile Include="slack\SlackMessageHandler.cs" />
     <Compile Include="slack\SlackRealTimeMessaging.cs" />
+    <Compile Include="slack\StringClientWebSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
