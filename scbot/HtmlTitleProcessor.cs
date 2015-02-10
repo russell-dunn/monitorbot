@@ -7,7 +7,7 @@ namespace scbot
     public class HtmlTitleProcessor : IMessageProcessor
     {
         private readonly IHtmlTitleParser m_HtmlTitleParser;
-        private static readonly Regex s_SlackUrlRegex = new Regex(@"\<(.*?)\>", RegexOptions.Compiled);
+        private static readonly Regex s_SlackUrlRegex = new Regex(@"\<(.*?)(?:\|.*?)?\>", RegexOptions.Compiled);
 
         public HtmlTitleProcessor(IHtmlTitleParser htmlTitleParser)
         {
