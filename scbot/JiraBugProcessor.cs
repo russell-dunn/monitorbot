@@ -1,3 +1,4 @@
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using scbot.services;
@@ -21,11 +22,17 @@ namespace scbot
 
         public MessageResult ProcessMessage(Message message)
         {
-            var id = s_BugRegex.Matches(message.MessageText).Cast<Match>().FirstOrDefault();
-            if (id == null) return MessageResult.Empty;
-            var bug = m_JiraApi.FromId(id.Groups[0].ToString()).Result;
-            var messageText = string.Format("<{0}|{1}> | {2} | {3} | {4} {5}", "https://jira.red-gate.com/browse/" + id, id, bug.Title, bug.Status, bug.CommentCount, bug.CommentCount == 1 ? "comment" : "comments");
-            return new MessageResult(new[] { Response.ToMessage(message, messageText), });
+            var matches = s_BugRegex.Matches(message.MessageText).Cast<Match>();
+            var ids = matches.Select(x => x.Groups[0].ToString());
+            var bugs = ids.Select(id => new {id, bug = m_JiraApi.FromId(id).Result});
+            var messageTexts = bugs.Select(x => FormatBug(x.id, x.bug));
+            return new MessageResult(messageTexts.Select(x => Response.ToMessage(message, x)).ToList());
+        }
+
+        private static string FormatBug(string id, JiraBug bug)
+        {
+            return string.Format("<{0}|{1}> | {2} | {3} | {4} {5}", "https://jira.red-gate.com/browse/" + id, id,
+                bug.Title, bug.Status, bug.CommentCount, bug.CommentCount == 1 ? "comment" : "comments");
         }
     }
 }
