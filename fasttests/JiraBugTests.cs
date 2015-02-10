@@ -22,7 +22,7 @@ namespace fasttests
             var jiraBugProcessor = new JiraBugProcessor(jiraApi.Object);
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "how about this bug: SDC-1604"));
             var response = result.Responses.Single();
-            Assert.AreEqual("<https://jira.red-gate.com/browse/SDC-1604|SDC-1604> | Projects occasionally blow up when loaded against dbs with schema differences | 1 comment", response.Message);
+            Assert.AreEqual("<https://jira.red-gate.com/browse/SDC-1604|SDC-1604> | Projects occasionally blow up when loaded against dbs with schema differences | Open | 1 comment", response.Message);
         }
 
         [Test]
