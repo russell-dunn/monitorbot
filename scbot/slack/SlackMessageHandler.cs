@@ -28,20 +28,17 @@ namespace scbot.slack
                     result = m_Handler.Hello();
                     break;
                 case "message":
-                    if (message.reply_to != null)
-                    {
-                        // Sometimes slack will re-acknowledge the last message we posted
-                        // if it thinks we disconected
-                        result = MessageResult.Empty;
-                        break;
-                    }
-                    var username = message.user ?? message.username;
-                    if (username == m_BotId || username == "scbot")
+                    // Sometimes slack will re-acknowledge the last message we posted
+                    // if it thinks we disconected
+                    var replyTo = message.reply_to;
+                    var userId = message.user;
+                    var subtype = message.subtype;
+                    if (userId == m_BotId || subtype == "bot_message" || replyTo != null)
                     {
                         result = MessageResult.Empty;
                         break;
                     }
-                    result = m_Handler.Message(new Message(message.channel, username, message.text));
+                    result = m_Handler.Message(new Message(message.channel, userId, message.text));
                     break;
                 default:
                     result = m_Handler.Unknown(json);
