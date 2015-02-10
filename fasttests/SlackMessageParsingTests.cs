@@ -13,9 +13,10 @@ namespace fasttests
 {
     public class SlackMessageParsingTests
     {
-        private readonly Mock<IBot> m_Mock;
+        private Mock<IBot> m_Mock;
 
-        public SlackMessageParsingTests()
+        [SetUp]
+        public void SetUp()
         {
             m_Mock = new Mock<IBot>();
             m_Mock.Setup(x => x.Hello()).Returns(MessageResult.Empty);
@@ -27,7 +28,7 @@ namespace fasttests
         public void CanParseHelloMessage()
         {
             var bot = m_Mock;
-            var parser = new SlackMessageHandler(bot.Object);
+            var parser = new SlackMessageHandler(bot.Object, "user-id");
             parser.Handle("{ \"type\": \"hello\" }");
             bot.Verify(x => x.Hello());
         }
@@ -36,7 +37,7 @@ namespace fasttests
         public void CanParseUnknownMessage()
         {
             var bot = m_Mock;
-            var parser = new SlackMessageHandler(bot.Object);
+            var parser = new SlackMessageHandler(bot.Object, "user-id");
             var json = "{ \"type\": \"a never-before seen message type\" }";
             parser.Handle(json);
             bot.Verify(x => x.Unknown(json)); 
@@ -46,10 +47,20 @@ namespace fasttests
         public void CanParseBasicMessage()
         {
             var bot = m_Mock;
-            var parser = new SlackMessageHandler(bot.Object);
+            var parser = new SlackMessageHandler(bot.Object, "user-id");
             var json = "{\"type\":\"message\",\"channel\":\"D03JWF44C\",\"user\":\"U03JU40UP\",\"text\":\"this is a test\",\"ts\":\"1423514301.000002\",\"team\":\"T03JU3JV5\"}";
             parser.Handle(json);
             bot.Verify(x => x.Message(new Message("D03JWF44C", "U03JU40UP", "this is a test")));
+        }
+
+        [Test]
+        public void IgnoresMessageFromSelf()
+        {
+            var bot = m_Mock;
+            var parser = new SlackMessageHandler(bot.Object, "bot-id");
+            parser.Handle("{\"type\":\"message\",\"channel\":\"D03JWF44C\",\"user\":\"bot-id\",\"text\":\"this is a test\",\"ts\":\"1423514301.000002\",\"team\":\"T03JU3JV5\"}");
+            parser.Handle("{\"type\":\"message\",\"channel\":\"D03JWF44C\",\"username\":\"scbot\",\"text\":\"this is a test\",\"ts\":\"1423514301.000002\",\"team\":\"T03JU3JV5\"}");
+            bot.Verify(x => x.Message(It.IsAny<Message>()), Times.Never);
         }
     }
 }

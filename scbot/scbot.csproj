@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeMessageProcessor.cs" />
+    <Compile Include="ConcattingMessageProcessor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="HtmlTitleProcessor.cs" />
+    <Compile Include="JiraBugProcessor.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />
     <Compile Include="IMessageProcessor.cs" />
@@ -58,6 +61,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="IBot.cs" />
+    <Compile Include="services\IJiraApi.cs" />
+    <Compile Include="services\JiraApi.cs" />
+    <Compile Include="services\JiraBug.cs" />
     <Compile Include="slack\SlackMessageEncoder.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />

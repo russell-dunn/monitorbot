@@ -29,7 +29,7 @@ namespace slowtests
             var slackApi = new SlackApi(Configuration.SlackApiKey);
             using (var rtm = await slackApi.StartRtm())
             {
-                var handler = new SlackMessageHandler(new LoggingBot());
+                var handler = new SlackMessageHandler(new LoggingBot(), rtm.BotId);
                 while (true)
                 {
                     var message = await rtm.Receive(new CancellationToken());

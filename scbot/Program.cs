@@ -12,18 +12,24 @@ namespace scbot
     {
         public static void Main(string[] args)
         {
-            var bot = new Bot(new HtmlTitleProcessor(new HtmlTitleParser()));
-            var handler = new SlackMessageHandler(bot);
-            var slack = new SlackApi(Configuration.SlackApiKey).StartRtm().Result;
+            var processor = new ConcattingMessageProcessor(
+                new CompositeMessageProcessor(
+                    new JiraBugProcessor(new JiraApi()),
+                    new HtmlTitleProcessor(new HtmlTitleParser())));
+            var bot = new Bot(processor);
+            var slackApi = new SlackApi(Configuration.SlackApiKey);
+            var slackRtm = slackApi.StartRtm().Result;
+            var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
             var slackMessageEncoder = new SlackMessageEncoder();
             while (true)
             {
-                var nextMessage = slack.Receive(cancellationToken).Result;
+                var nextMessage = slackRtm.Receive(cancellationToken).Result;
                 var result = handler.Handle(nextMessage);
                 foreach (var response in result.Responses)
                 {
-                    slack.Send(slackMessageEncoder.ToJSON(response), cancellationToken).Wait(cancellationToken);
+                    slackApi.PostMessage(response).Wait(cancellationToken);
+                    //slackRtm.Send(slackMessageEncoder.ToJSON(response), cancellationToken).Wait(cancellationToken);
                 }
             }
         }

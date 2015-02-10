@@ -19,14 +19,23 @@ namespace scbot.slack
         {
             var result = await GetApiResult("rtm.start");
             var wsUrl = result.url;
-            return await SlackRealTimeMessaging.Connect(new Uri(wsUrl), new CancellationToken());
+            // TODO: getting the bot id here seems to be the most convenient but it's probably not the best idea since we have to pass it around so much 
+            var botId = result.self.id; 
+            return await SlackRealTimeMessaging.Connect(new Uri(wsUrl), botId, new CancellationToken());
         }
 
-        private async Task<dynamic> GetApiResult(string apiEndpoint)
+        public async Task PostMessage(Response response)
+        {
+            var args = string.Format("&channel={0}&text={1}&parse=none&username=scbot", response.Channel, response.Message);
+            await GetApiResult("chat.postMessage", args);
+        }
+
+        private async Task<dynamic> GetApiResult(string apiEndpoint, string extraArgs = "")
         {
             using (var webClient = new WebClient())
             {
-                var json = await webClient.DownloadStringTaskAsync(string.Format("https://slack.com/api/{0}?token={1}", apiEndpoint, m_ApiKey));
+                var json = await webClient.DownloadStringTaskAsync(string.Format("https://slack.com/api/{0}?token={1}{2}", apiEndpoint, m_ApiKey, extraArgs));
+                Console.WriteLine("Got: "+json);
                 var result = Json.Decode(json);
                 var ok = result.ok;
                 if (!ok) throw new Exception("Error connecting to slack API: " + result.error);
