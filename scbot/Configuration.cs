@@ -14,6 +14,11 @@ namespace scbot
             get { return GetConfigValue("slack-api-key"); }
         }
 
+        public static string RedgateId
+        {
+            get { return GetConfigValue("redgate-id"); }
+        }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];
