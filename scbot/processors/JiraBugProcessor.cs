@@ -23,14 +23,14 @@ namespace scbot.processors
         {
             var matches = s_BugRegex.Matches(message.MessageText).Cast<Match>();
             var ids = matches.Select(x => x.Groups[0].ToString());
-            var bugs = ids.Select(id => new {id, bug = m_JiraApi.FromId(id).Result});
-            var messageTexts = bugs.Select(x => FormatBug(x.id, x.bug));
+            var bugs = ids.Select(id => m_JiraApi.FromId(id).Result);
+            var messageTexts = bugs.Select(FormatBug);
             return new MessageResult(messageTexts.Select(x => Response.ToMessage(message, x)).ToList());
         }
 
-        private static string FormatBug(string id, JiraBug bug)
+        private static string FormatBug(JiraBug bug)
         {
-            return string.Format("<{0}|{1}> | {2} | {3} | {4} {5}", "https://jira.red-gate.com/browse/" + id, id,
+            return string.Format("<{0}|{1}> | {2} | {3} | {4} {5}", "https://jira.red-gate.com/browse/" + bug.Id, bug.Id,
                 bug.Title, bug.Status, bug.CommentCount, bug.CommentCount == 1 ? "comment" : "comments");
         }
     }

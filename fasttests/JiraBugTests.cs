@@ -17,7 +17,7 @@ namespace fasttests
         public void UsesJiraApiToPrintBugReferenceDetails()
         {
             var jiraApi = new Mock<IJiraApi>();
-            var jiraBug = new JiraBug("Projects occasionally blow up when loaded against dbs with schema differences", "Open", 1);
+            var jiraBug = new JiraBug("SDC-1604", "Projects occasionally blow up when loaded against dbs with schema differences", "Open", 1);
             jiraApi.Setup(x => x.FromId("SDC-1604")).ReturnsAsync(jiraBug);
 
             var jiraBugProcessor = new JiraBugProcessor(jiraApi.Object);
@@ -30,7 +30,7 @@ namespace fasttests
         public void CanFetchMultipleBugsInMessages()
         {
             var jiraApi = new Mock<IJiraApi>();
-            var jiraBug = new JiraBug("Projects occasionally blow up when loaded against dbs with schema differences", "Open", 1);
+            var jiraBug = new JiraBug("SDC-1604", "Projects occasionally blow up when loaded against dbs with schema differences", "Open", 1);
             jiraApi.Setup(x => x.FromId("SDC-1604")).ReturnsAsync(jiraBug);
             jiraApi.Setup(x => x.FromId("SC-1234")).ReturnsAsync(jiraBug);
 
