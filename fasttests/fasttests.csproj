@@ -51,6 +51,7 @@
     <Compile Include="JiraBugTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlackMessageParsingTests.cs" />
+    <Compile Include="ZendeskTicketTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

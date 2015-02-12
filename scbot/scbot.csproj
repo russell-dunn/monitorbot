@@ -52,6 +52,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="processors\HtmlTitleProcessor.cs" />
     <Compile Include="processors\JiraBugProcessor.cs" />
+    <Compile Include="processors\ZendeskTicketProcessor.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />
     <Compile Include="IMessageProcessor.cs" />
@@ -62,8 +63,10 @@
     <Compile Include="Response.cs" />
     <Compile Include="IBot.cs" />
     <Compile Include="services\IJiraApi.cs" />
+    <Compile Include="services\IZendeskApi.cs" />
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
+    <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="slack\SlackMessageHandler.cs" />
