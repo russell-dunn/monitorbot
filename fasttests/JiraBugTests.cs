@@ -38,11 +38,5 @@ namespace fasttests
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "SC-1234 and SDC-1604 too"));
             Assert.AreEqual(2, result.Responses.Count());
         }
-
-        [Test]
-        public void DoesNotConsiderBugReferencesInLinks()
-        {
-            // TODO - want to change this behaviour so that jira bug links use this instead of HtmlTitleParser
-        }
     }
 }
