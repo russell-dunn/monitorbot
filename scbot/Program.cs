@@ -23,7 +23,6 @@ namespace scbot
             var slackRtm = slackApi.StartRtm().Result;
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
-            var slackMessageEncoder = new SlackMessageEncoder();
             while (true)
             {
                 var nextMessage = slackRtm.Receive(cancellationToken).Result;
@@ -31,7 +30,6 @@ namespace scbot
                 foreach (var response in result.Responses)
                 {
                     slackApi.PostMessage(response).Wait(cancellationToken);
-                    //slackRtm.Send(slackMessageEncoder.ToJSON(response), cancellationToken).Wait(cancellationToken);
                 }
             }
         }

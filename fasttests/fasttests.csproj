@@ -50,7 +50,6 @@
     <Compile Include="HtmlTitleTests.cs" />
     <Compile Include="JiraBugTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlackMessageEncodingTests.cs" />
     <Compile Include="SlackMessageParsingTests.cs" />
   </ItemGroup>
   <ItemGroup>

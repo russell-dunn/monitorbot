@@ -64,7 +64,6 @@
     <Compile Include="services\IJiraApi.cs" />
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
-    <Compile Include="slack\SlackMessageEncoder.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="slack\SlackMessageHandler.cs" />
