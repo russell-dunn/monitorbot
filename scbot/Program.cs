@@ -17,6 +17,7 @@ namespace scbot
             var processor = new ConcattingMessageProcessor(
                 new CompositeMessageProcessor(
                     new JiraBugProcessor(new JiraApi()),
+                    new ZendeskTicketProcessor(ZendeskApi.Create(Configuration.RedgateId)),
                     new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist)));
             var bot = new Bot(processor);
             var slackApi = new SlackApi(Configuration.SlackApiKey);
