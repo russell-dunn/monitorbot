@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Helpers;
 
 namespace scbot.slack
@@ -26,7 +27,9 @@ namespace scbot.slack
 
         public async Task PostMessage(Response response)
         {
-            var args = string.Format("&channel={0}&text={1}&parse=none&username=scbot", response.Channel, response.Message);
+            var message = HttpUtility.UrlEncode(response.Message);
+            var channel = HttpUtility.UrlEncode(response.Channel);
+            var args = string.Format("&channel={0}&text={1}&parse=none&username=scbot", channel, message);
             await GetApiResult("chat.postMessage", args);
         }
 
