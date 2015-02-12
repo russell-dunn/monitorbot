@@ -48,11 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="processors\CompositeMessageProcessor.cs" />
     <Compile Include="processors\ConcattingMessageProcessor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="processors\HtmlTitleProcessor.cs" />
     <Compile Include="processors\JiraBugProcessor.cs" />
+    <Compile Include="processors\NoteProcessor.cs" />
     <Compile Include="processors\ZendeskTicketProcessor.cs" />
     <Compile Include="services\CookieAwareWebClient.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
@@ -65,13 +67,20 @@
     <Compile Include="Response.cs" />
     <Compile Include="IBot.cs" />
     <Compile Include="services\IJiraApi.cs" />
+    <Compile Include="services\IKeyValueStore.cs" />
+    <Compile Include="services\InMemoryKeyValueStore.cs" />
+    <Compile Include="services\INoteApi.cs" />
     <Compile Include="services\IZendeskApi.cs" />
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
+    <Compile Include="services\Note.cs" />
+    <Compile Include="services\NoteApi.cs" />
     <Compile Include="services\ZendeskApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />
+    <Compile Include="ICommandParser.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />
+    <Compile Include="slack\SlackCommandParser.cs" />
     <Compile Include="slack\SlackMessageHandler.cs" />
     <Compile Include="slack\SlackRealTimeMessaging.cs" />
     <Compile Include="slack\StringClientWebSocket.cs" />

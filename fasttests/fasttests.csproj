@@ -49,7 +49,10 @@
     <Compile Include="CompositeMessageProcessingTests.cs" />
     <Compile Include="HtmlTitleTests.cs" />
     <Compile Include="JiraBugTests.cs" />
+    <Compile Include="NoteApiTests.cs" />
+    <Compile Include="NoteTakingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlackCommandParsingTests.cs" />
     <Compile Include="SlackMessageParsingTests.cs" />
     <Compile Include="ZendeskTicketTests.cs" />
   </ItemGroup>

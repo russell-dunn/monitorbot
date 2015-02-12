@@ -24,7 +24,7 @@ namespace slowtests
 
         public MessageResult Message(Message message)
         {
-            Log("got message from channel {0} user {1} with text {2}", message.Channel, message.Username, message.MessageText);
+            Log("got message from channel {0} user {1} with text {2}", message.Channel, message.User, message.MessageText);
             return MessageResult.Empty;
         }
 
