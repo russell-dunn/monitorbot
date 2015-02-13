@@ -10,8 +10,6 @@ namespace scbot.services
     {
         private readonly Dictionary<string, string> m_Store;
 
-        //TODO: replace with real persistence
-
         public InMemoryKeyValueStore()
         {
             m_Store = new Dictionary<string, string>();
