@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scbot.services
 {
-    class InMemoryKeyValueStore : IKeyValueStore
+    public class InMemoryKeyValueStore : IKeyValueStore
     {
         private readonly Dictionary<string, string> m_Store;
 

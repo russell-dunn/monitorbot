@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="HtmlTitleParserTests.cs" />
     <Compile Include="JiraIntegrationTests.cs" />
+    <Compile Include="KeyValueStoreTests.cs" />
     <Compile Include="LoggingBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlackAuthTests.cs" />
