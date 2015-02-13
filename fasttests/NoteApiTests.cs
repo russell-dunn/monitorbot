@@ -61,5 +61,8 @@ namespace fasttests
             noteApi.RemoveNote("user-id", "1");
             kvStore.Verify(x => x.Set("notes:user-id", "[{\"Id\":\"2\",\"Text\":\"this is another note\"}]"));
         }
+
+        // TODO: update notes
+        // TODO: fail sensibly if specified note not found
     }
 }
