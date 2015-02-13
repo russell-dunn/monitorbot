@@ -25,5 +25,18 @@ namespace fasttests
             var response = result.Responses.Single();
             Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/34182|ZD#34182> | SQL Packager 8 crash | Closed | 45 comments", response.Message);
         }
+
+        [Test]
+        public void DoesntMentionTheSameTicketTwice()
+        {
+            var api = new Mock<IZendeskApi>(MockBehavior.Strict);
+            var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", 45);
+            api.Setup(x => x.FromId("34182")).ReturnsAsync(ticket);
+
+            var processor = new ZendeskTicketProcessor(api.Object);
+            var result = processor.ProcessMessage(new Message("a-channel", "a-user", string.Format("what is {0} and {0}", "ZD#34182")));
+            var response = result.Responses.Single();
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/34182|ZD#34182> | SQL Packager 8 crash | Closed | 45 comments", response.Message);
+        }
     }
 }
