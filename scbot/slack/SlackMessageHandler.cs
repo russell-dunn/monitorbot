@@ -35,7 +35,7 @@ namespace scbot.slack
                     var subtype = message.subtype;
                     var hidden = message.hidden;
                     var text = message.text;
-                    if (userId == m_BotId || subtype == "bot_message" || replyTo != null || hidden != null || text == null)
+                    if (userId == m_BotId || subtype == "bot_message" || subtype == "file_share" || replyTo != null || hidden != null || text == null)
                     {
                         result = MessageResult.Empty;
                         break;
