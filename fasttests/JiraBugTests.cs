@@ -38,5 +38,17 @@ namespace fasttests
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "SC-1234 and SDC-1604 too"));
             Assert.AreEqual(2, result.Responses.Count());
         }
+
+        [Test]
+        public void DoesntMentionTheSameBugTwice()
+        {
+            var jiraApi = new Mock<IJiraApi>();
+            var jiraBug = new JiraBug("SDC-1604", "Projects occasionally blow up when loaded against dbs with schema differences", "Open", 1);
+            jiraApi.Setup(x => x.FromId("SC-1234")).ReturnsAsync(jiraBug);
+
+            var jiraBugProcessor = new JiraBugProcessor(jiraApi.Object);
+            var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "SC-1234 and SC-1234"));
+            Assert.AreEqual(1, result.Responses.Count()); 
+        }
     }
 }

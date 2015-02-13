@@ -22,7 +22,7 @@ namespace scbot.processors
         public MessageResult ProcessMessage(Message message)
         {
             var matches = s_BugRegex.Matches(message.MessageText).Cast<Match>();
-            var ids = matches.Select(x => x.Groups[0].ToString());
+            var ids = matches.Select(x => x.Groups[0].ToString()).Distinct();
             var bugs = ids.Select(id => m_JiraApi.FromId(id).Result);
             var messageTexts = bugs.Select(FormatBug);
             return new MessageResult(messageTexts.Select(x => Response.ToMessage(message, x)).ToList());
