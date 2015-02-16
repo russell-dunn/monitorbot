@@ -22,7 +22,6 @@ namespace scbot
         {
             var htmlDomainBlacklist = new[]
             {"jira", "jira.red-gate.com", "rg-jira01", "rg-jira01.red-gate.com", "redgatesupport.zendesk.com"};
-            var commandParser = new SlackCommandParser("scbot", "U03JWF43N" /*TODO*/);
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
             var slackApi = new SlackApi(Configuration.SlackApiKey);
@@ -33,6 +32,9 @@ namespace scbot
             var zendeskApiConnection = ZendeskApi.CreateAsync(Configuration.RedgateId);
             var zendeskApi = new CachedZendeskApi(time, await zendeskApiConnection);
 
+            var slackRtm = await slackRtmConnection;
+
+            var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
             var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
@@ -44,7 +46,6 @@ namespace scbot
 
             var bot = new Bot(processor);
 
-            var slackRtm = await slackRtmConnection;
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
             while (true)
