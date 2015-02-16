@@ -6,6 +6,8 @@ namespace scbot.processors
 {
     public class ZendeskTicketTracker : IMessageProcessor
     {
+        private const string c_PersistenceKey = "tracked-zd-tickets";
+
         private struct TrackedTicket
         {
             public readonly ZendeskTicket Ticket;
@@ -32,7 +34,7 @@ namespace scbot.processors
 
         public MessageResult ProcessTimerTick()
         {
-            var trackedTickets = m_Persistence.ReadList("tracked-zd-tickets");
+            var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
             var comparison = trackedTickets.Select(x => new
             {
                 channel = x.Channel, id = x.Ticket.Id, oldValue = x.Ticket, newValue = m_ZendeskApi.FromId(x.Ticket.Id).Result
@@ -49,8 +51,8 @@ namespace scbot.processors
             foreach (var diff in different)
             {
                 var id = diff.id;
-                m_Persistence.RemoveFromList("tracked-zd-tickets", x => x.Ticket.Id == id);
-                m_Persistence.AddToList("tracked-zd-tickets", new TrackedTicket(diff.newValue, diff.channel));
+                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Ticket.Id == id);
+                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.newValue, diff.channel));
             }
             
             return new MessageResult(responses.ToList());
@@ -62,7 +64,7 @@ namespace scbot.processors
             if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_ZendeskIdRegex.IsMatch(toTrack))
             {
                 var ticket = m_ZendeskApi.FromId(toTrack.Substring(3)).Result;
-                m_Persistence.AddToList("tracked-zd-tickets", new TrackedTicket(ticket, message.Channel));
+                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(ticket, message.Channel));
                 return new MessageResult(new[] {Response.ToMessage(message, FormatNowTrackingMessage(toTrack))});
             }
             return MessageResult.Empty;
