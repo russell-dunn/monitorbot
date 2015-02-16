@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingTests.cs" />
     <Compile Include="CompositeMessageProcessingTests.cs" />
     <Compile Include="HtmlTitleTests.cs" />
     <Compile Include="JiraBugTests.cs" />

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="processors\CompositeMessageProcessor.cs" />
     <Compile Include="processors\ConcattingMessageProcessor.cs" />
@@ -71,12 +72,14 @@
     <Compile Include="services\IKeyValueStore.cs" />
     <Compile Include="services\InMemoryKeyValueStore.cs" />
     <Compile Include="services\INoteApi.cs" />
+    <Compile Include="services\ITime.cs" />
     <Compile Include="services\IZendeskApi.cs" />
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
     <Compile Include="services\JsonFileKeyValueStore.cs" />
     <Compile Include="services\Note.cs" />
     <Compile Include="services\NoteApi.cs" />
+    <Compile Include="services\Time.cs" />
     <Compile Include="services\ZendeskApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="ICommandParser.cs" />
