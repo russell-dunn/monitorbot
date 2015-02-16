@@ -48,6 +48,11 @@ namespace scbot
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
+            MainLoop(slackRtm, handler, slackApi, cancellationToken);
+        }
+
+        private static void MainLoop(SlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
+        {
             while (true)
             {
                 var nextMessage = slackRtm.Receive(cancellationToken).Result;
