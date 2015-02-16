@@ -15,7 +15,12 @@ namespace scbot.services
             m_CookieJar = cookieJar;
         }
 
-        public static ZendeskApi Create(string redgateId) 
+        public static ZendeskApi Create(string redgateId)
+        {
+            return CreateAsync(redgateId).Result;
+        }
+
+        public static async Task<ZendeskApi> CreateAsync(string redgateId)
         {
             var userAndPass = redgateId.Split(new[] {':'}, 2);
             var username = HttpUtility.UrlEncode(userAndPass[0]);
@@ -27,18 +32,18 @@ namespace scbot.services
             using (var client = new CookieAwareWebClient(cookieJar))
             {
                 Console.WriteLine("getting login cookie");
-                var r1 = client.DownloadString("https://redgatesupport.zendesk.com/login?return_to=https%3A//redgatesupport.zendesk.com/");
+                var r1 = await client.DownloadStringTaskAsync("https://redgatesupport.zendesk.com/login?return_to=https%3A//redgatesupport.zendesk.com/");
                 Console.WriteLine("logging into rgid");
-                var r2 = client.DownloadString(string.Format("https://authentication.red-gate.com/openid/login?callback=c&emailAddress={0}&password={1}&_=5", username, password));
+                var r2 = await client.DownloadStringTaskAsync(string.Format( "https://authentication.red-gate.com/openid/login?callback=c&emailAddress={0}&password={1}&_=5", username, password));
                 if (!r2.StartsWith("c(") && r2.EndsWith(")")) throw new Exception("expected jsonp callback called c()");
                 var fixedJson = r2.Substring("c(".Length, r2.Length - "c(".Length - ")".Length);
-                var redirectTo = (string)Json.Decode(fixedJson).redirectTo;
+                var redirectTo = (string) Json.Decode(fixedJson).redirectTo;
                 Console.WriteLine("redirect back to zdesk");
-                var r3 = client.DownloadString(redirectTo);
-                Console.WriteLine("downloading a real issue to get api access (for some reason this seems to make future requests more reliable)");
-                var real = client.DownloadString("https://redgatesupport.zendesk.com/agent/tickets/36414");
+                var r3 = await client.DownloadStringTaskAsync(redirectTo);
+                Console.WriteLine( "downloading a real issue to get api access (for some reason this seems to make future requests more reliable)");
+                var real = await client.DownloadStringTaskAsync("https://redgatesupport.zendesk.com/agent/tickets/36414");
             }
- 
+
             return new ZendeskApi(cookieJar);
         }
 
