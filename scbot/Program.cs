@@ -48,19 +48,32 @@ namespace scbot
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
+
             MainLoop(slackRtm, handler, slackApi, cancellationToken);
         }
 
         private static void MainLoop(SlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
         {
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                var nextMessage = slackRtm.Receive(cancellationToken).Result;
-                var result = handler.Handle(nextMessage);
-                foreach (var response in result.Responses)
+                var nextMessage = slackRtm.Receive(cancellationToken);
+                while (!nextMessage.Wait(TimeSpan.FromSeconds(10)))
                 {
-                    slackApi.PostMessage(response).Wait(cancellationToken);
+                    var tickResult = handler.HandleTimerTick();
+                    Console.Write(".");
+                    DoResponse(slackApi, tickResult, cancellationToken);
                 }
+
+                var messageResult = handler.Handle(nextMessage.Result);
+                DoResponse(slackApi, messageResult, cancellationToken);
+            }
+        }
+
+        private static void DoResponse(SlackApi slackApi, MessageResult result, CancellationToken cancellationToken)
+        {
+            foreach (var response in result.Responses)
+            {
+                slackApi.PostMessage(response).Wait(cancellationToken);
             }
         }
     }

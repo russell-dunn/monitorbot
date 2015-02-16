@@ -49,5 +49,10 @@ namespace scbot.slack
 
             return result;
         }
+
+        public MessageResult HandleTimerTick()
+        {
+            return m_Handler.TimerTick();
+        }
     }
 }

@@ -28,6 +28,11 @@ namespace slowtests
             return MessageResult.Empty;
         }
 
+        public MessageResult TimerTick()
+        {
+            return MessageResult.Empty;
+        }
+
         private static void Log(string message, params object[] args)
         {
             if (!args.Any())

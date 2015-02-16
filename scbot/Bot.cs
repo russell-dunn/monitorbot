@@ -23,5 +23,10 @@
         {
             return m_Processor.ProcessMessage(message);
         }
+
+        public MessageResult TimerTick()
+        {
+            return m_Processor.ProcessTimerTick();
+        }
     }
 }
