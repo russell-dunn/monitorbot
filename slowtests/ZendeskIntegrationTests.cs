@@ -37,5 +37,12 @@ namespace slowtests
             Assert.Greater(uncachedTime.TotalMilliseconds, 10);
             Assert.Less(cachedTime.TotalMilliseconds, 10);
         }
+
+        [Test, Explicit]
+        public void ReturnsNullOnError()
+        {
+            var api = ZendeskApi.Create(Configuration.RedgateId);
+            Assert.Null(api.FromId("not a zd id").Result); 
+        }
     }
 }

@@ -49,6 +49,18 @@ namespace scbot.services
 
         public async Task<ZendeskTicket> FromId(string id)
         {
+            try
+            {
+                return await FromApi(id);
+            }
+            catch (Exception e)
+            {
+                return null; // TODO: log
+            }
+        }
+
+        private async Task<ZendeskTicket> FromApi(string id)
+        {
             const string apiBase = "https://redgatesupport.zendesk.com/api/v2/";
             using (var client = new CookieAwareWebClient(m_CookieJar))
             {
