@@ -50,5 +50,16 @@ namespace fasttests
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "SC-1234 and SC-1234"));
             Assert.AreEqual(1, result.Responses.Count()); 
         }
+
+        [Test]
+        public void IgnoresNullsOnError()
+        {
+            var jiraApi = new Mock<IJiraApi>();
+            jiraApi.Setup(x => x.FromId("NOT-3")).ReturnsAsync(null);
+
+            var jiraBugProcessor = new JiraBugProcessor(jiraApi.Object);
+            var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "how about this bug: NOT-3"));
+            CollectionAssert.IsEmpty(result.Responses);
+        }
     }
 }
