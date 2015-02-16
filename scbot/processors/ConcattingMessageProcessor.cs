@@ -14,7 +14,8 @@ namespace scbot.processors
 
         public MessageResult ProcessTimerTick()
         {
-            return MessageResult.Empty;
+            var before = m_Underlying.ProcessTimerTick();
+            return new MessageResult(before.Responses.GroupBy(Channel).Select(CreateResponse).ToList());
         }
 
         public MessageResult ProcessMessage(Message message)

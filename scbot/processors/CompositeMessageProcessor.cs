@@ -14,7 +14,7 @@ namespace scbot.processors
 
         public MessageResult ProcessTimerTick()
         {
-            return MessageResult.Empty;
+            return new MessageResult(m_SubProcessors.SelectMany(x => x.ProcessTimerTick().Responses));
         }
 
         public MessageResult ProcessMessage(Message message)
