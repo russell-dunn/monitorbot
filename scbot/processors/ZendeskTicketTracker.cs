@@ -35,16 +35,23 @@ namespace scbot.processors
             var trackedTickets = m_Persistence.ReadList("tracked-zd-tickets");
             var comparison = trackedTickets.Select(x => new
             {
-                channel = x.Channel, oldValue = x.Ticket, newValue = m_ZendeskApi.FromId(x.Ticket.Id).Result
+                channel = x.Channel, id = x.Ticket.Id, oldValue = x.Ticket, newValue = m_ZendeskApi.FromId(x.Ticket.Id).Result
             });
             var different = comparison.Where(x =>
                 x.oldValue.Status != x.newValue.Status ||
                 x.oldValue.CommentCount != x.newValue.CommentCount ||
                 x.oldValue.Description != x.newValue.Description
-                );
+                ).ToList();
             var responses = different.Select(x => new Response(
                 string.Format("Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated",
-                    x.oldValue.Id), x.channel));
+                    x.id), x.channel));
+
+            foreach (var diff in different)
+            {
+                var id = diff.id;
+                m_Persistence.RemoveFromList("tracked-zd-tickets", x => x.Ticket.Id == id);
+                m_Persistence.AddToList("tracked-zd-tickets", new TrackedTicket(diff.newValue, diff.channel));
+            }
             
             return new MessageResult(responses.ToList());
         }
