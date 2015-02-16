@@ -38,8 +38,25 @@ namespace fasttests
             CollectionAssert.IsEmpty(zendeskTracker.ProcessTimerTick().Responses);
         }
 
+        [Test]
+        public void CanUntrackTickets()
+        {
+            var initialJson = @"[{""Ticket"":{""Id"":""12345"",""Description"":""the description"",""Status"":""hold"",""CommentCount"":5},""Channel"":""a-channel""}]";
+
+            var persistence = new Mock<IKeyValueStore>();
+            persistence.Setup(x => x.Get("tracked-zd-tickets")).Returns(initialJson);
+            
+            var slackCommandParser = new SlackCommandParser("scbot", "U123");
+            var zendeskTracker = new ZendeskTicketTracker(slackCommandParser, persistence.Object, null);
+
+            var response = zendeskTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot untrack ZD#12345")).Responses.Single();
+
+            Assert.AreEqual("No longer tracking ZD#12345.", response.Message);
+            persistence.VerifyAll();
+            persistence.Verify(x => x.Set("tracked-zd-tickets", "[]"));
+        }
+
         // TODO: check if already tracking
-        // TODO: untrack
         // TODO: more specific diffs (particularly status changed or comments added)
     }
 }
