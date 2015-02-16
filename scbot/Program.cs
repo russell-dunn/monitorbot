@@ -41,6 +41,7 @@ namespace scbot
                             new NoteProcessor(commandParser, new NoteApi(persistence)),
                             new JiraBugProcessor(jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
+                            new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
                             new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist))));
 
             var bot = new Bot(processor);
