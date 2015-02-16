@@ -17,12 +17,16 @@ namespace scbot
             var htmlDomainBlacklist = new[] {"jira", "jira.red-gate.com", "rg-jira01", "rg-jira01.red-gate.com", "redgatesupport.zendesk.com"};
             var commandParser = new SlackCommandParser("scbot", "U03JWF43N"/*TODO*/);
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
-            var processor = new ConcattingMessageProcessor(
+            
+            var processor =
+                new ErrorCatchingMessageProcessor(
+                new ConcattingMessageProcessor(
                 new CompositeMessageProcessor(
                     new NoteProcessor(commandParser, new NoteApi(persistence)),
                     new JiraBugProcessor(new JiraApi()),
                     new ZendeskTicketProcessor(ZendeskApi.Create(Configuration.RedgateId)),
-                    new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist)));
+                    new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist))));
+
             var bot = new Bot(processor);
             var slackApi = new SlackApi(Configuration.SlackApiKey);
             var slackRtm = slackApi.StartRtm().Result;

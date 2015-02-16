@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
@@ -40,6 +41,28 @@ namespace fasttests
             var result = compositeMessageProcessor.ProcessMessage(new Message("asdf", "a-user", "some-text"));
             Assert.AreEqual("a", result.Responses.ElementAt(0).Message);
             Assert.AreEqual("c\ne", result.Responses.ElementAt(1).Message);
+        }
+
+        [Test]
+        public void ErrorCatchingMessageProcessorPassesThroughResults()
+        {
+            var underlying = new Mock<IMessageProcessor>();
+            underlying.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(new[] {new Response("a", "b")}));
+
+            var compositeMessageProcessor = new ErrorCatchingMessageProcessor(underlying.Object);
+            var result = compositeMessageProcessor.ProcessMessage(new Message("asdf", "a-user", "some-text"));
+            CollectionAssert.IsNotEmpty(result.Responses);
+        }
+
+        [Test]
+        public void ErrorCatchingMessageProcessorHidesAllErrors()
+        {
+            var underlying = new Mock<IMessageProcessor>();
+            underlying.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Throws(new Exception());
+
+            var compositeMessageProcessor = new ErrorCatchingMessageProcessor(underlying.Object);
+            var result = compositeMessageProcessor.ProcessMessage(new Message("asdf", "a-user", "some-text"));
+            CollectionAssert.IsEmpty(result.Responses);
         }
     }
 }

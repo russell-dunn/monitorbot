@@ -52,6 +52,7 @@
     <Compile Include="processors\CompositeMessageProcessor.cs" />
     <Compile Include="processors\ConcattingMessageProcessor.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="processors\ErrorCatchingMessageProcessor.cs" />
     <Compile Include="processors\HtmlTitleProcessor.cs" />
     <Compile Include="processors\JiraBugProcessor.cs" />
     <Compile Include="processors\NoteProcessor.cs" />
