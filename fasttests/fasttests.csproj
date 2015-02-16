@@ -56,6 +56,7 @@
     <Compile Include="SlackCommandParsingTests.cs" />
     <Compile Include="SlackMessageParsingTests.cs" />
     <Compile Include="ZendeskTicketTests.cs" />
+    <Compile Include="ZendeskTicketTrackingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

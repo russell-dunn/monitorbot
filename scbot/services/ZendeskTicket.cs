@@ -1,6 +1,6 @@
 ﻿namespace scbot.services
 {
-    public class ZendeskTicket
+    public struct ZendeskTicket
     {
         public readonly string Id;
         public readonly string Description;

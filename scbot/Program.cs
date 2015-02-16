@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using scbot.processors;
 using scbot.services;
 using scbot.slack;
-using slowtests;
 
 namespace scbot
 {

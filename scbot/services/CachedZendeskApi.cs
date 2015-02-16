@@ -1,9 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using scbot;
-using scbot.services;
 
-namespace slowtests
+namespace scbot.services
 {
     public class CachedZendeskApi : IZendeskApi
     {

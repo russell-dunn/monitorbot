@@ -72,6 +72,7 @@
     <Compile Include="IBot.cs" />
     <Compile Include="services\IJiraApi.cs" />
     <Compile Include="services\IKeyValueStore.cs" />
+    <Compile Include="services\IListPersistenceApi.cs" />
     <Compile Include="services\InMemoryKeyValueStore.cs" />
     <Compile Include="services\INoteApi.cs" />
     <Compile Include="services\ITime.cs" />
@@ -79,12 +80,14 @@
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
     <Compile Include="services\JsonFileKeyValueStore.cs" />
+    <Compile Include="services\ListPersistenceApi.cs" />
     <Compile Include="services\Note.cs" />
     <Compile Include="services\NoteApi.cs" />
     <Compile Include="services\Time.cs" />
     <Compile Include="services\ZendeskApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="ICommandParser.cs" />
+    <Compile Include="processors\ZendeskTicketTracker.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="slack\SlackCommandParser.cs" />

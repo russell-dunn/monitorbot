@@ -55,7 +55,7 @@ namespace scbot.services
             }
             catch (Exception e)
             {
-                return null; // TODO: log
+                return default(ZendeskTicket); // TODO: log
             }
         }
 

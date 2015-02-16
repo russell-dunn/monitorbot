@@ -43,7 +43,7 @@ namespace fasttests
         public void IgnoresNullOnError()
         {
             var api = new Mock<IZendeskApi>(MockBehavior.Strict);
-            api.Setup(x => x.FromId("12345")).ReturnsAsync(null);
+            api.Setup(x => x.FromId("12345")).ReturnsAsync(default(ZendeskTicket));
 
             var processor = new ZendeskTicketProcessor(api.Object);
             var result = processor.ProcessMessage(new Message("a-channel", "a-user", "what is ZD#12345"));
