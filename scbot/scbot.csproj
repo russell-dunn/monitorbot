@@ -58,6 +58,8 @@
     <Compile Include="processors\JiraBugProcessor.cs" />
     <Compile Include="processors\NoteProcessor.cs" />
     <Compile Include="processors\ZendeskTicketProcessor.cs" />
+    <Compile Include="services\CachedJiraApi.cs" />
+    <Compile Include="services\CachedZendeskApi.cs" />
     <Compile Include="services\CookieAwareWebClient.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />

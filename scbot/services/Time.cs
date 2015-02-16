@@ -2,7 +2,7 @@ using System;
 
 namespace scbot.services
 {
-    class Time : ITime
+    public class Time : ITime
     {
         public DateTime Now
         {
