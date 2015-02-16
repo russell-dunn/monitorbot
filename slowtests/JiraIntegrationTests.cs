@@ -39,5 +39,12 @@ namespace slowtests
             Assert.Greater(uncachedTime.TotalMilliseconds, 10);
             Assert.Less(cachedTime.TotalMilliseconds, 10);
         }
+
+        [Test]
+        public void ReturnsNullOnError()
+        {
+            var jira = new JiraApi();
+            Assert.Null(jira.FromId("UTF-8").Result);
+        }
     }
 }

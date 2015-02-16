@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
@@ -25,7 +26,14 @@ namespace scbot.services
 
         public async Task<JiraBug> FromId(string id)
         {
-            return await FromApi(id);
+            try
+            {
+                return await FromApi(id);
+            }
+            catch (Exception e)
+            {
+                return null; // TODO: log
+            }
         }
     }
 }
