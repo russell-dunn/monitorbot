@@ -19,5 +19,10 @@ namespace scbot
             args = command.Substring(expectedCommand.Length).Trim();
             return true;
         }
+
+        public static bool IsNotDefault<T>(this T x)
+        {
+            return !object.Equals(x, default(T));
+        }
     }
 }

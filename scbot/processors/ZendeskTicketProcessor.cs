@@ -23,14 +23,9 @@ namespace scbot.processors
         {
             var matches = s_ZendeskIssueRegex.Matches(message.MessageText).Cast<Match>();
             var ids = matches.Select(x => x.Groups["id"].ToString()).Distinct();
-            var bugs = ids.Select(x => m_ZendeskApi.FromId(x).Result).Where(IsNotNull);
+            var bugs = ids.Select(x => m_ZendeskApi.FromId(x).Result).Where(x => x.IsNotDefault());
             var responses = bugs.Select(x => Response.ToMessage(message, FormatTicket(x)));
             return new MessageResult(responses.ToList());
-        }
-
-        private bool IsNotNull(ZendeskTicket x)
-        {
-            return !object.Equals(x, default(ZendeskTicket));
         }
 
         private static string FormatTicket(ZendeskTicket x)
