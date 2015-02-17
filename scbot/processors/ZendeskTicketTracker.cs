@@ -12,44 +12,18 @@ namespace scbot.processors
     {
         private const string c_PersistenceKey = "tracked-zd-tickets";
 
-        private struct TrackedTicket
-        {
-            public readonly ZendeskTicket Ticket;
-            public readonly string Channel;
-
-            public TrackedTicket(ZendeskTicket ticket, string channel)
-            {
-                Ticket = ticket;
-                Channel = channel;
-            }
-        }
-
-        private class TrackedTicketComparison
-        {
-            public readonly string Channel;
-            public readonly string Id;
-            public readonly ZendeskTicket OldValue;
-            public readonly ZendeskTicket NewValue;
-
-            public TrackedTicketComparison(string channel, string id, ZendeskTicket oldValue, ZendeskTicket newValue)
-            {
-                Channel = channel;
-                Id = id;
-                OldValue = oldValue;
-                NewValue = newValue;
-            }
-        }
-
         private readonly ICommandParser m_CommandParser;
         private readonly IListPersistenceApi<TrackedTicket> m_Persistence;
         private readonly IZendeskApi m_ZendeskApi;
         private static readonly Regex s_ZendeskIdRegex = new Regex(@"^ZD#(?<id>\d{5})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly ZendeskTicketCompareEngine m_ZendeskTicketCompareEngine;
 
         public ZendeskTicketTracker(ICommandParser commandParser, IKeyValueStore persistence, IZendeskApi zendeskApi)
         {
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<TrackedTicket>(persistence);
             m_ZendeskApi = zendeskApi;
+            m_ZendeskTicketCompareEngine = new ZendeskTicketCompareEngine(m_Persistence);
         }
 
         public MessageResult ProcessTimerTick()
@@ -60,31 +34,9 @@ namespace scbot.processors
                 new TrackedTicketComparison(x.Channel, x.Ticket.Id, x.Ticket, m_ZendeskApi.FromId(x.Ticket.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
-            var responses = CompareTicketStates(comparison);
+            var responses = m_ZendeskTicketCompareEngine.CompareTicketStates(comparison);
 
             return new MessageResult(responses.ToList());
-        }
-
-        private IEnumerable<Response> CompareTicketStates(IEnumerable<TrackedTicketComparison> comparison)
-        {
-            var different = comparison.Where(x =>
-                x.OldValue.Status != x.NewValue.Status ||
-                x.OldValue.CommentCount != x.NewValue.CommentCount ||
-                x.OldValue.Description != x.NewValue.Description
-                ).ToList();
-
-            var responses = different.Select(x => new Response(
-                string.Format("Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated",
-                    x.Id), x.Channel));
-
-            foreach (var diff in different)
-            {
-                var id = diff.Id;
-                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Ticket.Id == id);
-                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.NewValue, diff.Channel));
-                Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.OldValue), Json.Encode(diff.NewValue));
-            }
-            return responses;
         }
 
         public MessageResult ProcessMessage(Message message)
