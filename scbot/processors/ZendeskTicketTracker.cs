@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
@@ -59,6 +60,13 @@ namespace scbot.processors
                 new TrackedTicketComparison(x.Channel, x.Ticket.Id, x.Ticket, m_ZendeskApi.FromId(x.Ticket.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
+            var responses = CompareTicketStates(comparison);
+
+            return new MessageResult(responses.ToList());
+        }
+
+        private IEnumerable<Response> CompareTicketStates(IEnumerable<TrackedTicketComparison> comparison)
+        {
             var different = comparison.Where(x =>
                 x.OldValue.Status != x.NewValue.Status ||
                 x.OldValue.CommentCount != x.NewValue.CommentCount ||
@@ -76,8 +84,7 @@ namespace scbot.processors
                 m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.NewValue, diff.Channel));
                 Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.OldValue), Json.Encode(diff.NewValue));
             }
-            
-            return new MessageResult(responses.ToList());
+            return responses;
         }
 
         public MessageResult ProcessMessage(Message message)
