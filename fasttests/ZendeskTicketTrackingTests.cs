@@ -39,6 +39,23 @@ namespace fasttests
         }
 
         [Test]
+        public void DoesNotUpdateIfZendeskApiReturnsNull()
+        {
+            var zendeskApi = new Mock<IZendeskApi>();
+            zendeskApi.Setup(x => x.FromId(It.IsAny<string>())).ReturnsAsync(default(ZendeskTicket));
+            var initialJson = @"[{""Ticket"":{""Id"":""12345"",""Description"":""the description"",""Status"":""hold"",""CommentCount"":5},""Channel"":""a-channel""}]";
+            var persistence = new Mock<IKeyValueStore>();
+            persistence.Setup(x => x.Get("tracked-zd-tickets")).Returns(initialJson);
+
+            var slackCommandParser = new SlackCommandParser("scbot", "U123");
+            var zendeskTracker = new ZendeskTicketTracker(slackCommandParser, persistence.Object, zendeskApi.Object);
+
+            zendeskTracker.ProcessTimerTick();
+
+            persistence.Verify(x => x.Set(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+        }
+
+        [Test]
         public void CanUntrackTickets()
         {
             var initialJson = @"[{""Ticket"":{""Id"":""12345"",""Description"":""the description"",""Status"":""hold"",""CommentCount"":5},""Channel"":""a-channel""}]";

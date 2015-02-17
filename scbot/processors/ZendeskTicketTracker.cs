@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using System.Web.Helpers;
 using scbot.services;
 
 namespace scbot.processors
@@ -35,15 +38,18 @@ namespace scbot.processors
         public MessageResult ProcessTimerTick()
         {
             var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
+
             var comparison = trackedTickets.Select(x => new
             {
                 channel = x.Channel, id = x.Ticket.Id, oldValue = x.Ticket, newValue = m_ZendeskApi.FromId(x.Ticket.Id).Result
-            });
+            }).Where(x => x.newValue.IsNotDefault());
+
             var different = comparison.Where(x =>
                 x.oldValue.Status != x.newValue.Status ||
                 x.oldValue.CommentCount != x.newValue.CommentCount ||
                 x.oldValue.Description != x.newValue.Description
                 ).ToList();
+
             var responses = different.Select(x => new Response(
                 string.Format("Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated",
                     x.id), x.channel));
@@ -53,6 +59,7 @@ namespace scbot.processors
                 var id = diff.id;
                 m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Ticket.Id == id);
                 m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.newValue, diff.channel));
+                Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.oldValue), Json.Encode(diff.newValue));
             }
             
             return new MessageResult(responses.ToList());
