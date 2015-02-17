@@ -86,7 +86,7 @@ namespace fasttests
                     new ZendeskTicket("12345", "a-description", "open", 3),
                     new ZendeskTicket("12345", "a-description", "closed", 3)),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> status changed from open to closed", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> status changed from `open` to `closed`", responses.Single().Message);
         }
 
         [Test]

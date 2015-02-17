@@ -60,7 +60,7 @@ namespace scbot.processors
 
         private static string FormatStatusChanged(TrackedTicketComparison x)
         {
-            return string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> status changed from {1} to {2}", x.Id, x.OldValue.Status, x.NewValue.Status);
+            return string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> status changed from `{1}` to `{2}`", x.Id, x.OldValue.Status, x.NewValue.Status);
         }
 
         private static string FormatCommentsAdded(TrackedTicketComparison x)
