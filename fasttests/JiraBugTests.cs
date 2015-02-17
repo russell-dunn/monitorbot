@@ -61,5 +61,7 @@ namespace fasttests
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "how about this bug: NOT-3"));
             CollectionAssert.IsEmpty(result.Responses);
         }
+
+        // TODO: should ignore bug in urls like https://github.com/red-gate/SQLCompareEngine/compare/bug/SC-7710#diff-7a4ccf95c069231db2c74c5866f7c6b9R14 ? 
     }
 }
