@@ -37,17 +37,35 @@ namespace scbot.processors
 
         private static IEnumerable<Response> GetDifferences(TrackedTicketComparison x)
         {
-            if (x.OldValue.Status != x.NewValue.Status ||
-                x.OldValue.CommentCount != x.NewValue.CommentCount ||
-                x.OldValue.Description != x.NewValue.Description)
+            if (x.OldValue.CommentCount < x.NewValue.CommentCount)
             {
-                yield return
-                    new Response(
-                        string.Format(
-                            "Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated", x.Id),
-                        x.Channel);
-
+                yield return new Response(FormatCommentsAdded(x), x.Channel);
             }
+
+            if (x.OldValue.Status != x.NewValue.Status)
+            {
+                yield return new Response(FormatStatusChanged(x), x.Channel);
+            }
+
+            if (x.OldValue.Description != x.NewValue.Description)
+            {
+                yield return new Response(FormatDescriptionChanged(x), x.Channel);
+            }
+        }
+
+        private static string FormatDescriptionChanged(TrackedTicketComparison x)
+        {
+            return string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> description was updated: {1}", x.Id, x.NewValue.Description);
+        }
+
+        private static string FormatStatusChanged(TrackedTicketComparison x)
+        {
+            return string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> status changed from {1} to {2}", x.Id, x.OldValue.Status, x.NewValue.Status);
+        }
+
+        private static string FormatCommentsAdded(TrackedTicketComparison x)
+        {
+            return string.Format("{1} comment(s) were added to <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}>", x.Id, (x.NewValue.CommentCount - x.OldValue.CommentCount));
         }
     }
 }

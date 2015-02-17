@@ -74,6 +74,33 @@ namespace fasttests
         }
 
         // TODO: check if already tracking
-        // TODO: more specific diffs (particularly status changed or comments added)
+
+        [Test]
+        public void HasSpecificMessageForStatusChanged()
+        {
+            var persistence = new ListPersistenceApi<TrackedTicket>(new InMemoryKeyValueStore());
+            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var responses = comparer.CompareTicketStates(new[]
+            {
+                new TrackedTicketComparison("a-channel", "12345",
+                    new ZendeskTicket("12345", "a-description", "open", 3),
+                    new ZendeskTicket("12345", "a-description", "closed", 3)),
+            });
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> status changed from open to closed", responses.Single().Message);
+        }
+
+        [Test]
+        public void HasSpecificMessageForDescriptionChanged()
+        {
+            var persistence = new ListPersistenceApi<TrackedTicket>(new InMemoryKeyValueStore());
+            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var responses = comparer.CompareTicketStates(new[]
+            {
+                new TrackedTicketComparison("a-channel", "12345",
+                    new ZendeskTicket("12345", "a-description", "open", 3),
+                    new ZendeskTicket("12345", "a-description updated", "open", 3)),
+            });
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> description was updated: a-description updated", responses.Single().Message);
+        }
     }
 }
