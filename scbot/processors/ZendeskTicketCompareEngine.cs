@@ -19,24 +19,35 @@ namespace scbot.processors
 
         public IEnumerable<Response> CompareTicketStates(IEnumerable<TrackedTicketComparison> comparison)
         {
-            var different = comparison.Where(x =>
-                x.OldValue.Status != x.NewValue.Status ||
-                x.OldValue.CommentCount != x.NewValue.CommentCount ||
-                x.OldValue.Description != x.NewValue.Description
-                ).ToList();
-
-            var responses = different.Select(x => new Response(
-                string.Format("Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated",
-                    x.Id), x.Channel));
-
-            foreach (var diff in different)
+            var differences = comparison.Select(x => new
             {
-                var id = diff.Id;
+                differences = GetDifferences(x),
+                comparison = x
+            }).ToList();
+
+            foreach (var diff in differences.Where(x => x.differences.Any()))
+            {
+                var id = diff.comparison.Id;
                 m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Ticket.Id == id);
-                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.NewValue, diff.Channel));
-                Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.OldValue), Json.Encode(diff.NewValue));
+                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.comparison.NewValue, diff.comparison.Channel));
+                Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.comparison.OldValue), Json.Encode(diff.comparison.NewValue));
             }
-            return responses;
+            return differences.SelectMany(x => x.differences);
+        }
+
+        private static IEnumerable<Response> GetDifferences(TrackedTicketComparison x)
+        {
+            if (x.OldValue.Status != x.NewValue.Status ||
+                x.OldValue.CommentCount != x.NewValue.CommentCount ||
+                x.OldValue.Description != x.NewValue.Description)
+            {
+                yield return
+                    new Response(
+                        string.Format(
+                            "Ticket <https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> was updated", x.Id),
+                        x.Channel);
+
+            }
         }
     }
 }
