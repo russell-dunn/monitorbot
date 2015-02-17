@@ -32,7 +32,7 @@ namespace fasttests
 
             var ping = zendeskTracker.ProcessTimerTick().Responses.Single();
             Assert.AreEqual("a-channel", ping.Channel);
-            Assert.AreEqual("Ticket <https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> was updated", ping.Message);
+            Assert.AreEqual("2 comment(s) were added to <https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345>", ping.Message);
 
             // subsequent ticks should use updated values
             CollectionAssert.IsEmpty(zendeskTracker.ProcessTimerTick().Responses);
