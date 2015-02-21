@@ -53,7 +53,7 @@ namespace scbot
             MainLoop(slackRtm, handler, slackApi, cancellationToken);
         }
 
-        private static void MainLoop(SlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
+        private static void MainLoop(ISlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {

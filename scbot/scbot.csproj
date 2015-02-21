@@ -92,6 +92,7 @@
     <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="ICommandParser.cs" />
     <Compile Include="processors\ZendeskTicketTracker.cs" />
+    <Compile Include="slack\ISlackRealTimeMessaging.cs" />
     <Compile Include="slack\SlackApi.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="slack\SlackCommandParser.cs" />

@@ -7,15 +7,20 @@ using System.Web.Helpers;
 
 namespace scbot.slack
 {
-    public class SlackRealTimeMessaging : IDisposable
+    public class SlackRealTimeMessaging : ISlackRealTimeMessaging
     {
         private readonly StringClientWebSocket m_StringClientWebSocket;
-        public readonly string BotId;
+        private readonly string m_BotId;
+
+        public string BotId
+        {
+            get { return m_BotId; }
+        }
 
         private SlackRealTimeMessaging(StringClientWebSocket webSocket, string botId)
         {
             m_StringClientWebSocket = webSocket;
-            BotId = botId;
+            m_BotId = botId;
         }
 
         public static async Task<SlackRealTimeMessaging> Connect(Uri wsUrl, string botId, CancellationToken cancellationToken)

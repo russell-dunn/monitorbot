@@ -16,7 +16,7 @@ namespace scbot.slack
             m_ApiKey = apiKey;
         }
 
-        public async Task<SlackRealTimeMessaging> StartRtm()
+        public async Task<ISlackRealTimeMessaging> StartRtm()
         {
             var result = await GetApiResult("rtm.start");
             var wsUrl = result.url;
