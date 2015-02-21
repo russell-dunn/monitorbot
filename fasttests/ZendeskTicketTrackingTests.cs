@@ -74,6 +74,7 @@ namespace fasttests
         }
 
         // TODO: check if already tracking
+        // TODO: we're currently updating tickets by id - we need to be untracking by id+channel and updating per-channel
 
         [Test]
         public void HasSpecificMessageForStatusChanged()
