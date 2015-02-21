@@ -86,6 +86,7 @@
     <Compile Include="services\ListPersistenceApi.cs" />
     <Compile Include="services\Note.cs" />
     <Compile Include="services\NoteApi.cs" />
+    <Compile Include="services\ReconnectingZendeskApi.cs" />
     <Compile Include="services\Time.cs" />
     <Compile Include="services\ZendeskApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />

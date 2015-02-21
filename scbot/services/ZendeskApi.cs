@@ -55,6 +55,7 @@ namespace scbot.services
             }
             catch (Exception e)
             {
+                Console.WriteLine("\n\n"+e+"\n\n"+DateTime.Now);
                 return default(ZendeskTicket); // TODO: log
             }
         }
