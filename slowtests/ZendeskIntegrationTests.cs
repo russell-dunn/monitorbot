@@ -41,8 +41,8 @@ namespace slowtests
         [Test, Explicit]
         public void ReturnsNullOnError()
         {
-            var api = ZendeskApi.Create(Configuration.RedgateId);
-            Assert.Null(api.FromId("not a zd id").Result); 
+            var api = new ErrorCatchingZendeskApi(ZendeskApi.Create(Configuration.RedgateId));
+            Assert.AreEqual(default(ZendeskTicket), api.FromId("not a zd id").Result); 
         }
     }
 }

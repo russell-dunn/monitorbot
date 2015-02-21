@@ -64,6 +64,7 @@
     <Compile Include="services\CachedJiraApi.cs" />
     <Compile Include="services\CachedZendeskApi.cs" />
     <Compile Include="services\CookieAwareWebClient.cs" />
+    <Compile Include="services\ErrorCatchingZendeskApi.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />
     <Compile Include="IMessageProcessor.cs" />
