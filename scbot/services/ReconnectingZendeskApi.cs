@@ -33,7 +33,7 @@ namespace scbot.services
             catch (WebException we)
             {
                 var httpResponse = we.Response as HttpWebResponse;
-                if (httpResponse == null || httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                if (httpResponse == null || httpResponse.StatusCode != HttpStatusCode.Unauthorized)
                 {
                     throw;
                 }
