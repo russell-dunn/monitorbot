@@ -24,7 +24,8 @@ namespace scbot
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
             var slackApi = new SlackApi(Configuration.SlackApiKey);
-            var slackRtmConnection = slackApi.StartRtm();
+            var slackRtmConnection = ReconnectingSlackRealTimeMessaging.CreateAsync(
+                async () => await slackApi.StartRtm());
 
             var time = new Time();
             var jiraApi = new CachedJiraApi(time, new JiraApi());
