@@ -25,12 +25,12 @@ namespace scbot.services
 
         public Task<dynamic> Comments(string ticketId)
         {
-            return Cache(m_TicketCache, ticketId, () => m_Underlying.Comments(ticketId));
+            return Cache(m_CommentsCache, ticketId, () => m_Underlying.Comments(ticketId));
         }
 
         public Task<dynamic> User(string userId)
         {
-            return Cache(m_TicketCache, userId, () => m_Underlying.User(userId));
+            return Cache(m_UserCache, userId, () => m_Underlying.User(userId));
         }
 
         public T Cache<T>(Cache<string, T> cache, string key, Func<T> valueGetter)
