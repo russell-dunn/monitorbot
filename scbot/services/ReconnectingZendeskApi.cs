@@ -26,9 +26,14 @@ namespace scbot.services
 
         public async Task<ZendeskTicket> FromId(string id)
         {
+            return await DoWithRetry(async () => await m_ZdApi.FromId(id));
+        }
+
+        private async Task<T> DoWithRetry<T>(Func<Task<T>> method)
+        {
             try
             {
-                return await m_ZdApi.FromId(id);
+                return await method();
             }
             catch (WebException we)
             {
@@ -44,7 +49,7 @@ namespace scbot.services
             Console.WriteLine("Caught 401 from zendesk .. attempting to reauth");
             // reconnect and retry once
             m_ZdApi = await m_ZdApiFactory();
-            return await m_ZdApi.FromId(id);
+            return await method();
         }
     }
 }
