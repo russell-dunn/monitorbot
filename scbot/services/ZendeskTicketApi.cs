@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace scbot.services
 {
@@ -17,9 +19,30 @@ namespace scbot.services
 
         public async Task<ZendeskTicket> FromId(string id)
         {
-            var ticket = await m_Api.Ticket(id);
-            var comments = await m_Api.Comments(id);
-            return new ZendeskTicket(id, ticket.ticket.subject, ticket.ticket.status, comments.count);
+            var ticketJson = await m_Api.Ticket(id);
+            var commentsJson = await m_Api.Comments(id);
+            var comments = ((DynamicJsonArray)commentsJson.comments).Select((Func<dynamic, ZendeskTicket.Comment>)(x => new ZendeskTicket.Comment(x.body, x.author_id.ToString(), null)));
+            var commentsWithAuthors = await Task.WhenAll(comments.Select(FixCommentAuthor));
+            return new ZendeskTicket(id, ticketJson.ticket.subject, ticketJson.ticket.status, new List<ZendeskTicket.Comment>(commentsWithAuthors).AsReadOnly());
+        }
+
+        private async Task<ZendeskTicket.Comment> FixCommentAuthor(ZendeskTicket.Comment x)
+        {
+            var userJson = await m_Api.User(x.Author);
+            var photo = TryGetPhoto(userJson);
+            return new ZendeskTicket.Comment(x.Text, userJson.user.name, photo);
+        }
+
+        private string TryGetPhoto(dynamic userJson)
+        {
+            try
+            {
+                return userJson.user.photo.thumbnails[0].content_url;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 

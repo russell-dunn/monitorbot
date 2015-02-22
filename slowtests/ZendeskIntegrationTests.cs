@@ -17,6 +17,11 @@ namespace slowtests
             var api = new ZendeskTicketApi(ZendeskApi.Create(Configuration.RedgateId));
             var ticket = api.FromId("34182").Result;
             Assert.AreEqual("SQL Packager 8 crash", ticket.Description);
+            var comment = ticket.Comments.ElementAt(1);
+            Assert.NotNull(comment.Author);
+            Assert.NotNull(comment.Avatar);
+            Console.WriteLine(comment.Author);
+            Console.WriteLine(comment.Avatar);
         }
 
         [Test, Explicit]

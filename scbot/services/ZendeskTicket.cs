@@ -7,7 +7,14 @@ namespace scbot.services
         {
             public readonly string Text;
             public readonly string Author;
-            public readonly string AuthorAvatar;
+            public readonly string Avatar;
+
+            public Comment(string text, string author, string avatar)
+            {
+                Text = text;
+                Author = author;
+                Avatar = avatar;
+            }
         }
 
         public readonly string Id;

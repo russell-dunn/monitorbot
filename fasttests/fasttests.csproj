@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlackCommandParsingTests.cs" />
     <Compile Include="SlackMessageParsingTests.cs" />
+    <Compile Include="ZendeskTicketParsingTests.cs" />
     <Compile Include="ZendeskTicketTests.cs" />
     <Compile Include="ZendeskTicketTrackingTests.cs" />
   </ItemGroup>
@@ -67,6 +68,9 @@
       <Project>{b2258502-e3a8-4e53-86b8-56c62d32b92b}</Project>
       <Name>scbot</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
