@@ -79,7 +79,7 @@ namespace scbot.processors
         private static string FormatCommentsAdded(TrackedTicketComparison x)
         {
             var diff = (x.NewValue.Comments.Count - x.OldValue.Comments.Count);
-            if (diff == 1) return "comment added";
+            if (diff == 1) return x.NewValue.Comments.Last().Author + " added a comment";
             return string.Format("{0} comments added", diff);
         }
     }
