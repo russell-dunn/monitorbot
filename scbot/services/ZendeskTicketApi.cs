@@ -21,7 +21,7 @@ namespace scbot.services
         {
             var ticketJson = await m_Api.Ticket(id);
             var commentsJson = await m_Api.Comments(id);
-            var comments = ((DynamicJsonArray)commentsJson.comments).Select((Func<dynamic, ZendeskTicket.Comment>)(x => new ZendeskTicket.Comment(x.body, x.author_id.ToString(), null)));
+            var comments = ((DynamicJsonArray)commentsJson.comments).Cast<dynamic>().Select(x => new ZendeskTicket.Comment(x.body, x.author_id.ToString(), null));
             var commentsWithAuthors = await Task.WhenAll(comments.Select(FixCommentAuthor));
             return new ZendeskTicket(id, ticketJson.ticket.subject, ticketJson.ticket.status, new List<ZendeskTicket.Comment>(commentsWithAuthors).AsReadOnly());
         }
