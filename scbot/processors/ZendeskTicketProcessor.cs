@@ -6,10 +6,10 @@ namespace scbot.processors
 {
     public class ZendeskTicketProcessor : IMessageProcessor
     {
-        private readonly IZendeskApi m_ZendeskApi;
+        private readonly IZendeskTicketApi m_ZendeskApi;
         private static readonly Regex s_ZendeskIssueRegex = new Regex(@"(?:ZD#(?<id>\d{5})|\<https\:\/\/redgatesupport.zendesk.com\/agent\/tickets\/(?<id>\d{5})\>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public ZendeskTicketProcessor(IZendeskApi zendeskApi)
+        public ZendeskTicketProcessor(IZendeskTicketApi zendeskApi)
         {
             m_ZendeskApi = zendeskApi;
         }

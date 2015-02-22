@@ -64,7 +64,7 @@
     <Compile Include="services\CachedJiraApi.cs" />
     <Compile Include="services\CachedZendeskApi.cs" />
     <Compile Include="services\CookieAwareWebClient.cs" />
-    <Compile Include="services\ErrorCatchingZendeskApi.cs" />
+    <Compile Include="services\ErrorCatchingZendeskTicketApi.cs" />
     <Compile Include="services\HtmlTitleParser.cs" />
     <Compile Include="services\IHtmlTitleParser.cs" />
     <Compile Include="IMessageProcessor.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="services\InMemoryKeyValueStore.cs" />
     <Compile Include="services\INoteApi.cs" />
     <Compile Include="services\ITime.cs" />
-    <Compile Include="services\IZendeskApi.cs" />
+    <Compile Include="services\IZendeskTicketApi.cs" />
     <Compile Include="services\JiraApi.cs" />
     <Compile Include="services\JiraBug.cs" />
     <Compile Include="services\JsonFileKeyValueStore.cs" />
@@ -89,7 +89,7 @@
     <Compile Include="services\NoteApi.cs" />
     <Compile Include="services\ReconnectingZendeskApi.cs" />
     <Compile Include="services\Time.cs" />
-    <Compile Include="services\ZendeskApi.cs" />
+    <Compile Include="services\ZendeskTicketApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="ICommandParser.cs" />
     <Compile Include="processors\ZendeskTicketTracker.cs" />

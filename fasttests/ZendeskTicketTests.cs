@@ -16,7 +16,7 @@ namespace fasttests
         [TestCase("link <https://redgatesupport.zendesk.com/agent/tickets/34182>")]
         public void UsesZendeskApiToPrintBugReferenceDetails(string zendeskReference)
         {
-            var api = new Mock<IZendeskApi>(MockBehavior.Strict);
+            var api = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
             var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", 45);
             api.Setup(x => x.FromId("34182")).ReturnsAsync(ticket);
 
@@ -29,7 +29,7 @@ namespace fasttests
         [Test]
         public void DoesntMentionTheSameTicketTwice()
         {
-            var api = new Mock<IZendeskApi>(MockBehavior.Strict);
+            var api = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
             var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", 45);
             api.Setup(x => x.FromId("34182")).ReturnsAsync(ticket);
 
@@ -42,7 +42,7 @@ namespace fasttests
         [Test]
         public void IgnoresNullOnError()
         {
-            var api = new Mock<IZendeskApi>(MockBehavior.Strict);
+            var api = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
             api.Setup(x => x.FromId("12345")).ReturnsAsync(default(ZendeskTicket));
 
             var processor = new ZendeskTicketProcessor(api.Object);

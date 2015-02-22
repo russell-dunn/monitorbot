@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace scbot.services
 {
-    public class CachedZendeskApi : IZendeskApi
+    public class CachedZendeskApi : IZendeskTicketApi
     {
-        private readonly IZendeskApi m_Underlying;
+        private readonly IZendeskTicketApi m_Underlying;
         private readonly Cache<string, Task<ZendeskTicket>> m_Cache;
 
-        public CachedZendeskApi(ITime time, IZendeskApi underlying)
+        public CachedZendeskApi(ITime time, IZendeskTicketApi underlying)
         {
             m_Underlying = underlying;
             m_Cache = new Cache<string, Task<ZendeskTicket>>(time, TimeSpan.FromMinutes(5));

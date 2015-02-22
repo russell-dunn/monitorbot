@@ -15,7 +15,7 @@ namespace fasttests
         [Test]
         public void PostsUpdateWhenTrackedZendeskTicketChanges()
         {
-            var zendeskApi = new Mock<IZendeskApi>();
+            var zendeskApi = new Mock<IZendeskTicketApi>();
             var ticket1 = new ZendeskTicket("12345", "description", "open", 3);
             var ticket2 = new ZendeskTicket("12345", "description", "open", 5);
             var persistence = new InMemoryKeyValueStore();
@@ -41,7 +41,7 @@ namespace fasttests
         [Test]
         public void DoesNotUpdateIfZendeskApiReturnsNull()
         {
-            var zendeskApi = new Mock<IZendeskApi>();
+            var zendeskApi = new Mock<IZendeskTicketApi>();
             zendeskApi.Setup(x => x.FromId(It.IsAny<string>())).ReturnsAsync(default(ZendeskTicket));
             var initialJson = @"[{""Ticket"":{""Id"":""12345"",""Description"":""the description"",""Status"":""hold"",""CommentCount"":5},""Channel"":""a-channel""}]";
             var persistence = new Mock<IKeyValueStore>();

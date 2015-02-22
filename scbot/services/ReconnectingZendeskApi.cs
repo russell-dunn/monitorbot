@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace scbot.services
 {
-    class ReconnectingZendeskApi : IZendeskApi
+    class ReconnectingZendeskApi : IZendeskTicketApi
     {
-        private readonly Func<Task<IZendeskApi>> m_ZdApiFactory;
-        private IZendeskApi m_ZdApi;
+        private readonly Func<Task<IZendeskTicketApi>> m_ZdApiFactory;
+        private IZendeskTicketApi m_ZdApi;
 
-        private ReconnectingZendeskApi(IZendeskApi zdApi, Func<Task<IZendeskApi>> zdApiFactory)
+        private ReconnectingZendeskApi(IZendeskTicketApi zdApi, Func<Task<IZendeskTicketApi>> zdApiFactory)
         {
             m_ZdApiFactory = zdApiFactory;
             m_ZdApi = zdApi;
         }
 
-        public static async Task<ReconnectingZendeskApi> CreateAsync(Func<Task<IZendeskApi>> zdApiFactory)
+        public static async Task<ReconnectingZendeskApi> CreateAsync(Func<Task<IZendeskTicketApi>> zdApiFactory)
         {
             var api = await zdApiFactory();
             return new ReconnectingZendeskApi(api, zdApiFactory);

@@ -14,11 +14,11 @@ namespace scbot.processors
 
         private readonly ICommandParser m_CommandParser;
         private readonly IListPersistenceApi<TrackedTicket> m_Persistence;
-        private readonly IZendeskApi m_ZendeskApi;
+        private readonly IZendeskTicketApi m_ZendeskApi;
         private static readonly Regex s_ZendeskIdRegex = new Regex(@"^ZD#(?<id>\d{5})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private readonly ZendeskTicketCompareEngine m_ZendeskTicketCompareEngine;
 
-        public ZendeskTicketTracker(ICommandParser commandParser, IKeyValueStore persistence, IZendeskApi zendeskApi)
+        public ZendeskTicketTracker(ICommandParser commandParser, IKeyValueStore persistence, IZendeskTicketApi zendeskApi)
         {
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<TrackedTicket>(persistence);
