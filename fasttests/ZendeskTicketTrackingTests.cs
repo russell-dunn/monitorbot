@@ -32,7 +32,7 @@ namespace fasttests
 
             var ping = zendeskTracker.ProcessTimerTick().Responses.Single();
             Assert.AreEqual("a-channel", ping.Channel);
-            Assert.AreEqual("2 comment(s) were added to <https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345>", ping.Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (description) updated: 2 comments added", ping.Message);
 
             // subsequent ticks should use updated values
             CollectionAssert.IsEmpty(zendeskTracker.ProcessTimerTick().Responses);
@@ -87,7 +87,7 @@ namespace fasttests
                     new ZendeskTicket("12345", "a-description", "open", 3),
                     new ZendeskTicket("12345", "a-description", "closed", 3)),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> status changed from `open` to `closed`", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open`→`closed`", responses.Single().Message);
         }
 
         [Test]
@@ -101,7 +101,21 @@ namespace fasttests
                     new ZendeskTicket("12345", "a-description", "open", 3),
                     new ZendeskTicket("12345", "a-description updated", "open", 3)),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> description was updated: a-description updated", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: description updated", responses.Single().Message);
+        }
+
+        [Test]
+        public void GroupsTogetherMessagesForMultipleChanges()
+        {
+            var persistence = new ListPersistenceApi<TrackedTicket>(new InMemoryKeyValueStore());
+            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var responses = comparer.CompareTicketStates(new[]
+            {
+                new TrackedTicketComparison("a-channel", "12345",
+                    new ZendeskTicket("12345", "a-description", "open", 3),
+                    new ZendeskTicket("12345", "a-description updated", "closed", 4)),
+            });
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: comment added, `open`→`closed`, description updated", responses.Single().Message);
         }
     }
 }
