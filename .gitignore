@@ -2,6 +2,7 @@
 obj
 bin
 *.suo
+*.user
 *_NCrunch*
 *.sln.ide
 packages
