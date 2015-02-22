@@ -14,7 +14,7 @@ namespace slowtests
         [Test, Explicit]
         public void CanCreateZendeskApiAndFetchIssue()
         {
-            var api = ZendeskTicketApi.Create(Configuration.RedgateId);
+            var api = new ZendeskTicketApi(ZendeskApi.Create(Configuration.RedgateId));
             var ticket = api.FromId("34182").Result;
             Assert.AreEqual("SQL Packager 8 crash", ticket.Description);
         }
@@ -22,7 +22,7 @@ namespace slowtests
         [Test, Explicit]
         public void CanCacheZendeskApi()
         {
-            var cached = new CachedZendeskApi(new Time(), ZendeskTicketApi.Create(Configuration.RedgateId));
+            var cached = new CachedZendeskApi(new Time(), new ZendeskTicketApi(ZendeskApi.Create(Configuration.RedgateId)));
             TimeSpan uncachedTime, cachedTime;
             var stopwatch = new Stopwatch();
 
@@ -41,7 +41,7 @@ namespace slowtests
         [Test, Explicit]
         public void ReturnsNullOnError()
         {
-            var api = new ErrorCatchingZendeskTicketApi(ZendeskTicketApi.Create(Configuration.RedgateId));
+            var api = new ErrorCatchingZendeskTicketApi(new ZendeskTicketApi(ZendeskApi.Create(Configuration.RedgateId)));
             Assert.AreEqual(default(ZendeskTicket), api.FromId("not a zd id").Result); 
         }
     }
