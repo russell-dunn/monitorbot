@@ -31,8 +31,8 @@ namespace scbot
             var jiraApi = new CachedJiraApi(time, new JiraApi());
             var zendeskApiConnection = ReconnectingZendeskApi.CreateAsync(
                     async () => await ZendeskApi.CreateAsync(Configuration.RedgateId));
-            var zendeskApi = new CachedZendeskApi(time, 
-                new ErrorCatchingZendeskTicketApi(new ZendeskTicketApi(await zendeskApiConnection)));
+            var zendeskApi = new ErrorCatchingZendeskTicketApi(
+                new ZendeskTicketApi(new CachedZendeskApi(time, await zendeskApiConnection)));
 
             var slackRtm = await slackRtmConnection;
 

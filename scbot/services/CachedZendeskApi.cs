@@ -3,25 +3,44 @@ using System.Threading.Tasks;
 
 namespace scbot.services
 {
-    public class CachedZendeskApi : IZendeskTicketApi
+    public class CachedZendeskApi : IZendeskApi
     {
-        private readonly IZendeskTicketApi m_Underlying;
-        private readonly Cache<string, Task<ZendeskTicket>> m_Cache;
+        private readonly IZendeskApi m_Underlying;
+        private readonly Cache<string, Task<dynamic>> m_TicketCache;
+        private readonly Cache<string, Task<dynamic>> m_CommentsCache;
+        private readonly Cache<string, Task<dynamic>> m_UserCache;
 
-        public CachedZendeskApi(ITime time, IZendeskTicketApi underlying)
+        public CachedZendeskApi(ITime time, IZendeskApi underlying)
         {
             m_Underlying = underlying;
-            m_Cache = new Cache<string, Task<ZendeskTicket>>(time, TimeSpan.FromMinutes(5));
+            m_TicketCache   = new Cache<string, Task<dynamic>>(time, TimeSpan.FromMinutes(5));
+            m_CommentsCache = new Cache<string, Task<dynamic>>(time, TimeSpan.FromMinutes(5));
+            m_UserCache     = new Cache<string, Task<dynamic>>(time, TimeSpan.FromHours(2));
         }
 
-        public Task<ZendeskTicket> FromId(string id)
+        public Task<dynamic> Ticket(string ticketId)
         {
-            var cached = m_Cache.Get(id);
+            return Cache(m_TicketCache, ticketId, () => m_Underlying.Ticket(ticketId));
+        }
+
+        public Task<dynamic> Comments(string ticketId)
+        {
+            return Cache(m_TicketCache, ticketId, () => m_Underlying.Comments(ticketId));
+        }
+
+        public Task<dynamic> User(string userId)
+        {
+            return Cache(m_TicketCache, userId, () => m_Underlying.User(userId));
+        }
+
+        public T Cache<T>(Cache<string, T> cache, string key, Func<T> valueGetter)
+        {
+            var cached = cache.Get(key);
             if (cached == null)
             {
-                m_Cache.Set(id, m_Underlying.FromId(id));
+                cache.Set(key, valueGetter());
             }
-            return m_Cache.Get(id);
+            return cache.Get(key);
         }
     }
 }

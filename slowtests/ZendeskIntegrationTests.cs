@@ -22,16 +22,16 @@ namespace slowtests
         [Test, Explicit]
         public void CanCacheZendeskApi()
         {
-            var cached = new CachedZendeskApi(new Time(), new ZendeskTicketApi(ZendeskApi.Create(Configuration.RedgateId)));
+            var cached = new CachedZendeskApi(new Time(), ZendeskApi.Create(Configuration.RedgateId));
             TimeSpan uncachedTime, cachedTime;
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            var bug = cached.FromId("34182").Result;
+            var bug = cached.Ticket("34182").Result;
             uncachedTime = stopwatch.Elapsed;
 
             stopwatch.Reset();
-            bug = cached.FromId("34182").Result;
+            bug = cached.Ticket("34182").Result;
             cachedTime = stopwatch.Elapsed;
 
             Assert.Greater(uncachedTime.TotalMilliseconds, 10);
