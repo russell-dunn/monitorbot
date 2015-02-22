@@ -32,7 +32,7 @@ namespace scbot.processors
         {
             return string.Format("<{0}|ZD#{1}> | {2} | {3} | {4} {5}",
                 "https://redgatesupport.zendesk.com/agent/tickets/" + x.Id, x.Id, x.Description,
-                x.Status, x.CommentCount, x.CommentCount == 1 ? "comment" : "comments");
+                x.Status, x.Comments.Count, x.Comments.Count == 1 ? "comment" : "comments");
         }
     }
 }

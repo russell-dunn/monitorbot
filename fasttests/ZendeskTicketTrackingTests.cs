@@ -16,8 +16,8 @@ namespace fasttests
         public void PostsUpdateWhenTrackedZendeskTicketChanges()
         {
             var zendeskApi = new Mock<IZendeskTicketApi>();
-            var ticket1 = new ZendeskTicket("12345", "description", "open", 3);
-            var ticket2 = new ZendeskTicket("12345", "description", "open", 5);
+            var ticket1 = new ZendeskTicket("12345", "description", "open", new ZendeskTicket.Comment[3]);
+            var ticket2 = new ZendeskTicket("12345", "description", "open", new ZendeskTicket.Comment[5]);
             var persistence = new InMemoryKeyValueStore();
             zendeskApi.Setup(x => x.FromId("12345")).ReturnsAsync(ticket1);
 
@@ -84,8 +84,8 @@ namespace fasttests
             var responses = comparer.CompareTicketStates(new[]
             {
                 new TrackedTicketComparison("a-channel", "12345",
-                    new ZendeskTicket("12345", "a-description", "open", 3),
-                    new ZendeskTicket("12345", "a-description", "closed", 3)),
+                    new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
+                    new ZendeskTicket("12345", "a-description", "closed", new ZendeskTicket.Comment[3])),
             });
             Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open`→`closed`", responses.Single().Message);
         }
@@ -98,8 +98,8 @@ namespace fasttests
             var responses = comparer.CompareTicketStates(new[]
             {
                 new TrackedTicketComparison("a-channel", "12345",
-                    new ZendeskTicket("12345", "a-description", "open", 3),
-                    new ZendeskTicket("12345", "a-description updated", "open", 3)),
+                    new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
+                    new ZendeskTicket("12345", "a-description updated", "open", new ZendeskTicket.Comment[3])),
             });
             Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: description updated", responses.Single().Message);
         }
@@ -112,8 +112,8 @@ namespace fasttests
             var responses = comparer.CompareTicketStates(new[]
             {
                 new TrackedTicketComparison("a-channel", "12345",
-                    new ZendeskTicket("12345", "a-description", "open", 3),
-                    new ZendeskTicket("12345", "a-description updated", "closed", 4)),
+                    new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
+                    new ZendeskTicket("12345", "a-description updated", "closed", new ZendeskTicket.Comment[4])),
             });
             Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: comment added, `open`→`closed`, description updated", responses.Single().Message);
         }

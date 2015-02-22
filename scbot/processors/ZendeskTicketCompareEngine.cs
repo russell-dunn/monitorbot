@@ -50,7 +50,7 @@ namespace scbot.processors
 
         private static IEnumerable<string> GetDifferences(TrackedTicketComparison x)
         {
-            if (x.OldValue.CommentCount < x.NewValue.CommentCount)
+            if (x.OldValue.Comments.Count < x.NewValue.Comments.Count)
             {
                 yield return FormatCommentsAdded(x);
             }
@@ -78,7 +78,7 @@ namespace scbot.processors
 
         private static string FormatCommentsAdded(TrackedTicketComparison x)
         {
-            var diff = (x.NewValue.CommentCount - x.OldValue.CommentCount);
+            var diff = (x.NewValue.Comments.Count - x.OldValue.Comments.Count);
             if (diff == 1) return "comment added";
             return string.Format("{0} comments added", diff);
         }

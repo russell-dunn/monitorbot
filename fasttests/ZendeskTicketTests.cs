@@ -17,7 +17,7 @@ namespace fasttests
         public void UsesZendeskApiToPrintBugReferenceDetails(string zendeskReference)
         {
             var api = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
-            var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", 45);
+            var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", new ZendeskTicket.Comment[45]);
             api.Setup(x => x.FromId("34182")).ReturnsAsync(ticket);
 
             var processor = new ZendeskTicketProcessor(api.Object);
@@ -30,7 +30,7 @@ namespace fasttests
         public void DoesntMentionTheSameTicketTwice()
         {
             var api = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
-            var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", 45);
+            var ticket = new ZendeskTicket("34182", "SQL Packager 8 crash", "Closed", new ZendeskTicket.Comment[45]);
             api.Setup(x => x.FromId("34182")).ReturnsAsync(ticket);
 
             var processor = new ZendeskTicketProcessor(api.Object);

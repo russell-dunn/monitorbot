@@ -1,18 +1,26 @@
-﻿namespace scbot.services
+﻿using System.Collections.Generic;
+namespace scbot.services
 {
     public struct ZendeskTicket
     {
+        public struct Comment
+        {
+            public readonly string Text;
+            public readonly string Author;
+            public readonly string AuthorAvatar;
+        }
+
         public readonly string Id;
         public readonly string Description;
         public readonly string Status;
-        public readonly int CommentCount;
+        public readonly IReadOnlyCollection<Comment> Comments;
 
-        public ZendeskTicket(string id, string description, string status, int commentCount)
+        public ZendeskTicket(string id, string description, string status, IReadOnlyCollection<Comment> comments)
         {
             Id = id;
             Description = description;
             Status = status;
-            CommentCount = commentCount;
+            Comments = comments;
         }
     }
 }
