@@ -32,8 +32,9 @@ namespace scbot.processors
         private Response CreateResponse(IGrouping<string, Response> grouping)
         {
             var messages = grouping.Select(x => x.Message);
+            var image = grouping.Select(x => x.Image).FirstOrDefault(x => x.IsNotDefault());
             var channel = grouping.Key;
-            return new Response(String.Join("\n", messages), channel);
+            return new Response(String.Join("\n", messages), channel, image);
         }
     }
 }
