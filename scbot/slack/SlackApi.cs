@@ -30,6 +30,10 @@ namespace scbot.slack
             var message = HttpUtility.UrlEncode(response.Message);
             var channel = HttpUtility.UrlEncode(response.Channel);
             var args = string.Format("&channel={0}&text={1}&parse=none&username=scbot", channel, message);
+            if (response.Image != null)
+            {
+                args += "&icon_url=" + HttpUtility.UrlEncode(response.Image);
+            }
             await GetApiResult("chat.postMessage", args);
         }
 

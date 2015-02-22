@@ -8,6 +8,7 @@ namespace scbot.processors
     {
         private readonly IJiraApi m_JiraApi;
         private static readonly Regex s_BugRegex = new Regex(@"[a-z]{2,5}-[0-9]{1,7}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly string s_JiraLogo = "https://slack.global.ssl.fastly.net/14542/img/services/jira_48.png";
 
         public JiraBugProcessor(IJiraApi jiraApi)
         {
@@ -25,7 +26,7 @@ namespace scbot.processors
             var ids = matches.Select(x => x.Groups[0].ToString()).Distinct();
             var bugs = ids.Select(id => m_JiraApi.FromId(id).Result).Where(x => x != null);
             var messageTexts = bugs.Select(FormatBug);
-            return new MessageResult(messageTexts.Select(x => Response.ToMessage(message, x)).ToList());
+            return new MessageResult(messageTexts.Select(x => Response.ToMessage(message, x, s_JiraLogo)).ToList());
         }
 
         private static string FormatBug(JiraBug bug)
