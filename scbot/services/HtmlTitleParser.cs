@@ -15,7 +15,7 @@ namespace scbot.services
                 var title = doc.DocumentNode.SelectSingleNode("//title");
                 return title.InnerText;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO: log
                 return null;

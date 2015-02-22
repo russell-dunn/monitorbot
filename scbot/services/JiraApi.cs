@@ -30,7 +30,7 @@ namespace scbot.services
             {
                 return await FromApi(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null; // TODO: log
             }

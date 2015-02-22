@@ -54,7 +54,7 @@ namespace scbot.slack
             {
                 m_Underlying.Dispose();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ;
             }
