@@ -34,21 +34,22 @@ namespace scbot.processors
                 m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.comparison.NewValue, diff.comparison.Channel));
                 Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.comparison.OldValue), Json.Encode(diff.comparison.NewValue));
             }
-            return differences.Select(x => new Response(x.differences, x.comparison.Channel));
+            return differences.Select(x => new Response(x.differences.Message, x.comparison.Channel, x.differences.Image));
         }
 
-        private static string GetDifferenceString(TrackedTicketComparison x)
+        private static Response GetDifferenceString(TrackedTicketComparison ttc)
         {
-            var differences = GetDifferences(x).ToList();
+            var differences = GetDifferences(ttc).ToList();
             if (differences.Any())
             {
-                return string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> ({1}) updated: {2}",
-                    x.Id, x.NewValue.Description, string.Join(", ", differences));
+                var image = differences.Select(x => x.Image).FirstOrDefault(x => x.IsNotDefault());
+                return new Response(string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> ({1}) updated: {2}",
+                    ttc.Id, ttc.NewValue.Description, string.Join(", ", differences.Select(x => x.Message))), null, image);
             }
             return null;
         }
 
-        private static IEnumerable<string> GetDifferences(TrackedTicketComparison x)
+        private static IEnumerable<Response> GetDifferences(TrackedTicketComparison x)
         {
             if (x.OldValue.Comments.Count < x.NewValue.Comments.Count)
             {
@@ -66,21 +67,25 @@ namespace scbot.processors
             }
         }
 
-        private static string FormatDescriptionChanged(TrackedTicketComparison x)
+        private static Response FormatDescriptionChanged(TrackedTicketComparison x)
         {
-            return "description updated";
+            return new Response("description updated", null);
         }
 
-        private static string FormatStatusChanged(TrackedTicketComparison x)
+        private static Response FormatStatusChanged(TrackedTicketComparison x)
         {
-            return string.Format("`{0}`\u2192`{1}`", x.OldValue.Status, x.NewValue.Status);
+            return new Response(string.Format("`{0}`\u2192`{1}`", x.OldValue.Status, x.NewValue.Status), null);
         }
 
-        private static string FormatCommentsAdded(TrackedTicketComparison x)
+        private static Response FormatCommentsAdded(TrackedTicketComparison x)
         {
             var diff = (x.NewValue.Comments.Count - x.OldValue.Comments.Count);
-            if (diff == 1) return x.NewValue.Comments.Last().Author + " added a comment";
-            return string.Format("{0} comments added", diff);
+            if (diff == 1) 
+            {
+                var addedComment = x.NewValue.Comments.Last();
+                return new Response(addedComment.Author + " added a comment", null, addedComment.Avatar);
+            }
+            return new Response(string.Format("{0} comments added", diff), null);
         }
     }
 }

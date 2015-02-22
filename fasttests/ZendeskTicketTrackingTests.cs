@@ -118,5 +118,20 @@ namespace fasttests
             });
             Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: some person added a comment, `open`→`closed`, description updated", responses.Single().Message);
         }
+
+        [Test]
+        public void UsesAvatarAsImageIfSingleCommentPosted()
+        {
+            var persistence = new ListPersistenceApi<TrackedTicket>(new InMemoryKeyValueStore());
+            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var comment = new ZendeskTicket.Comment("a-comment", "some person", "an-avatar");
+            var responses = comparer.CompareTicketStates(new[]
+            {
+                new TrackedTicketComparison("a-channel", "12345",
+                    new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
+                    new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
+            });
+            Assert.AreEqual("an-avatar", responses.Single().Image);
+        }
     }
 }
