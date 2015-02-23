@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Web.Helpers;
 using scbot.services;
+using scbot.services.compareengine;
 
 namespace scbot.processors
 {
@@ -31,7 +32,7 @@ namespace scbot.processors
             var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
 
             var comparison = trackedTickets.Select(x => 
-                new TrackedTicketComparison(x.Channel, x.Ticket.Id, x.Ticket, m_ZendeskApi.FromId(x.Ticket.Id).Result)
+                new Update<ZendeskTicket>(x.Channel, x.Ticket, m_ZendeskApi.FromId(x.Ticket.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
             var responses = m_ZendeskTicketCompareEngine.CompareTicketStates(comparison);

@@ -8,12 +8,12 @@ namespace scbot.processors.teamcity
 {
     struct TrackedTeamcityBuild
     {
-        public readonly TeamcityBuildStatus BuildStatus;
+        public readonly TeamcityBuildStatus Build;
         public readonly string Channel;
 
         public TrackedTeamcityBuild(TeamcityBuildStatus build, string channel)
         {
-            BuildStatus = build;
+            Build = build;
             Channel = channel;
         }
     }

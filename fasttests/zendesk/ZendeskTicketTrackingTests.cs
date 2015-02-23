@@ -7,6 +7,7 @@ using scbot;
 using scbot.processors;
 using scbot.services;
 using scbot.slack;
+using scbot.services.compareengine;
 
 namespace fasttests
 {
@@ -83,7 +84,7 @@ namespace fasttests
             var comparer = new ZendeskTicketCompareEngine(persistence);
             var responses = comparer.CompareTicketStates(new[]
             {
-                new TrackedTicketComparison("a-channel", "12345",
+                new Update<ZendeskTicket>("a-channel", 
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
                     new ZendeskTicket("12345", "a-description", "closed", new ZendeskTicket.Comment[3])),
             });
@@ -97,7 +98,7 @@ namespace fasttests
             var comparer = new ZendeskTicketCompareEngine(persistence);
             var responses = comparer.CompareTicketStates(new[]
             {
-                new TrackedTicketComparison("a-channel", "12345",
+                new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
                     new ZendeskTicket("12345", "a-description updated", "open", new ZendeskTicket.Comment[3])),
             });
@@ -112,7 +113,7 @@ namespace fasttests
             var comment = new ZendeskTicket.Comment("a-comment", "some person", "an-avatar");
             var responses = comparer.CompareTicketStates(new[]
             {
-                new TrackedTicketComparison("a-channel", "12345",
+                new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
                     new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
             });
@@ -127,7 +128,7 @@ namespace fasttests
             var comment = new ZendeskTicket.Comment("a-comment", "some person", "an-avatar");
             var responses = comparer.CompareTicketStates(new[]
             {
-                new TrackedTicketComparison("a-channel", "12345",
+                new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
                     new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
             });

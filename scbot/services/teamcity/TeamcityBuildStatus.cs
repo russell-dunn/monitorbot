@@ -8,14 +8,14 @@ namespace fasttests.teamcity
     public struct TeamcityBuildStatus
     {
         public readonly string Id;
-        public readonly string BuildName;
-        public readonly BuildState BuildState;
+        public readonly string Name;
+        public readonly BuildState State;
 
         public TeamcityBuildStatus(string id, string name, BuildState buildState)
         {
             Id = id;
-            BuildName = name;
-            BuildState = buildState;
+            Name = name;
+            State = buildState;
         }
     }
 }

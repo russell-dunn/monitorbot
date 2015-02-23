@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using scbot.processors.teamcity;
+using scbot.services.compareengine;
 
 namespace fasttests.teamcity
 {
@@ -32,7 +33,7 @@ namespace fasttests.teamcity
             var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
 
             var comparison = trackedTickets.Select(x =>
-                new TrackedTeamcityBuildComparison(x.Channel, x.BuildStatus.Id, x.BuildStatus, m_TeamcityBuildApi.GetBuild(x.BuildStatus.Id).Result)
+                new Update<TeamcityBuildStatus>(x.Channel, x.Build, m_TeamcityBuildApi.GetBuild(x.Build.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
             var responses = m_TeamcityBuildCompareEngine.CompareBuildStates(comparison);
