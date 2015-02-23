@@ -43,13 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlTitleParserTests.cs" />
-    <Compile Include="JiraIntegrationTests.cs" />
-    <Compile Include="KeyValueStoreTests.cs" />
-    <Compile Include="LoggingBot.cs" />
+    <Compile Include="html\HtmlTitleParserTests.cs" />
+    <Compile Include="jira\JiraIntegrationTests.cs" />
+    <Compile Include="persistence\KeyValueStoreTests.cs" />
+    <Compile Include="slack\LoggingBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlackAuthTests.cs" />
-    <Compile Include="ZendeskIntegrationTests.cs" />
+    <Compile Include="slack\SlackAuthTests.cs" />
+    <Compile Include="zendesk\ZendeskIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

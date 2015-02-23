@@ -47,18 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachingTests.cs" />
-    <Compile Include="CompositeMessageProcessingTests.cs" />
-    <Compile Include="HtmlTitleTests.cs" />
-    <Compile Include="JiraBugTests.cs" />
-    <Compile Include="NoteApiTests.cs" />
-    <Compile Include="NoteTakingTests.cs" />
+    <Compile Include="utils\CachingTests.cs" />
+    <Compile Include="utils\CompositeMessageProcessingTests.cs" />
+    <Compile Include="html\HtmlTitleTests.cs" />
+    <Compile Include="jira\JiraBugTests.cs" />
+    <Compile Include="notes\NoteApiTests.cs" />
+    <Compile Include="notes\NoteTakingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlackCommandParsingTests.cs" />
-    <Compile Include="SlackMessageParsingTests.cs" />
-    <Compile Include="ZendeskTicketParsingTests.cs" />
-    <Compile Include="ZendeskTicketTests.cs" />
-    <Compile Include="ZendeskTicketTrackingTests.cs" />
+    <Compile Include="slack\SlackCommandParsingTests.cs" />
+    <Compile Include="slack\SlackMessageParsingTests.cs" />
+    <Compile Include="zendesk\ZendeskTicketParsingTests.cs" />
+    <Compile Include="zendesk\ZendeskTicketTests.cs" />
+    <Compile Include="zendesk\ZendeskTicketTrackingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -72,6 +72,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
