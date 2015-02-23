@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="teamcity\TeamcityBuildTrackingTests.cs" />
     <Compile Include="utils\CachingTests.cs" />
     <Compile Include="utils\CompositeMessageProcessingTests.cs" />
     <Compile Include="html\HtmlTitleTests.cs" />

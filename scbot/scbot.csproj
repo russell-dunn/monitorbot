@@ -49,6 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="processors\teamcity\TeamcityBuildCompareEngine.cs" />
+    <Compile Include="processors\teamcity\TeamcityBuildTracker.cs" />
+    <Compile Include="processors\teamcity\TrackedTeamcityBuild.cs" />
+    <Compile Include="processors\teamcity\TrackedTeamcityBuildComparison.cs" />
+    <Compile Include="services\teamcity\BuildState.cs" />
+    <Compile Include="services\teamcity\ITeamcityBuildApi.cs" />
+    <Compile Include="services\teamcity\TeamcityBuildStatus.cs" />
     <Compile Include="utils\Cache.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="processors\meta\CompositeMessageProcessor.cs" />
