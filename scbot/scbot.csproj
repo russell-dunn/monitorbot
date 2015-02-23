@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="processors\teamcity\TeamcityBuildCompareEngine.cs" />
     <Compile Include="processors\teamcity\TeamcityBuildTracker.cs" />
-    <Compile Include="processors\teamcity\TrackedTeamcityBuild.cs" />
+    <Compile Include="services\compareengine\Tracked.cs" />
     <Compile Include="services\compareengine\Update.cs" />
     <Compile Include="services\teamcity\BuildState.cs" />
     <Compile Include="services\teamcity\ITeamcityBuildApi.cs" />
@@ -65,7 +65,6 @@
     <Compile Include="processors\html\HtmlTitleProcessor.cs" />
     <Compile Include="processors\jira\JiraBugProcessor.cs" />
     <Compile Include="processors\notes\NoteProcessor.cs" />
-    <Compile Include="processors\zendesk\TrackedTicket.cs" />
     <Compile Include="processors\zendesk\ZendeskTicketCompareEngine.cs" />
     <Compile Include="processors\zendesk\ZendeskTicketProcessor.cs" />
     <Compile Include="services\jira\CachedJiraApi.cs" />

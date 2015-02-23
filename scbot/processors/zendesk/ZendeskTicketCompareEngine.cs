@@ -10,10 +10,10 @@ namespace scbot.processors
 {
     internal class ZendeskTicketCompareEngine
     {
-        private readonly IListPersistenceApi<TrackedTicket> m_Persistence;
+        private readonly IListPersistenceApi<Tracked<ZendeskTicket>> m_Persistence;
         private const string c_PersistenceKey = "tracked-zd-tickets";
 
-        public ZendeskTicketCompareEngine(IListPersistenceApi<TrackedTicket> persistence)
+        public ZendeskTicketCompareEngine(IListPersistenceApi<Tracked<ZendeskTicket>> persistence)
         {
             m_Persistence = persistence;
         }
@@ -31,8 +31,8 @@ namespace scbot.processors
             foreach (var diff in differences)
             {
                 var id = diff.update.NewValue.Id;
-                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Ticket.Id == id);
-                m_Persistence.AddToList(c_PersistenceKey, new TrackedTicket(diff.update.NewValue, diff.update.Channel));
+                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Value.Id == id);
+                m_Persistence.AddToList(c_PersistenceKey, new Tracked<ZendeskTicket>(diff.update.NewValue, diff.update.Channel));
                 Console.WriteLine("Diff: \nold: {0}\nnew:{1}", Json.Encode(diff.update.OldValue), Json.Encode(diff.update.NewValue));
             }
             return differences.Select(x => new Response(x.differences.Message, x.update.Channel, x.differences.Image));

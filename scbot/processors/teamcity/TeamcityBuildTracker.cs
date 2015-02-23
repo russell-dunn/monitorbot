@@ -14,7 +14,7 @@ namespace fasttests.teamcity
     public class TeamcityBuildTracker : IMessageProcessor
     {
         private readonly SlackCommandParser m_CommandParser;
-        private readonly ListPersistenceApi<TrackedTeamcityBuild> m_Persistence;
+        private readonly ListPersistenceApi<Tracked<TeamcityBuildStatus>> m_Persistence;
         private readonly ITeamcityBuildApi m_TeamcityBuildApi;
         private static readonly Regex s_TeamcityBuildRegex = new Regex(@"^build#(?<id>\d{5,10})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const string c_PersistenceKey = "tracked-tc-builds";
@@ -23,7 +23,7 @@ namespace fasttests.teamcity
         public TeamcityBuildTracker(scbot.slack.SlackCommandParser commandParser, scbot.services.InMemoryKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
         {
             m_CommandParser = commandParser;
-            m_Persistence = new ListPersistenceApi<TrackedTeamcityBuild>(persistence);
+            m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence);
             m_TeamcityBuildApi = teamcityBuildApi;
             m_TeamcityBuildCompareEngine = new TeamcityBuildCompareEngine(m_Persistence);
         }
@@ -33,7 +33,7 @@ namespace fasttests.teamcity
             var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
 
             var comparison = trackedTickets.Select(x =>
-                new Update<TeamcityBuildStatus>(x.Channel, x.Build, m_TeamcityBuildApi.GetBuild(x.Build.Id).Result)
+                new Update<TeamcityBuildStatus>(x.Channel, x.Value, m_TeamcityBuildApi.GetBuild(x.Value.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
             var responses = m_TeamcityBuildCompareEngine.CompareBuildStates(comparison);
@@ -47,7 +47,7 @@ namespace fasttests.teamcity
             if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_TeamcityBuildRegex.IsMatch(toTrack))
             {
                 var build = m_TeamcityBuildApi.GetBuild(toTrack.Substring(6)).Result;
-                m_Persistence.AddToList(c_PersistenceKey, new TrackedTeamcityBuild(build, message.Channel));
+                m_Persistence.AddToList(c_PersistenceKey, new Tracked<TeamcityBuildStatus>(build, message.Channel));
                 return new MessageResult(new[] { Response.ToMessage(message, FormatNowTrackingMessage(toTrack)) });
             }
             return MessageResult.Empty;
