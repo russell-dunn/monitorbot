@@ -74,7 +74,7 @@ namespace scbot.processors
 
         private static Response FormatStatusChanged(TrackedTicketComparison x)
         {
-            return new Response(string.Format("`{0}`\u2192`{1}`", x.OldValue.Status, x.NewValue.Status), null);
+            return new Response(string.Format("`{0}` \u2192 `{1}`", x.OldValue.Status, x.NewValue.Status), null);
         }
 
         private static Response FormatCommentsAdded(TrackedTicketComparison x)

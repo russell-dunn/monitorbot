@@ -87,7 +87,7 @@ namespace fasttests
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
                     new ZendeskTicket("12345", "a-description", "closed", new ZendeskTicket.Comment[3])),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open`→`closed`", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open` → `closed`", responses.Single().Message);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace fasttests
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
                     new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: some person added a comment, `open`→`closed`, description updated", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: some person added a comment, `open` → `closed`, description updated", responses.Single().Message);
         }
 
         [Test]
