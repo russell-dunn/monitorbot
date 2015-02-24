@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="processors\teamcity\TeamcityBuildCompareEngine.cs" />
+    <Compile Include="services\compareengine\CompareEngine.cs" />
     <Compile Include="processors\teamcity\TeamcityBuildTracker.cs" />
     <Compile Include="services\compareengine\Tracked.cs" />
     <Compile Include="services\compareengine\Update.cs" />
