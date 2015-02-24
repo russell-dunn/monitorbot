@@ -1,15 +1,10 @@
-﻿using Moq;
-using NUnit.Framework;
-using scbot;
-using scbot.services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Web.Helpers;
+using Moq;
+using NUnit.Framework;
+using scbot.services.zendesk;
 
-namespace fasttests
+namespace fasttests.zendesk
 {
     class ZendeskTicketParsingTests
     {

@@ -1,4 +1,6 @@
-namespace scbot.processors.teamcity
+using scbot.bot;
+
+namespace scbot.services.compareengine
 {
     class ComparisonResult<T>
     {

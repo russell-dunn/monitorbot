@@ -1,4 +1,4 @@
-﻿namespace scbot.services
+﻿namespace scbot.services.html
 {
     public interface IHtmlTitleParser
     {

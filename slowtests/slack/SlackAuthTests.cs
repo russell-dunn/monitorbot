@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using NUnit.Framework;
-using scbot;
 using scbot.slack;
+using scbot.utils;
 
-namespace slowtests
+namespace slowtests.slack
 {
     public class SlackAuthTests
     {

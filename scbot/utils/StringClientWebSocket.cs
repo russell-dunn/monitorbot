@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace scbot.slack
+namespace scbot.utils
 {
     public class StringClientWebSocket : IDisposable
     {

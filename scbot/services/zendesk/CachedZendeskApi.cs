@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using scbot.utils;
 
-namespace scbot.services
+namespace scbot.services.zendesk
 {
     public class CachedZendeskApi : IZendeskApi
     {

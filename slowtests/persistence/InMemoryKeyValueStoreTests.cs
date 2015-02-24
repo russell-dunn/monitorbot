@@ -1,6 +1,6 @@
-using scbot.services;
+using scbot.services.persistence;
 
-namespace slowtests
+namespace slowtests.persistence
 {
     class InMemoryKeyValueStoreTests : KeyValueStoreTests
     {

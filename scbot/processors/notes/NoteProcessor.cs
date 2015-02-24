@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using scbot.services;
+using scbot.bot;
+using scbot.services.notes;
+using scbot.utils;
 
-namespace scbot.processors
+namespace scbot.processors.notes
 {
     public class NoteProcessor : IMessageProcessor
     {

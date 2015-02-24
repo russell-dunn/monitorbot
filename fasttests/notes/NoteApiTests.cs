@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
-using scbot.services;
+using scbot.services.notes;
+using scbot.services.persistence;
 
-namespace fasttests
+namespace fasttests.notes
 {
     class NoteApiTests
     {

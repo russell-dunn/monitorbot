@@ -1,6 +1,7 @@
 using System;
+using scbot.bot;
 
-namespace scbot.processors
+namespace scbot.processors.meta
 {
     public class ErrorCatchingMessageProcessor : IMessageProcessor
     {

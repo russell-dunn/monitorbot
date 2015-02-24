@@ -1,4 +1,4 @@
-﻿namespace scbot.services
+﻿namespace scbot.services.persistence
 {
     public interface IKeyValueStore
     {

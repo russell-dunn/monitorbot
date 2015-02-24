@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace scbot.services
+namespace scbot.services.persistence
 {
     public class InMemoryKeyValueStore : IKeyValueStore
     {

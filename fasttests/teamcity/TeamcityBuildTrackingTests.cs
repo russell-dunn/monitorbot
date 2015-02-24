@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using scbot.bot;
+using scbot.processors.teamcity;
+using scbot.services.persistence;
+using scbot.services.teamcity;
 
 namespace fasttests.teamcity
 {

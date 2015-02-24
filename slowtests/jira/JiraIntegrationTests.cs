@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using NUnit.Framework;
 using scbot.services;
+using scbot.services.jira;
 
-namespace slowtests
+namespace slowtests.jira
 {
     class JiraIntegrationTests
     {

@@ -1,8 +1,10 @@
 using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.services;
+using scbot.bot;
+using scbot.services.zendesk;
+using scbot.utils;
 
-namespace scbot.processors
+namespace scbot.processors.zendesk
 {
     public class ZendeskTicketProcessor : IMessageProcessor
     {

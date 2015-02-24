@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using scbot.bot;
+using scbot.utils;
 
-namespace scbot.processors
+namespace scbot.processors.meta
 {
     public class ConcattingMessageProcessor : IMessageProcessor
     {

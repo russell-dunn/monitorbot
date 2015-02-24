@@ -1,4 +1,4 @@
-﻿namespace scbot.services
+﻿namespace scbot.services.jira
 {
     public class JiraBug
     {

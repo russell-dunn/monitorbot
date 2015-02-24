@@ -1,21 +1,20 @@
-﻿using fasttests.teamcity;
-using scbot.services.compareengine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Helpers;
+using scbot.bot;
+using scbot.services.persistence;
+using scbot.utils;
 
-namespace scbot.processors.teamcity
+namespace scbot.services.compareengine
 {
     class CompareEngine<T>
     {
-        private services.ListPersistenceApi<Tracked<T>> m_Persistence;
+        private ListPersistenceApi<Tracked<T>> m_Persistence;
         private const string c_PersistenceKey = "tracked-tc-builds";
         private readonly Func<T, string> m_PrefixStringGenerator;
         private readonly List<PropertyComparer<T>> m_Comparers;
 
-        public CompareEngine(services.ListPersistenceApi<Tracked<T>> persistence, Func<T, string> prefixString, IEnumerable<PropertyComparer<T>> comparers)
+        public CompareEngine(ListPersistenceApi<Tracked<T>> persistence, Func<T, string> prefixString, IEnumerable<PropertyComparer<T>> comparers)
         {
             m_Persistence = persistence;
             m_PrefixStringGenerator = prefixString;

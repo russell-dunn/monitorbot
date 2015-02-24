@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using scbot.services;
+﻿using NUnit.Framework;
+using scbot.services.html;
 
-namespace slowtests
+namespace slowtests.html
 {
     public class HtmlTitleParserTests
     {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot;
-using scbot.processors;
-using scbot.services;
+using scbot.bot;
+using scbot.processors.html;
+using scbot.services.html;
 
-namespace fasttests
+namespace fasttests.html
 {
     public class HtmlTitleTests
     {

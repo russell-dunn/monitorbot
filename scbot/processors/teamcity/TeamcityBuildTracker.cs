@@ -1,15 +1,13 @@
-﻿using scbot;
-using scbot.services;
-using scbot.slack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.processors.teamcity;
+using scbot.bot;
 using scbot.services.compareengine;
+using scbot.services.persistence;
+using scbot.services.teamcity;
+using scbot.slack;
+using scbot.utils;
 
-namespace fasttests.teamcity
+namespace scbot.processors.teamcity
 {
     public class TeamcityBuildTracker : IMessageProcessor
     {
@@ -20,7 +18,7 @@ namespace fasttests.teamcity
         private const string c_PersistenceKey = "tracked-tc-builds";
         private readonly CompareEngine<TeamcityBuildStatus> m_TeamcityBuildCompareEngine;
 
-        public TeamcityBuildTracker(scbot.slack.SlackCommandParser commandParser, scbot.services.InMemoryKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
+        public TeamcityBuildTracker(SlackCommandParser commandParser, InMemoryKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
         {
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence);
@@ -32,7 +30,7 @@ namespace fasttests.teamcity
 
         private Response FormatStateChanged(Update<TeamcityBuildStatus> x)
         {
-            if (x.NewValue.State == fasttests.teamcity.BuildState.Finished)
+            if (x.NewValue.State == BuildState.Finished)
             {
                 return new Response("build finished", null);
             }

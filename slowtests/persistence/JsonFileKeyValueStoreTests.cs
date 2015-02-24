@@ -1,8 +1,8 @@
 using System.IO;
 using NUnit.Framework;
-using scbot.services;
+using scbot.services.persistence;
 
-namespace slowtests
+namespace slowtests.persistence
 {
     class JsonFileKeyValueStoreTests : KeyValueStoreTests
     {

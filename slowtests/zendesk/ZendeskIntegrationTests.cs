@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using scbot;
 using scbot.services;
+using scbot.services.zendesk;
+using scbot.utils;
 
-namespace slowtests
+namespace slowtests.zendesk
 {
     class ZendeskIntegrationTests
     {

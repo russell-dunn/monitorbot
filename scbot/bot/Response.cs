@@ -1,4 +1,4 @@
-﻿namespace scbot
+﻿namespace scbot.bot
 {
     public class Response
     {

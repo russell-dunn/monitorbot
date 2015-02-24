@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Helpers;
 
-namespace scbot.services
+namespace scbot.services.persistence
 {
     public class JsonFileKeyValueStore : IKeyValueStore
     {

@@ -4,9 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using scbot.bot;
 using scbot.processors;
+using scbot.processors.html;
+using scbot.processors.jira;
+using scbot.processors.meta;
+using scbot.processors.notes;
+using scbot.processors.zendesk;
 using scbot.services;
+using scbot.services.html;
+using scbot.services.jira;
+using scbot.services.notes;
+using scbot.services.persistence;
+using scbot.services.zendesk;
 using scbot.slack;
+using scbot.utils;
 
 namespace scbot
 {

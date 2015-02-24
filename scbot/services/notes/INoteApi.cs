@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace scbot.services
+namespace scbot.services.notes
 {
     public interface INoteApi
     {

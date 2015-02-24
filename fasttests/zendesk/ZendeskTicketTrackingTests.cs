@@ -1,15 +1,14 @@
 ﻿using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using scbot;
-using scbot.processors;
-using scbot.services;
-using scbot.slack;
+using scbot.bot;
+using scbot.processors.zendesk;
 using scbot.services.compareengine;
+using scbot.services.persistence;
+using scbot.services.zendesk;
+using scbot.slack;
 
-namespace fasttests
+namespace fasttests.zendesk
 {
     class ZendeskTicketTrackingTests
     {

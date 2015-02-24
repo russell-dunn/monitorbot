@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using scbot;
-using scbot.processors;
+using scbot.bot;
+using scbot.processors.meta;
 
-namespace fasttests
+namespace fasttests.utils
 {
     class CompositeMessageProcessingTests
     {

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using scbot;
+﻿using NUnit.Framework;
+using scbot.bot;
 using scbot.slack;
 
-namespace fasttests
+namespace fasttests.slack
 {
     class SlackCommandParsingTests
     {

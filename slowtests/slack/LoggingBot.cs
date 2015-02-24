@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using scbot;
-using scbot.slack;
+using scbot.bot;
 
-namespace slowtests
+namespace slowtests.slack
 {
     class LoggingBot : IBot
     {

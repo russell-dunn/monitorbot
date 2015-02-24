@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Helpers;
 
-namespace scbot.services
+namespace scbot.services.persistence
 {
     public class ListPersistenceApi<T> : IListPersistenceApi<T>
     {

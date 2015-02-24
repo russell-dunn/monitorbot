@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.services;
+using scbot.bot;
+using scbot.services.html;
 
-namespace scbot.processors
+namespace scbot.processors.html
 {
     public class HtmlTitleProcessor : IMessageProcessor
     {

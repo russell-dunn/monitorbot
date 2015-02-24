@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Helpers;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Helpers;
 
-namespace scbot.services
+namespace scbot.services.zendesk
 {
     public class ZendeskTicketApi : IZendeskTicketApi
     {

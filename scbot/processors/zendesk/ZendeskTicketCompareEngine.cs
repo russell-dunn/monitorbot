@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.Helpers;
-using scbot.services;
+using scbot.bot;
 using scbot.services.compareengine;
+using scbot.services.persistence;
+using scbot.services.zendesk;
+using scbot.utils;
 
-namespace scbot.processors
+namespace scbot.processors.zendesk
 {
     internal class ZendeskTicketCompareEngine
     {
