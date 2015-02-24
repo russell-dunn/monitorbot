@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="html\HtmlTitleParserTests.cs" />
     <Compile Include="jira\JiraIntegrationTests.cs" />
+    <Compile Include="persistence\InMemoryKeyValueStoreTests.cs" />
+    <Compile Include="persistence\JsonFileKeyValueStoreTests.cs" />
     <Compile Include="persistence\KeyValueStoreTests.cs" />
     <Compile Include="slack\LoggingBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

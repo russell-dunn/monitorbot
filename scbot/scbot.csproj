@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="services\compareengine\CompareEngine.cs" />
     <Compile Include="processors\teamcity\TeamcityBuildTracker.cs" />
+    <Compile Include="services\compareengine\ComparisonResult.cs" />
+    <Compile Include="services\compareengine\PropertyComparer.cs" />
     <Compile Include="services\compareengine\Tracked.cs" />
     <Compile Include="services\compareengine\Update.cs" />
     <Compile Include="services\teamcity\BuildState.cs" />

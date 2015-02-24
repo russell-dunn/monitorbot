@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,37 +53,6 @@ namespace slowtests
             var chars = new string(Enumerable.Range(0, 256).Select(x => (char)x).ToArray());
             m_KeyValueStore.Set("a-key", chars);
             Assert.AreEqual(chars, m_KeyValueStore.Get("a-key"));
-        }
-    }
-
-    class JsonFileKeyValueStoreTests : KeyValueStoreTests
-    {
-        private FileInfo m_File;
-
-        protected override IKeyValueStore Create()
-        {
-            Assert.Null(m_File);
-            m_File = new FileInfo(Path.GetTempFileName());
-            return new JsonFileKeyValueStore(m_File);
-        }
-
-        protected override void Cleanup(IKeyValueStore store)
-        {
-            Assert.NotNull(m_File);
-            m_File.Delete();
-            m_File = null;
-        }
-    }
-
-    class InMemoryKeyValueStoreTests : KeyValueStoreTests
-    {
-        protected override IKeyValueStore Create()
-        {
-            return new InMemoryKeyValueStore();
-        }
-
-        protected override void Cleanup(IKeyValueStore store)
-        {
         }
     }
 }
