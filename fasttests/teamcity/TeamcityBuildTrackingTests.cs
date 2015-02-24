@@ -22,7 +22,7 @@ namespace fasttests.teamcity
         {
             var teamcityBuildApi = new Mock<ITeamcityBuildApi>();
             var teamcityBuild1 = new TeamcityBuildStatus("12345", "build name", BuildState.Running);
-            var teamcityBuild2 = new TeamcityBuildStatus("12345", "build name", BuildState.Finished);
+            var teamcityBuild2 = new TeamcityBuildStatus("12345", "build name", BuildState.Succeeded);
             var persistence = new InMemoryKeyValueStore();
             var commandParser = new SlackCommandParser("scbot", "U123");
 
@@ -42,6 +42,24 @@ namespace fasttests.teamcity
 
             // subsequent ticks should use updated values
             CollectionAssert.IsEmpty(teamcityTracker.ProcessTimerTick().Responses);
+        }
+
+        [Test]
+        public void ComplainsIfBuildNotFound()
+        {
+            var teamcityBuildApi = new Mock<ITeamcityBuildApi>();
+            var unknown = TeamcityBuildStatus.Unknown;
+            var persistence = new InMemoryKeyValueStore();
+            var commandParser = new SlackCommandParser("scbot", "U123");
+
+            teamcityBuildApi.Setup(x => x.GetBuild("12345")).ReturnsAsync(unknown);
+
+            var teamcityTracker = new TeamcityBuildTracker(commandParser, persistence, teamcityBuildApi.Object);
+
+            var result = teamcityTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot track build#12345"));
+ 
+            // TODO: better message
+            Assert.AreEqual("Could not find build#12345. It might not have started, or might not be tracked by the api", result.Responses.Single().Message);
         }
     }
 }

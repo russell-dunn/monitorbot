@@ -18,7 +18,7 @@ namespace scbot.processors.teamcity
         private const string c_PersistenceKey = "tracked-tc-builds";
         private readonly CompareEngine<TeamcityBuildStatus> m_TeamcityBuildCompareEngine;
 
-        public TeamcityBuildTracker(SlackCommandParser commandParser, InMemoryKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
+        public TeamcityBuildTracker(SlackCommandParser commandParser, IKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
         {
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence);
@@ -30,7 +30,7 @@ namespace scbot.processors.teamcity
 
         private Response FormatStateChanged(Update<TeamcityBuildStatus> x)
         {
-            if (x.NewValue.State == BuildState.Finished)
+            if (x.NewValue.State == BuildState.Succeeded)
             {
                 return new Response("build finished", null);
             }
@@ -64,10 +64,16 @@ namespace scbot.processors.teamcity
             if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_TeamcityBuildRegex.IsMatch(toTrack))
             {
                 var build = m_TeamcityBuildApi.GetBuild(toTrack.Substring(6)).Result;
+                if (build.Equals(TeamcityBuildStatus.Unknown)) return new MessageResult(new[] { Response.ToMessage(message, FormatNotFoundMessage(toTrack)) });
                 m_Persistence.AddToList(c_PersistenceKey, new Tracked<TeamcityBuildStatus>(build, message.Channel));
                 return new MessageResult(new[] { Response.ToMessage(message, FormatNowTrackingMessage(toTrack)) });
             }
             return MessageResult.Empty;
+        }
+
+        private string FormatNotFoundMessage(string toTrack)
+        {
+            return string.Format("Could not find {0}. It might not have started, or might not be tracked by the api", toTrack);
         }
 
         private static string FormatNowTrackingMessage(string toTrack)

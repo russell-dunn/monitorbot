@@ -4,6 +4,6 @@ namespace scbot.services.teamcity
 {
     public interface ITeamcityBuildApi
     {
-        Task<TeamcityBuildStatus> GetBuild(string p);
+        Task<TeamcityBuildStatus> GetBuild(string buildId);
     }
 }

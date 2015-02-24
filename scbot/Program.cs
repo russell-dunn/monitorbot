@@ -10,12 +10,14 @@ using scbot.processors.html;
 using scbot.processors.jira;
 using scbot.processors.meta;
 using scbot.processors.notes;
+using scbot.processors.teamcity;
 using scbot.processors.zendesk;
 using scbot.services;
 using scbot.services.html;
 using scbot.services.jira;
 using scbot.services.notes;
 using scbot.services.persistence;
+using scbot.services.teamcity;
 using scbot.services.zendesk;
 using scbot.slack;
 using scbot.utils;
@@ -39,6 +41,8 @@ namespace scbot
             var slackRtmConnection = ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm());
 
+            var teamcityApi = new TeamcityBuildApi(new JsonProxyTeamcityApi(Configuration.TeamcityApiBase));
+
             var time = new Time();
             var jiraApi = new CachedJiraApi(time, new JiraApi());
             var zendeskApiConnection = ReconnectingZendeskApi.CreateAsync(
@@ -57,7 +61,8 @@ namespace scbot
                             new JiraBugProcessor(jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
-                            new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist))));
+                            new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist),
+                            new TeamcityBuildTracker(commandParser, persistence, teamcityApi))));
 
             var bot = new Bot(processor);
 

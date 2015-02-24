@@ -15,6 +15,8 @@ namespace scbot.utils
             get { return GetConfigValue("redgate-id"); }
         }
 
+        public static string TeamcityApiBase { get { return GetConfigValue("teamcity-api-base"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];

@@ -2,7 +2,11 @@
 {
     public enum BuildState 
     { 
-        Running, 
-        Finished 
+        Queued,
+        Running,
+        Failing,
+        Succeeded,
+        Failed,
+        Unknown
     }
 }

@@ -57,7 +57,10 @@
     <Compile Include="services\compareengine\Update.cs" />
     <Compile Include="services\teamcity\BuildState.cs" />
     <Compile Include="services\teamcity\ITeamcityBuildApi.cs" />
+    <Compile Include="services\teamcity\IJsonProxyTeamcityApi.cs" />
+    <Compile Include="services\teamcity\TeamcityBuildApi.cs" />
     <Compile Include="services\teamcity\TeamcityBuildStatus.cs" />
+    <Compile Include="services\teamcity\JsonProxyTeamcityApi.cs" />
     <Compile Include="utils\Cache.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="processors\meta\CompositeMessageProcessor.cs" />
