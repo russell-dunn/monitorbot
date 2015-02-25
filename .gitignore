@@ -6,3 +6,4 @@ bin
 *_NCrunch*
 *.sln.ide
 packages
+local.config

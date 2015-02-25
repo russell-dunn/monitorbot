@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
 
 namespace scbot.utils
 {
@@ -23,7 +24,7 @@ namespace scbot.utils
             if (String.IsNullOrWhiteSpace(value) || value == "FIXME")
             {
                 var appConfig = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-                throw new Exception(configKey + " needs to be set in app.config at " + appConfig);
+                throw new Exception(configKey + " needs to be set in local.config at " + Path.GetDirectoryName(appConfig));
             }
             return value;
         }
