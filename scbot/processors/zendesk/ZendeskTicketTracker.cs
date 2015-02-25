@@ -16,14 +16,42 @@ namespace scbot.processors.zendesk
         private readonly IListPersistenceApi<Tracked<ZendeskTicket>> m_Persistence;
         private readonly IZendeskTicketApi m_ZendeskApi;
         private static readonly Regex s_ZendeskIdRegex = new Regex(@"^ZD#(?<id>\d{5})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private readonly ZendeskTicketCompareEngine m_ZendeskTicketCompareEngine;
+        internal readonly CompareEngine<ZendeskTicket> m_ZendeskTicketCompareEngine; // internal for tests -- should be injected?
 
         public ZendeskTicketTracker(ICommandParser commandParser, IKeyValueStore persistence, IZendeskTicketApi zendeskApi)
         {
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<Tracked<ZendeskTicket>>(persistence);
             m_ZendeskApi = zendeskApi;
-            m_ZendeskTicketCompareEngine = new ZendeskTicketCompareEngine(m_Persistence);
+            m_ZendeskTicketCompareEngine = new CompareEngine<ZendeskTicket>(
+                x => string.Format("<https://redgatesupport.zendesk.com/agent/tickets/{0}|ZD#{0}> ({1}) updated:", x.Id, x.Description),
+                new[]
+                {
+                    new PropertyComparer<ZendeskTicket>(x => x.OldValue.Comments.Count < x.NewValue.Comments.Count, FormatCommentsAdded),
+                    new PropertyComparer<ZendeskTicket>(x => x.OldValue.Status != x.NewValue.Status, FormatStatusChanged), 
+                    new PropertyComparer<ZendeskTicket>(x => x.OldValue.Description != x.NewValue.Description, FormatDescriptionChanged), 
+                });
+        }
+
+        private static Response FormatCommentsAdded(Update<ZendeskTicket> x)
+        {
+            var diff = (x.NewValue.Comments.Count - x.OldValue.Comments.Count);
+            if (diff == 1)
+            {
+                var addedComment = x.NewValue.Comments.Last();
+                return new Response(addedComment.Author + " added a comment", null, addedComment.Avatar);
+            }
+            return new Response(string.Format("{0} comments added", diff), null);
+        }
+
+        private static Response FormatStatusChanged(Update<ZendeskTicket> x)
+        {
+            return new Response(string.Format("`{0}` \u2192 `{1}`", x.OldValue.Status, x.NewValue.Status), null);
+        }
+
+        private static Response FormatDescriptionChanged(Update<ZendeskTicket> x)
+        {
+            return new Response("description updated", null);
         }
 
         public MessageResult ProcessTimerTick()
@@ -34,9 +62,16 @@ namespace scbot.processors.zendesk
                 new Update<ZendeskTicket>(x.Channel, x.Value, m_ZendeskApi.FromId(x.Value.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
-            var responses = m_ZendeskTicketCompareEngine.CompareTicketStates(comparison);
+            var results = m_ZendeskTicketCompareEngine.Compare(comparison).ToList();
 
-            return new MessageResult(responses.ToList());
+            foreach (var result in results)
+            {
+                var id = result.NewValue.Id;
+                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Value.Id == id);
+                m_Persistence.AddToList(c_PersistenceKey, new Tracked<ZendeskTicket>(result.NewValue, result.Response.Channel));
+            }
+
+            return new MessageResult(results.Select(x => x.Response).ToList());
         }
 
         public MessageResult ProcessMessage(Message message)

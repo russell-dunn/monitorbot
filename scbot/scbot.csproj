@@ -70,7 +70,6 @@
     <Compile Include="processors\html\HtmlTitleProcessor.cs" />
     <Compile Include="processors\jira\JiraBugProcessor.cs" />
     <Compile Include="processors\notes\NoteProcessor.cs" />
-    <Compile Include="processors\zendesk\ZendeskTicketCompareEngine.cs" />
     <Compile Include="processors\zendesk\ZendeskTicketProcessor.cs" />
     <Compile Include="services\jira\CachedJiraApi.cs" />
     <Compile Include="services\zendesk\CachedZendeskApi.cs" />

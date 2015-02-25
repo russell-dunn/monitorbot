@@ -79,59 +79,55 @@ namespace fasttests.zendesk
         [Test]
         public void HasSpecificMessageForStatusChanged()
         {
-            var persistence = new ListPersistenceApi<Tracked<ZendeskTicket>>(new InMemoryKeyValueStore());
-            var comparer = new ZendeskTicketCompareEngine(persistence);
-            var responses = comparer.CompareTicketStates(new[]
+            var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;
+            var responses = comparer.Compare(new[]
             {
                 new Update<ZendeskTicket>("a-channel", 
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
                     new ZendeskTicket("12345", "a-description", "closed", new ZendeskTicket.Comment[3])),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open` → `closed`", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description) updated: `open` → `closed`", responses.Single().Response.Message);
         }
 
         [Test]
         public void HasSpecificMessageForDescriptionChanged()
         {
-            var persistence = new ListPersistenceApi<Tracked<ZendeskTicket>>(new InMemoryKeyValueStore());
-            var comparer = new ZendeskTicketCompareEngine(persistence);
-            var responses = comparer.CompareTicketStates(new[]
+            var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;
+            var responses = comparer.Compare(new[]
             {
                 new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[3]),
                     new ZendeskTicket("12345", "a-description updated", "open", new ZendeskTicket.Comment[3])),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: description updated", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: description updated", responses.Single().Response.Message);
         }
 
         [Test]
         public void GroupsTogetherMessagesForMultipleChanges()
         {
-            var persistence = new ListPersistenceApi<Tracked<ZendeskTicket>>(new InMemoryKeyValueStore());
-            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;
             var comment = new ZendeskTicket.Comment("a-comment", "some person", "an-avatar");
-            var responses = comparer.CompareTicketStates(new[]
+            var responses = comparer.Compare(new[]
             {
                 new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
                     new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
             });
-            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: some person added a comment, `open` → `closed`, description updated", responses.Single().Message);
+            Assert.AreEqual("<https://redgatesupport.zendesk.com/agent/tickets/12345|ZD#12345> (a-description updated) updated: some person added a comment, `open` → `closed`, description updated", responses.Single().Response.Message);
         }
 
         [Test]
         public void UsesAvatarAsImageIfSingleCommentPosted()
         {
-            var persistence = new ListPersistenceApi<Tracked<ZendeskTicket>>(new InMemoryKeyValueStore());
-            var comparer = new ZendeskTicketCompareEngine(persistence);
+            var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;
             var comment = new ZendeskTicket.Comment("a-comment", "some person", "an-avatar");
-            var responses = comparer.CompareTicketStates(new[]
+            var responses = comparer.Compare(new[]
             {
                 new Update<ZendeskTicket>("a-channel",
                     new ZendeskTicket("12345", "a-description", "open", new ZendeskTicket.Comment[0]),
                     new ZendeskTicket("12345", "a-description updated", "closed", new[] { comment })),
             });
-            Assert.AreEqual("an-avatar", responses.Single().Image);
+            Assert.AreEqual("an-avatar", responses.Single().Response.Image);
         }
     }
 }

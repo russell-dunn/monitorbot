@@ -17,7 +17,7 @@ namespace scbot.services.compareengine
             m_Comparers = new List<PropertyComparer<T>>(comparers);
         }
 
-        internal IEnumerable<ComparisonResult<T>> CompareBuildStates(IEnumerable<Update<T>> comparison)
+        internal IEnumerable<ComparisonResult<T>> Compare(IEnumerable<Update<T>> comparison)
         {
             var differences = comparison.Select(x => new
             {

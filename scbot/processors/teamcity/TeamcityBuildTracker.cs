@@ -45,7 +45,7 @@ namespace scbot.processors.teamcity
                 new Update<TeamcityBuildStatus>(x.Channel, x.Value, m_TeamcityBuildApi.GetBuild(x.Value.Id).Result)
             ).Where(x => x.NewValue.IsNotDefault());
 
-            var results = m_TeamcityBuildCompareEngine.CompareBuildStates(comparison).ToList();
+            var results = m_TeamcityBuildCompareEngine.Compare(comparison).ToList();
 
             foreach (var result in results)
             {
