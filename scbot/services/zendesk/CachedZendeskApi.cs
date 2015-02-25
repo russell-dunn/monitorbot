@@ -34,10 +34,10 @@ namespace scbot.services.zendesk
             return Cache(m_UserCache, userId, () => m_Underlying.User(userId));
         }
 
-        public T Cache<T>(Cache<string, T> cache, string key, Func<T> valueGetter)
+        private T Cache<T>(Cache<string, T> cache, string key, Func<T> valueGetter)
         {
             var cached = cache.Get(key);
-            if (cached == null)
+            if (cached.IsDefault())
             {
                 cache.Set(key, valueGetter());
             }

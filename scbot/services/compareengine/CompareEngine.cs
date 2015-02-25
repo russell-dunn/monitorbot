@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using scbot.bot;
-using scbot.services.persistence;
 using scbot.utils;
 
 namespace scbot.services.compareengine
 {
     class CompareEngine<T>
     {
-        private ListPersistenceApi<Tracked<T>> m_Persistence;
-        private const string c_PersistenceKey = "tracked-tc-builds";
         private readonly Func<T, string> m_PrefixStringGenerator;
         private readonly List<PropertyComparer<T>> m_Comparers;
 
-        public CompareEngine(ListPersistenceApi<Tracked<T>> persistence, Func<T, string> prefixString, IEnumerable<PropertyComparer<T>> comparers)
+        public CompareEngine(Func<T, string> prefixString, IEnumerable<PropertyComparer<T>> comparers)
         {
-            m_Persistence = persistence;
             m_PrefixStringGenerator = prefixString;
             m_Comparers = new List<PropertyComparer<T>>(comparers);
         }
@@ -50,13 +46,9 @@ namespace scbot.services.compareengine
 
         private IEnumerable<Response> GetDifferences(Update<T> x)
         {
-            foreach (var comparer in m_Comparers)
-            {
-                if (comparer.Compare(x))
-                {
-                    yield return comparer.Describe(x);
-                }
-            }
+            return m_Comparers
+                .Where(comparer => comparer.Compare(x))
+                .Select(comparer => comparer.Describe(x));
         }
     }
 }

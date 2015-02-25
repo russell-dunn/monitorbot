@@ -5,14 +5,10 @@ namespace scbot.slack
 {
     public class SlackCommandParser : ICommandParser
     {
-        private readonly string m_BotName;
-        private readonly string m_BotUserId;
         private readonly Regex m_PingRegex;
 
         public SlackCommandParser(string botName, string botUserId)
         {
-            m_BotName = botName.ToLowerInvariant();
-            m_BotUserId = botUserId;
             m_PingRegex = new Regex(string.Format(@"
             
 ^ # start of line

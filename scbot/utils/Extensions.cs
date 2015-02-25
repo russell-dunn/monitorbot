@@ -16,9 +16,14 @@ namespace scbot.utils
             return true;
         }
 
+        public static bool IsDefault<T>(this T x)
+        {
+            return Equals(x, default(T));
+        }
+
         public static bool IsNotDefault<T>(this T x)
         {
-            return !object.Equals(x, default(T));
+            return !Equals(x, default(T));
         }
     }
 }

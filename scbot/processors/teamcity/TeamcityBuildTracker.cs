@@ -23,9 +23,8 @@ namespace scbot.processors.teamcity
             m_CommandParser = commandParser;
             m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence);
             m_TeamcityBuildApi = teamcityBuildApi;
-            m_TeamcityBuildCompareEngine = new CompareEngine<TeamcityBuildStatus>(m_Persistence,
-                x => string.Format("<http://teamcity/viewLog.html?buildId={0}|Build {0}> ({1}) updated:", x.Id, x.Name),
-                new[] { new PropertyComparer<TeamcityBuildStatus>(x => x.OldValue.State != x.NewValue.State, x => FormatStateChanged(x))});
+            m_TeamcityBuildCompareEngine = new CompareEngine<TeamcityBuildStatus>(x => string.Format("<http://teamcity/viewLog.html?buildId={0}|Build {0}> ({1}) updated:", x.Id, x.Name),
+                new[] { new PropertyComparer<TeamcityBuildStatus>(x => x.OldValue.State != x.NewValue.State, FormatStateChanged)});
         }
 
         private Response FormatStateChanged(Update<TeamcityBuildStatus> x)

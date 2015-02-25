@@ -22,16 +22,15 @@ namespace slowtests.jira
         public void CanCacheJiraApi()
         {
             var cached = new CachedJiraApi(new Time(), new JiraApi());
-            TimeSpan uncachedTime, cachedTime;
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
             var bug = cached.FromId("SDC-1604").Result;
-            uncachedTime = stopwatch.Elapsed;
+            var uncachedTime = stopwatch.Elapsed;
 
             stopwatch.Reset();
             bug = cached.FromId("SDC-1604").Result;
-            cachedTime = stopwatch.Elapsed;
+            var cachedTime = stopwatch.Elapsed;
 
             Assert.Greater(uncachedTime.TotalMilliseconds, 10);
             Assert.Less(cachedTime.TotalMilliseconds, 10);

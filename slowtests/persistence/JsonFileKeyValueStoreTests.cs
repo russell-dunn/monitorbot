@@ -4,6 +4,7 @@ using scbot.services.persistence;
 
 namespace slowtests.persistence
 {
+    [TestFixture]
     class JsonFileKeyValueStoreTests : KeyValueStoreTests
     {
         private FileInfo m_File;
