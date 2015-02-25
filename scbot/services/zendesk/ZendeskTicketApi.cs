@@ -35,6 +35,7 @@ namespace scbot.services.zendesk
         {
             try
             {
+                if (userJson.user.photo == null) return null;
                 return userJson.user.photo.thumbnails[0].content_url;
             }
             catch (Exception)

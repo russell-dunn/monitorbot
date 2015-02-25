@@ -15,7 +15,7 @@ namespace scbot.services.teamcity
         public async Task<TeamcityBuildStatus> GetBuild(string buildId)
         {
             var json = await m_Api.Build(buildId);
-            if (!json.Any()) return TeamcityBuildStatus.Unknown;
+            if (json == null || !json.Any()) return TeamcityBuildStatus.Unknown;
             return new TeamcityBuildStatus(buildId, json[0].name, GetStatus(json[0].status));
         }
 
