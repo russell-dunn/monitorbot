@@ -50,6 +50,9 @@ namespace scbot
             var slackRtm = await slackRtmConnection;
 
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
+
+            var tcWebHooksProcessor = TeamcityWebhooksMessageProcessor.Start("http://*:51307");
+
             var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
@@ -59,7 +62,8 @@ namespace scbot
                             new ZendeskTicketProcessor(zendeskApi),
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
                             new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist),
-                            new TeamcityBuildTracker(commandParser, persistence, teamcityApi))));
+                            //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
+                            tcWebHooksProcessor)));
 
             var bot = new Bot(processor);
 
