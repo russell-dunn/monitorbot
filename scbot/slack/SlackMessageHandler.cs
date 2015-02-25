@@ -1,4 +1,5 @@
-﻿using System.Web.Helpers;
+﻿using System;
+using System.Web.Helpers;
 using scbot.bot;
 
 namespace scbot.slack
@@ -18,6 +19,12 @@ namespace scbot.slack
         {
             var message = Json.Decode(json);
             MessageResult result;
+
+            if (message.error != null)
+            {
+                throw new InvalidOperationException("Error from slack: " + message.error.message);
+            }
+
             switch ((string)message.type)
             {
                 case "hello": 
