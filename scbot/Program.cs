@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using scbot.bot;
-using scbot.processors;
 using scbot.processors.html;
 using scbot.processors.jira;
 using scbot.processors.meta;

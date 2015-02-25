@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using scbot.bot;
 using scbot.slack;
+using scbot.utils;
 
 namespace fasttests.slack
 {
@@ -70,6 +71,14 @@ namespace fasttests.slack
             string command;
             Assert.True(parser.TryGetCommand(new Message("D03JWF44C", "a-user", "scbot: do the thing"), out command));
             Assert.AreEqual("do the thing", command);  
+        }
+
+        [Test]
+        public void ShouldNotReturnCommandIfIsNotWholeWord()
+        {
+            var parser = new SlackCommandParser("scbot", "U123");
+            string command;
+            Assert.False(parser.TryGetCommand(new Message("a-channel", "a-user", "scbot untrack foo"), "track", out command));
         }
         
     }
