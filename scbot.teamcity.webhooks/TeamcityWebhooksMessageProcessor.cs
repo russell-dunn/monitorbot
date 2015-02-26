@@ -66,17 +66,24 @@ namespace scbot.services.teamcity
             while (s_Queue.TryDequeue(out nextJson))
             {
                 TeamcityEvent teamcityEvent = ParseTeamcityEvent(nextJson);
-                if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")
-                {
-                    result.Add(new Response(string.Format("{0}: Build {1} broke on master!", teamcityEvent.EventType, teamcityEvent.BuildName), "D03JWF44C"));
-                }
-
-                if (teamcityEvent.EventType == "buildFinished" && teamcityEvent.BranchName == "spike/guitests")
-                {
-                    result.Add(new Response(string.Format("{0} build finished", teamcityEvent.BuildName), "D03JWF44C"));
-                }
+                result.AddRange(GetResponseTo(teamcityEvent));
             }
             return new MessageResult(result);
+        }
+
+        private static IEnumerable<Response> GetResponseTo(TeamcityEvent teamcityEvent)
+        {
+            var result = new List<Response>();
+            if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")
+            {
+                result.Add(new Response(string.Format("{0}: Build {1} broke on master!", teamcityEvent.EventType, teamcityEvent.BuildName), "D03JWF44C"));
+            }
+
+            if (teamcityEvent.EventType == "buildFinished" && teamcityEvent.BranchName == "spike/guitests")
+            {
+                result.Add(new Response(string.Format("{0} build finished", teamcityEvent.BuildName), "D03JWF44C"));
+            }
+            return result;
         }
 
         private static TeamcityEvent ParseTeamcityEvent(string eventJson)
