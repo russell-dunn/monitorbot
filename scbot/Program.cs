@@ -51,7 +51,7 @@ namespace scbot
 
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
 
-            var tcWebHooksProcessor = TeamcityWebhooksMessageProcessor.Start("http://*:51307");
+            var tcWebHooksProcessor = TeamcityWebhooksMessageProcessor.Start(persistence, commandParser, "http://*:51307");
 
             var processor =
                 new ErrorCatchingMessageProcessor(
