@@ -31,7 +31,7 @@ namespace scbot
         private static async Task MainAsync()
         {
             var htmlDomainBlacklist = new[]
-            {"jira", "jira.red-gate.com", "rg-jira01", "rg-jira01.red-gate.com", "redgatesupport.zendesk.com"};
+            {"jira", "jira.red-gate.com", "rg-jira01", "rg-jira01.red-gate.com", "redgatesupport.zendesk.com", "slack.com"};
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
             var slackApi = new SlackApi(Configuration.SlackApiKey);
