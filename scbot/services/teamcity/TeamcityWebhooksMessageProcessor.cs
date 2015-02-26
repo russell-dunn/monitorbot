@@ -15,7 +15,7 @@ namespace scbot.services.teamcity
     {
         private readonly IDisposable m_WebApp;
         // hack communication between OWIN instance and bot-created instance
-        private static readonly Queue<string> s_Queue = new Queue<string>(); // TODO queue should be persisted
+        private static readonly Queue<string> s_Queue = new Queue<string>();
 
         private TeamcityWebhooksMessageProcessor(IDisposable webApp)
         {
@@ -48,7 +48,8 @@ namespace scbot.services.teamcity
             var result = new List<Response>();
             while (s_Queue.Any())
             {
-                TeamcityEvent teamcityEvent = ParseTeamcityEvent(s_Queue.Dequeue());
+                var nextJson = s_Queue.Dequeue();
+                TeamcityEvent teamcityEvent = ParseTeamcityEvent(nextJson);
                 if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")
                 {
                     result.Add(new Response(string.Format("{0}: Build {1} broke on master!", teamcityEvent.EventType, teamcityEvent.BuildName), "D03JWF44C"));
