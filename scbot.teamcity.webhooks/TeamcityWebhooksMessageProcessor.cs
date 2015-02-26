@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace scbot.services.teamcity
     {
         private readonly IDisposable m_WebApp;
         // hack communication between OWIN instance and bot-created instance
-        private static readonly Queue<string> s_Queue = new Queue<string>();
+        private static readonly ConcurrentQueue<string> s_Queue = new ConcurrentQueue<string>();
 
         private TeamcityWebhooksMessageProcessor(IDisposable webApp)
         {
@@ -46,9 +47,9 @@ namespace scbot.services.teamcity
         public MessageResult ProcessTimerTick()
         {
             var result = new List<Response>();
-            while (s_Queue.Any())
+            string nextJson;
+            while (s_Queue.TryDequeue(out nextJson))
             {
-                var nextJson = s_Queue.Dequeue();
                 TeamcityEvent teamcityEvent = ParseTeamcityEvent(nextJson);
                 if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")
                 {
