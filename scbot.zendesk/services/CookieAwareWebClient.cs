@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 
 namespace scbot.services
 {
-    [System.ComponentModel.DesignerCategory("Code")] // force VS to open this file with the code editor even though WebClient inherits Component
+    [DesignerCategory("Code")] // force VS to open this file with the code editor even though WebClient inherits Component
     internal class CookieAwareWebClient : WebClient
     {
         // based on http://stackoverflow.com/questions/14551345/accept-cookies-in-webclient

@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web.Helpers;
-using Microsoft.Owin;
-using Microsoft.Owin.Hosting;
-using Owin;
 using scbot.bot;
 using scbot.services.compareengine;
 using scbot.services.persistence;

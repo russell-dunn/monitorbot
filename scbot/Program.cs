@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ using scbot.services.zendesk;
 using scbot.slack;
 using scbot.teamcity.webhooks;
 using scbot.utils;
-
 
 namespace scbot
 {
