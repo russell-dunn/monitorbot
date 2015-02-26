@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using scbot.services;
 
-namespace scbot.utils
+namespace scbot.core.utils
 {
     public class Cache<TKey, TValue>
     {

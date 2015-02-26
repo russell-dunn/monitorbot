@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace scbot.services.zendesk
+namespace scbot.zendesk.services
 {
     public interface IZendeskTicketApi
     {

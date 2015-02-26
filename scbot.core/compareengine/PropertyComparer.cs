@@ -1,8 +1,8 @@
 using System;
 using System.Linq.Expressions;
-using scbot.bot;
+using scbot.core.bot;
 
-namespace scbot.services.compareengine
+namespace scbot.core.compareengine
 {
     public class PropertyComparer<T> {
         public readonly Func<Update<T>, bool> Compare;

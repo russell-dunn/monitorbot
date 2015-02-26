@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Helpers;
 
-namespace scbot.services.persistence
+namespace scbot.core.persistence
 {
     public class JsonFileKeyValueStore : IKeyValueStore
     {

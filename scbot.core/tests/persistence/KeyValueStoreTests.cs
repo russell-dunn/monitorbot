@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using scbot.services.persistence;
+using scbot.core.persistence;
 
-namespace slowtests.persistence
+namespace scbot.core.tests.persistence
 {
     abstract class KeyValueStoreTests
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Helpers;
-using scbot.services.persistence;
+using scbot.core.persistence;
 
-namespace scbot.services.notes
+namespace scbot.notes.services
 {
     public class NoteApi : INoteApi
     {

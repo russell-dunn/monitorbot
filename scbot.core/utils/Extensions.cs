@@ -1,6 +1,6 @@
-﻿using scbot.bot;
+﻿using scbot.core.bot;
 
-namespace scbot.utils
+namespace scbot.core.utils
 {
     public static class Extensions
     {

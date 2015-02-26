@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web.Helpers;
 using Microsoft.Owin.Hosting;
 using Owin;
-using scbot.services.teamcity;
 
 namespace scbot.teamcity.webhooks
 {

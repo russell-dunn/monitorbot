@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.bot;
-using scbot.services.compareengine;
-using scbot.services.persistence;
-using scbot.services.teamcity;
-using scbot.utils;
+using scbot.core.bot;
+using scbot.core.compareengine;
+using scbot.core.persistence;
+using scbot.core.utils;
+using scbot.teamcity.services;
 
-namespace scbot.processors.teamcity
+namespace scbot.teamcity
 {
     public class TeamcityBuildTracker : IMessageProcessor
     {

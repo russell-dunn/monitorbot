@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 
-namespace scbot.utils
+namespace scbot.core.utils
 {
     public static class Configuration
     {

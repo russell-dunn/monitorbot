@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using scbot.bot;
+﻿using Moq;
+using scbot.core.bot;
 
 namespace scbot.core.tests
 {

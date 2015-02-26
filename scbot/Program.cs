@@ -2,22 +2,21 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using scbot.bot;
-using scbot.processors.html;
-using scbot.processors.jira;
-using scbot.processors.meta;
-using scbot.processors.notes;
-using scbot.processors.zendesk;
-using scbot.services;
-using scbot.services.html;
-using scbot.services.jira;
-using scbot.services.notes;
-using scbot.services.persistence;
-using scbot.services.teamcity;
-using scbot.services.zendesk;
+using scbot.core.bot;
+using scbot.core.meta;
+using scbot.core.persistence;
+using scbot.core.utils;
+using scbot.htmltitles;
+using scbot.htmltitles.services;
+using scbot.jira;
+using scbot.jira.services;
+using scbot.notes;
+using scbot.notes.services;
 using scbot.slack;
+using scbot.teamcity.services;
 using scbot.teamcity.webhooks;
-using scbot.utils;
+using scbot.zendesk;
+using scbot.zendesk.services;
 
 namespace scbot
 {

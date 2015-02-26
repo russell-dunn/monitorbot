@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using scbot.services.persistence;
+using scbot.core.persistence;
 
-namespace slowtests.persistence
+namespace scbot.core.tests.persistence
 {
     [TestFixture]
     class InMemoryKeyValueStoreTests : KeyValueStoreTests

@@ -1,13 +1,12 @@
-﻿using Moq;
+﻿using System.Linq;
+using Moq;
 using NUnit.Framework;
-using System.Linq;
-using scbot.bot;
+using scbot.core.bot;
+using scbot.core.persistence;
 using scbot.core.tests;
-using scbot.processors.teamcity;
-using scbot.services.persistence;
-using scbot.services.teamcity;
+using scbot.teamcity.services;
 
-namespace fasttests.teamcity
+namespace scbot.teamcity.tests
 {
     class TeamcityBuildTrackingTests
     {

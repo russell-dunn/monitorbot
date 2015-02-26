@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.processors.zendesk;
-using scbot.services.zendesk;
+using scbot.core.bot;
+using scbot.zendesk.services;
 
-namespace fasttests.zendesk
+namespace scbot.zendesk.tests
 {
     class ZendeskTicketTests
     {

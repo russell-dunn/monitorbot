@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using scbot.bot;
+using scbot.core.bot;
 
 namespace scbot.slack
 {

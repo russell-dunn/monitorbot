@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using NUnit.Framework;
-using scbot.slack;
-using scbot.utils;
+using scbot.core.utils;
 
-namespace slowtests.slack
+namespace scbot.slack.tests
 {
     public class SlackAuthTests
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
-namespace scbot.services.zendesk
+namespace scbot.zendesk.services
 {
     public class ZendeskTicketApi : IZendeskTicketApi
     {

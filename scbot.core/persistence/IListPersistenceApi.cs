@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace scbot.services.persistence
+namespace scbot.core.persistence
 {
     public interface IListPersistenceApi<T>
     {

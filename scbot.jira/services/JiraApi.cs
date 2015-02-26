@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
-namespace scbot.services.jira
+namespace scbot.jira.services
 {
     public class JiraApi : IJiraApi
     {

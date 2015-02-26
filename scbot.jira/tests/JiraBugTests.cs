@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.processors.jira;
-using scbot.services.jira;
+using scbot.core.bot;
+using scbot.jira.services;
 
-namespace fasttests.jira
+namespace scbot.jira.tests
 {
     public class JiraBugTests
     {

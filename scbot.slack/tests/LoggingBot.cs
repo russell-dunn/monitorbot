@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using scbot.bot;
+using scbot.core.bot;
 
-namespace slowtests.slack
+namespace scbot.slack.tests
 {
     class LoggingBot : IBot
     {

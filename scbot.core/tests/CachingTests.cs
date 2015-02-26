@@ -1,10 +1,9 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using scbot.services;
-using scbot.utils;
+using scbot.core.utils;
 
-namespace fasttests.utils
+namespace scbot.core.tests
 {
     class CachingTests
     {

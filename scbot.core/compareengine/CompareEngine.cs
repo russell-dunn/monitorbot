@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using scbot.bot;
-using scbot.utils;
+using scbot.core.bot;
+using scbot.core.utils;
 
-namespace scbot.services.compareengine
+namespace scbot.core.compareengine
 {
     public class CompareEngine<T>
     {

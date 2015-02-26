@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
-using scbot.services;
-using scbot.services.zendesk;
-using scbot.utils;
+using scbot.core.utils;
+using scbot.zendesk.services;
 
-namespace slowtests.zendesk
+namespace scbot.zendesk.tests
 {
     class ZendeskIntegrationTests
     {

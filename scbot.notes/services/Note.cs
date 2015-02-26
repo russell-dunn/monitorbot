@@ -1,4 +1,4 @@
-namespace scbot.services.notes
+namespace scbot.notes.services
 {
     public struct Note
     {

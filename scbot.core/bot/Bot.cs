@@ -1,4 +1,4 @@
-﻿namespace scbot.bot
+﻿namespace scbot.core.bot
 {
     public class Bot : IBot
     {

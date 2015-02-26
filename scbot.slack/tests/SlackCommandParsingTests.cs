@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
-using scbot.bot;
-using scbot.slack;
-using scbot.utils;
+using scbot.core.bot;
+using scbot.core.utils;
 
-namespace fasttests.slack
+namespace scbot.slack.tests
 {
     class SlackCommandParsingTests
     {

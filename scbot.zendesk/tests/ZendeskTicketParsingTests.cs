@@ -2,9 +2,9 @@
 using System.Web.Helpers;
 using Moq;
 using NUnit.Framework;
-using scbot.services.zendesk;
+using scbot.zendesk.services;
 
-namespace fasttests.zendesk
+namespace scbot.zendesk.tests
 {
     class ZendeskTicketParsingTests
     {

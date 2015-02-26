@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using NUnit.Framework;
-using scbot.services;
-using scbot.services.jira;
+using scbot.core.utils;
+using scbot.jira.services;
 
-namespace slowtests.jira
+namespace scbot.jira.tests
 {
     class JiraIntegrationTests
     {

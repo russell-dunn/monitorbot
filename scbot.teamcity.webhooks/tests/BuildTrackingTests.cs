@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
+using scbot.core.bot;
+using scbot.core.compareengine;
+using scbot.core.persistence;
 using scbot.core.tests;
-using scbot.services.compareengine;
-using scbot.services.persistence;
-using scbot.services.teamcity;
 
 namespace scbot.teamcity.webhooks.tests
 {

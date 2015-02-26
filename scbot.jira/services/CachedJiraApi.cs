@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using scbot.utils;
+using scbot.core.utils;
 
-namespace scbot.services.jira
+namespace scbot.jira.services
 {
     public class CachedJiraApi : IJiraApi
     {

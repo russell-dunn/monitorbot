@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace scbot.services.zendesk
+namespace scbot.zendesk.services
 {
     public struct ZendeskTicket
     {

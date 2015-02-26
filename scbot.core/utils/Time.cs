@@ -1,6 +1,6 @@
 using System;
 
-namespace scbot.services
+namespace scbot.core.utils
 {
     public class Time : ITime
     {

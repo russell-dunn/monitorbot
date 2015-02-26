@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 
-namespace scbot.services
+namespace scbot.zendesk.services
 {
     [DesignerCategory("Code")] // force VS to open this file with the code editor even though WebClient inherits Component
     internal class CookieAwareWebClient : WebClient

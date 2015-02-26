@@ -1,6 +1,6 @@
-using scbot.bot;
+using scbot.core.bot;
 
-namespace scbot.services.compareengine
+namespace scbot.core.compareengine
 {
     public class ComparisonResult<T>
     {

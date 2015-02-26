@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.bot;
-using scbot.services.compareengine;
-using scbot.services.persistence;
-using scbot.services.zendesk;
-using scbot.utils;
+using scbot.core.bot;
+using scbot.core.compareengine;
+using scbot.core.persistence;
+using scbot.core.utils;
+using scbot.zendesk.services;
 
-namespace scbot.processors.zendesk
+namespace scbot.zendesk
 {
     public class ZendeskTicketTracker : IMessageProcessor
     {

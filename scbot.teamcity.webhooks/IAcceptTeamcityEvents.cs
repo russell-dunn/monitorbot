@@ -1,6 +1,4 @@
-﻿using scbot.services.teamcity;
-
-namespace scbot.teamcity.webhooks
+﻿namespace scbot.teamcity.webhooks
 {
     public interface IAcceptTeamcityEvents
     {

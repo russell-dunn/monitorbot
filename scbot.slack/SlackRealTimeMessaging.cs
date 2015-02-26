@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using scbot.utils;
+using scbot.core.utils;
 
 namespace scbot.slack
 {

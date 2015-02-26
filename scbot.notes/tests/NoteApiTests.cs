@@ -1,9 +1,9 @@
 ﻿using Moq;
 using NUnit.Framework;
-using scbot.services.notes;
-using scbot.services.persistence;
+using scbot.core.persistence;
+using scbot.notes.services;
 
-namespace fasttests.notes
+namespace scbot.notes.tests
 {
     class NoteApiTests
     {

@@ -1,4 +1,4 @@
-﻿namespace scbot.services.compareengine
+﻿namespace scbot.core.compareengine
 {
     public struct Tracked<T>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace scbot.services.teamcity
+namespace scbot.teamcity.services
 {
     public class TeamcityBuildApi : ITeamcityBuildApi
     {

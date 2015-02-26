@@ -2,11 +2,10 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.processors.notes;
-using scbot.services.notes;
+using scbot.core.bot;
+using scbot.notes.services;
 
-namespace fasttests.notes
+namespace scbot.notes.tests
 {
     class NoteTakingTests
     {

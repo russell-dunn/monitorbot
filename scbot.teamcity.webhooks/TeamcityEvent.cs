@@ -1,4 +1,4 @@
-﻿namespace scbot.services.teamcity
+﻿namespace scbot.teamcity.webhooks
 {
     public class TeamcityEvent
     {

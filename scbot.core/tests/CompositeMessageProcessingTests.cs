@@ -2,10 +2,10 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.processors.meta;
+using scbot.core.bot;
+using scbot.core.meta;
 
-namespace fasttests.utils
+namespace scbot.core.tests
 {
     class CompositeMessageProcessingTests
     {

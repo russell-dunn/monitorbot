@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Text.RegularExpressions;
-using scbot.bot;
-using scbot.services.jira;
+using scbot.core.bot;
+using scbot.jira.services;
 
-namespace scbot.processors.jira
+namespace scbot.jira
 {
     public class JiraBugProcessor : IMessageProcessor
     {

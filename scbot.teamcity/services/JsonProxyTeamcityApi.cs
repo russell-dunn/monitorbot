@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
-namespace scbot.services.teamcity
+namespace scbot.teamcity.services
 {
     /// <summary>
     /// A teamcity API based on an RG-specific cache/wrapper around teamcity's xml api

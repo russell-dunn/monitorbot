@@ -1,14 +1,13 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using scbot.bot;
-using scbot.services.compareengine;
-using scbot.services.persistence;
-using scbot.teamcity.webhooks;
+using scbot.core.bot;
+using scbot.core.compareengine;
+using scbot.core.persistence;
+using scbot.core.utils;
 using scbot.teamcity.webhooks.tests;
-using scbot.utils;
 
-namespace scbot.services.teamcity
+namespace scbot.teamcity.webhooks
 {
     public class TeamcityWebhooksMessageProcessor : IMessageProcessor, IAcceptTeamcityEvents
     {

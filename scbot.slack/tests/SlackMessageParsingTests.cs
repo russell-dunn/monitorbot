@@ -1,9 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.slack;
+using scbot.core.bot;
 
-namespace fasttests.slack
+namespace scbot.slack.tests
 {
     public class SlackMessageParsingTests
     {

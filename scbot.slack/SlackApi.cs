@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
-using scbot.bot;
+using scbot.core.bot;
 
 namespace scbot.slack
 {

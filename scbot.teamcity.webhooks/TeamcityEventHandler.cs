@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using scbot.bot;
-using scbot.services.compareengine;
-using scbot.teamcity.webhooks;
+using scbot.core.bot;
+using scbot.core.compareengine;
 using scbot.teamcity.webhooks.tests;
 
-namespace scbot.services.teamcity
+namespace scbot.teamcity.webhooks
 {
     internal class TeamcityEventHandler
     {

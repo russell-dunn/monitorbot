@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using scbot.bot;
-using scbot.processors.html;
-using scbot.services.html;
+using scbot.core.bot;
+using scbot.htmltitles.services;
 
-namespace fasttests.html
+namespace scbot.htmltitles.tests
 {
     public class HtmlTitleTests
     {

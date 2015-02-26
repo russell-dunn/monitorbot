@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Helpers;
-using scbot.bot;
+using scbot.core.bot;
 
 namespace scbot.slack
 {

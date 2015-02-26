@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace scbot.services.jira
+namespace scbot.jira.services
 {
     public interface IJiraApi
     {

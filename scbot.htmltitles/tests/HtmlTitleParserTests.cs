@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using scbot.services.html;
+using scbot.htmltitles.services;
 
-namespace slowtests.html
+namespace scbot.htmltitles.tests
 {
     public class HtmlTitleParserTests
     {

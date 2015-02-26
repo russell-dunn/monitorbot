@@ -2,7 +2,7 @@
 using System.Net;
 using HtmlAgilityPack;
 
-namespace scbot.services.html
+namespace scbot.htmltitles.services
 {
     public class HtmlTitleParser : IHtmlTitleParser
     {
