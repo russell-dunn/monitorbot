@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ForceReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamcityEvent.cs" />
     <Compile Include="TeamcityWebhooksMessageProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
