@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Helpers;
+using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Owin;
 using scbot.bot;
@@ -41,12 +42,17 @@ namespace scbot.services.teamcity
             m_TeamcityEventHandler = new TeamcityEventHandler();
         }
 
-        [Obsolete("Required by OWIN to call Configuration", true)]
-        public TeamcityWebhooksMessageProcessor() { }
-
         internal static TeamcityWebhooksMessageProcessor Start(IListPersistenceApi<Tracked<Build>> buildPersistence, IListPersistenceApi<Tracked<Branch>> branchPersistence, ICommandParser commandParser, string binding)
         {
-            var webApp = WebApp.Start<TeamcityWebhooksMessageProcessor>(binding);
+            var webApp = WebApp.Start(binding, app => app.Run(owinContext =>
+                {
+                    var body = new StreamReader(owinContext.Request.Body).ReadToEnd();
+                    var teamcityEvent = ParseTeamcityEvent(body);
+                    s_Queue.Enqueue(teamcityEvent);
+
+                    owinContext.Response.ContentType = "text/plain";
+                    return owinContext.Response.WriteAsync("thanks");
+                }));
             return new TeamcityWebhooksMessageProcessor(buildPersistence, branchPersistence, commandParser, webApp);
         }
 
@@ -56,19 +62,6 @@ namespace scbot.services.teamcity
                 new ListPersistenceApi<Tracked<Branch>>(kvs), 
                 commandParser, 
                 binding);
-        }
-
-        public void Configuration(IAppBuilder app)
-        {
-            app.Run(owinContext =>
-            {
-                var body = new StreamReader(owinContext.Request.Body).ReadToEnd();
-                var teamcityEvent = ParseTeamcityEvent(body);
-                s_Queue.Enqueue(teamcityEvent);
-
-                owinContext.Response.ContentType = "text/plain";
-                return owinContext.Response.WriteAsync("thanks");
-            });
         }
 
         public MessageResult ProcessTimerTick()
