@@ -27,7 +27,7 @@ namespace scbot.services.teamcity
         private readonly ICommandParser m_CommandParser;
         private readonly IDisposable m_WebApp;
         // hack communication between OWIN instance and bot-created instance
-        private static readonly ConcurrentQueue<string> s_Queue = new ConcurrentQueue<string>();
+        private static readonly ConcurrentQueue<TeamcityEvent> s_Queue = new ConcurrentQueue<TeamcityEvent>();
 
         private static readonly Regex s_TrackRegex = new Regex(@"(?<eventType>(breakages))?\s*(for\s*)?(?<trackType>(build|branch))\s+(?<trackItem>([0-9]{5,10}|[a-z/\-_0-9]+))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private readonly TeamcityEventHandler m_TeamcityEventHandler;
@@ -63,7 +63,8 @@ namespace scbot.services.teamcity
             app.Run(owinContext =>
             {
                 var body = new StreamReader(owinContext.Request.Body).ReadToEnd();
-                s_Queue.Enqueue(body);
+                var teamcityEvent = ParseTeamcityEvent(body);
+                s_Queue.Enqueue(teamcityEvent);
 
                 owinContext.Response.ContentType = "text/plain";
                 return owinContext.Response.WriteAsync("thanks");
@@ -73,13 +74,12 @@ namespace scbot.services.teamcity
         public MessageResult ProcessTimerTick()
         {
             var result = new List<Response>();
-            string nextJson;
+            TeamcityEvent nextEvent;
             var trackedBuilds = m_BuildPersistence.ReadList(c_TrackedBuilds);
             var trackedBranches = m_BranchPersistence.ReadList(c_TrackedBranches);
-            while (s_Queue.TryDequeue(out nextJson))
+            while (s_Queue.TryDequeue(out nextEvent))
             {
-                var teamcityEvent = ParseTeamcityEvent(nextJson);
-                result.AddRange(m_TeamcityEventHandler.GetResponseTo(teamcityEvent, trackedBuilds, trackedBranches));
+                result.AddRange(m_TeamcityEventHandler.GetResponseTo(nextEvent, trackedBuilds, trackedBranches));
             }
             return new MessageResult(result);
         }
