@@ -26,11 +26,15 @@ namespace scbot.services.teamcity
         // hack communication between OWIN instance and bot-created instance
         private static readonly ConcurrentQueue<string> s_Queue = new ConcurrentQueue<string>();
 
+        private static readonly Regex s_TrackRegex = new Regex(@"(?<trackType>(build))\s+(?<trackItem>([0-9]{5,10}))");
+        private readonly TeamcityEventHandler m_TeamcityEventHandler;
+
         private TeamcityWebhooksMessageProcessor(IListPersistenceApi<Tracked<Build>> listPersistenceApi, ICommandParser commandParser, IDisposable webApp)
         {
             m_ListPersistenceApi = listPersistenceApi;
             m_CommandParser = commandParser;
             m_WebApp = webApp;
+            m_TeamcityEventHandler = new TeamcityEventHandler();
         }
 
         [Obsolete("Required by OWIN to call Configuration", true)]
@@ -65,25 +69,10 @@ namespace scbot.services.teamcity
             string nextJson;
             while (s_Queue.TryDequeue(out nextJson))
             {
-                TeamcityEvent teamcityEvent = ParseTeamcityEvent(nextJson);
-                result.AddRange(GetResponseTo(teamcityEvent));
+                var teamcityEvent = ParseTeamcityEvent(nextJson);
+                result.AddRange(m_TeamcityEventHandler.GetResponseTo(teamcityEvent));
             }
             return new MessageResult(result);
-        }
-
-        private static IEnumerable<Response> GetResponseTo(TeamcityEvent teamcityEvent)
-        {
-            var result = new List<Response>();
-            if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")
-            {
-                result.Add(new Response(string.Format("{0}: Build {1} broke on master!", teamcityEvent.EventType, teamcityEvent.BuildName), "D03JWF44C"));
-            }
-
-            if (teamcityEvent.EventType == "buildFinished" && teamcityEvent.BranchName == "spike/guitests")
-            {
-                result.Add(new Response(string.Format("{0} build finished", teamcityEvent.BuildName), "D03JWF44C"));
-            }
-            return result;
         }
 
         private static TeamcityEvent ParseTeamcityEvent(string eventJson)
@@ -106,8 +95,6 @@ namespace scbot.services.teamcity
                 return null;
             }
         }
-
-        private static readonly Regex s_TrackRegex = new Regex(@"(?<trackType>(build))\s+(?<trackItem>([0-9]{5,10}))");
 
         public MessageResult ProcessMessage(Message message)
         {
