@@ -28,24 +28,28 @@ namespace scbot.teamcity.webhooks.tests
         public void StartsTrackingBuild()
         {
             var commandParser = CommandlineParser.For("track build 12345");
-            using (var processor = TeamcityWebhooksMessageProcessor.Start(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser, "http://localhost:7357"))
-            {
-                var response = processor.ProcessMessage(new Message("a-channel", "a-user", "scbot track build 12345"));
-                Assert.AreEqual("Now tracking build#12345", response.Responses.Single().Message);
-                m_TrackedBuilds.Verify(x => x.AddToList("tcwh-tracked-builds", new Tracked<Build>(new Build("12345"), "a-channel")));
-            }
+            var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
+            var response = processor.ProcessMessage(new Message("a-channel", "a-user", "scbot track build 12345"));
+            Assert.AreEqual("Now tracking build#12345", response.Responses.Single().Message);
+            m_TrackedBuilds.Verify(x => x.AddToList("tcwh-tracked-builds", new Tracked<Build>(new Build("12345"), "a-channel")));
         }
 
         [Test]
         public void StartsTrackingBreakagesOnBranch()
         {
             var commandParser = CommandlineParser.For("track breakages for branch master");
-            using (var processor = TeamcityWebhooksMessageProcessor.Start(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser, "http://localhost:7357"))
-            {
-                var response = processor.ProcessMessage(new Message("a-channel", "a-user", "a-message"));
-                Assert.AreEqual("Now tracking breakages for branch master", response.Responses.Single().Message);
-                m_TrackedBranches.Verify(x => x.AddToList("tcwh-tracked-branches", new Tracked<Branch>(new Branch(TeamcityEventTypes.BreakingBuilds, "master", null), "a-channel")));
-            } 
+            var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
+            var response = processor.ProcessMessage(new Message("a-channel", "a-user", "a-message"));
+            Assert.AreEqual("Now tracking breakages for branch master", response.Responses.Single().Message);
+            m_TrackedBranches.Verify(x => x.AddToList("tcwh-tracked-branches", new Tracked<Branch>(new Branch(TeamcityEventTypes.BreakingBuilds, "master", null), "a-channel")));
+        }
+
+
+        [Test]
+        public void AcceptsEventsToHandle()
+        {
+            var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, new Mock<ICommandParser>().Object);
+            processor.Accept(new TeamcityEvent("eventType", "buildId", "buildTypeId", "buildName", "buildResultDelta", "branchName"));
         }
 
         [Test]

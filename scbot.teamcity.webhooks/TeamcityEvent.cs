@@ -1,6 +1,6 @@
 ﻿namespace scbot.services.teamcity
 {
-    internal class TeamcityEvent
+    public class TeamcityEvent
     {
         public readonly string EventType;
         public readonly string BuildId;
