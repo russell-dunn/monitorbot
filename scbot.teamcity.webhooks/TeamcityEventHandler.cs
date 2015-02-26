@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using scbot.bot;
+using scbot.services.compareengine;
+using scbot.teamcity.webhooks.tests;
 
 namespace scbot.services.teamcity
 {
     internal class TeamcityEventHandler
     {
-        public TeamcityEventHandler()
-        {
-        }
-
-        public IEnumerable<Response> GetResponseTo(TeamcityEvent teamcityEvent)
+        public IEnumerable<Response> GetResponseTo(TeamcityEvent teamcityEvent, List<Tracked<Build>> trackedBuilds)
         {
             var result = new List<Response>();
             if (teamcityEvent.BuildResultDelta == "broken" && teamcityEvent.BranchName == "master")

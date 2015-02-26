@@ -20,6 +20,7 @@ namespace scbot.services.teamcity
 {
     public class TeamcityWebhooksMessageProcessor : IMessageProcessor, IDisposable
     {
+        private const string c_TrackedBuilds = "tcwh-tracked-builds";
         private readonly IListPersistenceApi<Tracked<Build>> m_ListPersistenceApi;
         private readonly ICommandParser m_CommandParser;
         private readonly IDisposable m_WebApp;
@@ -67,10 +68,11 @@ namespace scbot.services.teamcity
         {
             var result = new List<Response>();
             string nextJson;
+            var trackedBuilds = m_ListPersistenceApi.ReadList(c_TrackedBuilds);
             while (s_Queue.TryDequeue(out nextJson))
             {
                 var teamcityEvent = ParseTeamcityEvent(nextJson);
-                result.AddRange(m_TeamcityEventHandler.GetResponseTo(teamcityEvent));
+                result.AddRange(m_TeamcityEventHandler.GetResponseTo(teamcityEvent, trackedBuilds));
             }
             return new MessageResult(result);
         }
@@ -112,7 +114,7 @@ namespace scbot.services.teamcity
 
         private MessageResult TrackBuild(Message message, string buildId)
         {
-            m_ListPersistenceApi.AddToList("tcwh-tracked-builds", new Tracked<Build>(new Build(buildId), message.Channel));
+            m_ListPersistenceApi.AddToList(c_TrackedBuilds, new Tracked<Build>(new Build(buildId), message.Channel));
             return new MessageResult(new[]{Response.ToMessage(message, string.Format("Now tracking build#{0}", buildId))});
         }
 
