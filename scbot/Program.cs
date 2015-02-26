@@ -7,7 +7,6 @@ using scbot.processors.html;
 using scbot.processors.jira;
 using scbot.processors.meta;
 using scbot.processors.notes;
-using scbot.processors.teamcity;
 using scbot.processors.zendesk;
 using scbot.services;
 using scbot.services.html;
@@ -18,6 +17,7 @@ using scbot.services.teamcity;
 using scbot.services.zendesk;
 using scbot.slack;
 using scbot.utils;
+
 
 namespace scbot
 {

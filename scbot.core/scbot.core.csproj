@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B2258502-E3A8-4E53-86B8-56C62D32B92B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C7168F51-9F82-4D25-9792-F8AE92600C53}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot</RootNamespace>
-    <AssemblyName>scbot</AssemblyName>
+    <RootNamespace>scbot.core</RootNamespace>
+    <AssemblyName>scbot.core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,11 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,13 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,42 +47,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="bot\Bot.cs" />
+    <Compile Include="bot\IBot.cs" />
+    <Compile Include="bot\ICommandParser.cs" />
+    <Compile Include="bot\IMessageProcessor.cs" />
+    <Compile Include="bot\Message.cs" />
+    <Compile Include="bot\MessageResult.cs" />
+    <Compile Include="bot\Response.cs" />
+    <Compile Include="compareengine\CompareEngine.cs" />
+    <Compile Include="compareengine\ComparisonResult.cs" />
+    <Compile Include="compareengine\PropertyComparer.cs" />
+    <Compile Include="compareengine\Tracked.cs" />
+    <Compile Include="compareengine\Update.cs" />
+    <Compile Include="meta\CompositeMessageProcessor.cs" />
+    <Compile Include="meta\ConcattingMessageProcessor.cs" />
+    <Compile Include="meta\ErrorCatchingMessageProcessor.cs" />
+    <Compile Include="persistence\IKeyValueStore.cs" />
+    <Compile Include="persistence\IListPersistenceApi.cs" />
+    <Compile Include="persistence\InMemoryKeyValueStore.cs" />
+    <Compile Include="persistence\JsonFileKeyValueStore.cs" />
+    <Compile Include="persistence\ListPersistenceApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tests\CachingTests.cs" />
+    <Compile Include="tests\CommandlineParser.cs" />
+    <Compile Include="tests\CompositeMessageProcessingTests.cs" />
+    <Compile Include="tests\Extensions.cs" />
+    <Compile Include="tests\persistence\InMemoryKeyValueStoreTests.cs" />
+    <Compile Include="tests\persistence\JsonFileKeyValueStoreTests.cs" />
+    <Compile Include="tests\persistence\KeyValueStoreTests.cs" />
+    <Compile Include="utils\Cache.cs" />
+    <Compile Include="utils\Configuration.cs" />
+    <Compile Include="utils\Extensions.cs" />
+    <Compile Include="utils\ITime.cs" />
+    <Compile Include="utils\StringClientWebSocket.cs" />
+    <Compile Include="utils\Time.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\scbot.core\scbot.core.csproj">
-      <Project>{c7168f51-9f82-4d25-9792-f8ae92600c53}</Project>
-      <Name>scbot.core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.htmltitles\scbot.htmltitles.csproj">
-      <Project>{fc74046e-0556-4e61-9152-36812a1ad181}</Project>
-      <Name>scbot.htmltitles</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.jira\scbot.jira.csproj">
-      <Project>{189207b2-c9d7-49aa-8958-74d1490c5c57}</Project>
-      <Name>scbot.jira</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.notes\scbot.notes.csproj">
-      <Project>{f1bfb84c-f9aa-4759-9088-466c1239b58b}</Project>
-      <Name>scbot.notes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.slack\scbot.slack.csproj">
-      <Project>{299c0492-d039-4daa-8183-08d97a16639c}</Project>
-      <Name>scbot.slack</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.teamcity\scbot.teamcity.csproj">
-      <Project>{73b57496-a862-4570-ae9a-ff02ac1d1fd4}</Project>
-      <Name>scbot.teamcity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\scbot.zendesk\scbot.zendesk.csproj">
-      <Project>{3ddcfc4e-aff8-490b-8293-a34822f4eb01}</Project>
-      <Name>scbot.zendesk</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
