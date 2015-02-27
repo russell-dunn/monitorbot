@@ -3,7 +3,7 @@ using scbot.core.bot;
 
 namespace scbot.core.tests
 {
-    public static class CommandlineParser
+    public static class CommandParser
     {
         public static ICommandParser For(string commandToReturn)
         {

@@ -71,7 +71,7 @@
     <Compile Include="persistence\ListPersistenceApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\CachingTests.cs" />
-    <Compile Include="tests\CommandlineParser.cs" />
+    <Compile Include="tests\CommandParser.cs" />
     <Compile Include="tests\CompositeMessageProcessingTests.cs" />
     <Compile Include="tests\Extensions.cs" />
     <Compile Include="tests\persistence\InMemoryKeyValueStoreTests.cs" />

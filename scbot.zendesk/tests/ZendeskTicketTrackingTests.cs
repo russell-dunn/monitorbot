@@ -20,7 +20,7 @@ namespace scbot.zendesk.tests
             var persistence = new InMemoryKeyValueStore();
             zendeskApi.Setup(x => x.FromId("12345")).ReturnsAsync(ticket1);
 
-            var commandParser = CommandlineParser.For("track ZD#12345");
+            var commandParser = CommandParser.For("track ZD#12345");
             var zendeskTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi.Object);
 
             zendeskTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot track ZD#12345"));
@@ -62,7 +62,7 @@ namespace scbot.zendesk.tests
             var persistence = new Mock<IKeyValueStore>();
             persistence.Setup(x => x.Get("tracked-zd-tickets")).Returns(initialJson);
 
-            var commandParser = CommandlineParser.For("untrack ZD#12345");
+            var commandParser = CommandParser.For("untrack ZD#12345");
             var zendeskTracker = new ZendeskTicketTracker(commandParser, persistence.Object, null);
 
             var response = zendeskTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot untrack ZD#12345")).Responses.Single();

@@ -24,7 +24,7 @@ namespace scbot.teamcity.webhooks.tests
         [Test]
         public void StartsTrackingBuild()
         {
-            var commandParser = CommandlineParser.For("track build 12345");
+            var commandParser = CommandParser.For("track build 12345");
             var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
             var response = processor.ProcessMessage(new Message("a-channel", "a-user", "scbot track build 12345"));
             Assert.AreEqual("Now tracking build#12345", response.Responses.Single().Message);
@@ -34,7 +34,7 @@ namespace scbot.teamcity.webhooks.tests
         [Test]
         public void StartsTrackingBreakagesOnBranch()
         {
-            var commandParser = CommandlineParser.For("track breakages for branch master");
+            var commandParser = CommandParser.For("track breakages for branch master");
             var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
             var response = processor.ProcessMessage(new Message("a-channel", "a-user", "a-message"));
             Assert.AreEqual("Now tracking breakages for branch master", response.Responses.Single().Message);

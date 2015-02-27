@@ -19,7 +19,7 @@ namespace scbot.teamcity.tests
             var persistence = new InMemoryKeyValueStore();
             teamcityBuildApi.Setup(x => x.GetBuild("12345")).ReturnsAsync(teamcityBuild1);
 
-            var teamcityTracker = new TeamcityBuildTracker(CommandlineParser.For("track build#12345"), persistence, teamcityBuildApi.Object);
+            var teamcityTracker = new TeamcityBuildTracker(CommandParser.For("track build#12345"), persistence, teamcityBuildApi.Object);
 
             teamcityTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot track build#12345"));
 
@@ -44,7 +44,7 @@ namespace scbot.teamcity.tests
 
             teamcityBuildApi.Setup(x => x.GetBuild("12345")).ReturnsAsync(unknown);
 
-            var teamcityTracker = new TeamcityBuildTracker(CommandlineParser.For("track build#12345"), persistence, teamcityBuildApi.Object);
+            var teamcityTracker = new TeamcityBuildTracker(CommandParser.For("track build#12345"), persistence, teamcityBuildApi.Object);
 
             var result = teamcityTracker.ProcessMessage(new Message("a-channel", "a-user", "scbot track build#12345"));
  
