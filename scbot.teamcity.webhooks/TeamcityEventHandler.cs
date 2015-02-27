@@ -25,11 +25,6 @@ namespace scbot.teamcity.webhooks
                 }
             }
 
-            if (teamcityEvent.EventType == "buildFinished" && teamcityEvent.BranchName == "spike/guitests")
-            {
-                result.Add(new Response(string.Format("{0} build finished", teamcityEvent.BuildName), "D03JWF44C"));
-            }
-
             foreach (var trackedBuild in trackedBuilds.Where(x => x.Value.ID == teamcityEvent.BuildId))
             {
                 result.Add(new Response(string.Format("{0} build updated: {1}", teamcityEvent.BuildName, teamcityEvent.EventType), trackedBuild.Channel));
