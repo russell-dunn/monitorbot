@@ -13,10 +13,15 @@ namespace scbot.teamcity.webhooks
             var result = new List<Response>();
             foreach (var trackedBranch in trackedBranches.Where(x => x.Value.Name == teamcityEvent.BranchName))
             {
-                if (trackedBranch.Value.TrackedEventTypes.HasFlag(TeamcityEventTypes.BreakingBuilds) &&
+                if (trackedBranch.IsTracking(TeamcityEventTypes.BreakingBuilds) &&
                     teamcityEvent.BuildResultDelta == "broken")
                 {
                     result.Add(new Response(string.Format("Build {0} has broken on branch {1}!", teamcityEvent.BuildName, teamcityEvent.BranchName), trackedBranch.Channel));
+                }
+                else if (trackedBranch.IsTracking(TeamcityEventTypes.FinishedBuilds) &&
+                         teamcityEvent.EventType == "buildFinished")
+                {
+                    result.Add(new Response(string.Format("Build {0} has finished", teamcityEvent.BuildName), trackedBranch.Channel));
                 }
             }
 

@@ -65,6 +65,14 @@ namespace scbot.teamcity.webhooks.tests
             CollectionAssert.IsNotEmpty(new TeamcityEventHandler().GetResponseTo(teamcityEvent, new List<Tracked<Build>>(), trackedBranches));
         }
 
+        [Test]
+        public void PostsResponseIfTrackingBuildFinish()
+        {
+            var trackedBranches = new List<Tracked<Branch>> { new Tracked<Branch>(new Branch(TeamcityEventTypes.FinishedBuilds, "asdf"), "a-channel") };
+            var teamcityEvent = new TeamcityEvent("buildFinished", "12345", "bt1234", "the build", "unknown", "asdf");
+            CollectionAssert.IsNotEmpty(new TeamcityEventHandler().GetResponseTo(teamcityEvent, new List<Tracked<Build>>(), trackedBranches));
+        }
+
         // TODO: general syntax is `track everything for build 12345` - "everything" should default to "broken" events only
     }
 
