@@ -18,13 +18,91 @@ namespace scbot.review.diffparser
         {
             return "<" + this.GetType().Name + " " + m_Line + ">";
         }
+
+        public abstract void Accept(IDiffLineVisitor visitor);
     }
 
-    public class GitDiffHeader : DiffLine { public GitDiffHeader(string line) : base(line) { } }
-    public class ChunkHeader : DiffLine { public ChunkHeader(string line) : base(line.Substring(3)) { } }
-    public class OldFile : DiffLine { public OldFile(string line) : base(line.Substring(4)) { } }
-    public class NewFile : DiffLine { public NewFile(string line) : base(line.Substring(4)) { } }
-    public class ContextLine : DiffLine { public ContextLine(string line) : base(line.Substring(1)) { } }
-    public class AddedLine : DiffLine { public AddedLine(string line) : base(line.Substring(1)) { } }
-    public class RemovedLine : DiffLine { public RemovedLine(string line) : base(line.Substring(1)) { } }
+    public class GitDiffHeader : DiffLine
+    {
+        public GitDiffHeader(string line) : base(line)
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+    
+    public class ChunkHeader : DiffLine
+    {
+        public ChunkHeader(string line) : base(line.Substring(3))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class OldFile : DiffLine
+    {
+        public OldFile(string line) : base(line.Substring(4))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class NewFile : DiffLine
+    {
+        public NewFile(string line) : base(line.Substring(4))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class ContextLine : DiffLine
+    {
+        public ContextLine(string line) : base(line.Substring(1))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class AddedLine : DiffLine
+    {
+        public AddedLine(string line) : base(line.Substring(1))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public class RemovedLine : DiffLine
+    {
+        public RemovedLine(string line) : base(line.Substring(1))
+        {
+        }
+
+        public override void Accept(IDiffLineVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
 }
