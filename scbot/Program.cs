@@ -53,7 +53,8 @@ namespace scbot
             var tcWebHooksProcessor = new TeamcityWebhooksMessageProcessor(persistence, commandParser);
             var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new[] {tcWebHooksProcessor});
 
-            var processor =
+			var webClient = new WebClient();
+			var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
                         new CompositeMessageProcessor(
@@ -61,7 +62,7 @@ namespace scbot
                             new JiraBugProcessor(jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
-                            new HtmlTitleProcessor(new HtmlTitleParser(), htmlDomainBlacklist),
+                            new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor)));
 
