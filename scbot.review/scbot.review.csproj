@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="diffparser\DiffLine.cs" />
+    <Compile Include="diffparser\DiffLineVisitorBase.cs" />
     <Compile Include="diffparser\LineVisitorContext.cs" />
     <Compile Include="diffparser\DiffParser.cs" />
     <Compile Include="diffparser\IDiffLineVisitor.cs" />
