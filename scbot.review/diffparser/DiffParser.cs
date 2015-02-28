@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace scbot.review.diffparser
 {
-    static class DiffParser
+	static class DiffParser
     {
         private static void Log(string str)
         {

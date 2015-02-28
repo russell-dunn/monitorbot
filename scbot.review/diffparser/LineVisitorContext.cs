@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace scbot.review.diffparser
 {
-    class LineVisitorContext : IDiffLineVisitor
+	class LineVisitorContext : IDiffLineVisitor
     {
         public string CurrentOldFile = null;
         public string CurrentNewFile = null;

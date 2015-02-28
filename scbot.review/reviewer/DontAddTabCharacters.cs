@@ -1,13 +1,9 @@
 ﻿using scbot.review.diffparser;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace scbot.review.reviewer
 {
-    class DontAddTabCharacters : DiffReviewerBase
+	class DontAddTabCharacters : DiffReviewerBase
     {
         public override void Visit(AddedLine line)
         {

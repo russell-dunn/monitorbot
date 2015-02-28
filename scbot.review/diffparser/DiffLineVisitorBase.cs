@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace scbot.review.diffparser
+﻿namespace scbot.review.diffparser
 {
-    class DiffLineVisitorBase : IDiffLineVisitor
+	class DiffLineVisitorBase : IDiffLineVisitor
     {
         public virtual void Visit(OldFile file) { }
 

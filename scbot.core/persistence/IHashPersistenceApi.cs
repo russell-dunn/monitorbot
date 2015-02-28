@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace scbot.core.persistence
 {
-    public interface IHashPersistenceApi<TValue>
+	public interface IHashPersistenceApi<TValue>
     {
         List<string> GetKeys();
         List<TValue> GetValues();

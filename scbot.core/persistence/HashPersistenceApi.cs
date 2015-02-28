@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Helpers;
 
 namespace scbot.core.persistence
 {
-    public class HashPersistenceApi<TValue> : IHashPersistenceApi<TValue>
+	public class HashPersistenceApi<TValue> : IHashPersistenceApi<TValue>
     {
         private readonly IKeyValueStore m_Underlying;
         private readonly string m_UnderlyingKey;

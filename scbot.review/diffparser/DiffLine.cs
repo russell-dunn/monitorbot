@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace scbot.review.diffparser
+﻿namespace scbot.review.diffparser
 {
-    public abstract class DiffLine
+	public abstract class DiffLine
     {
         private readonly string m_Line;
 

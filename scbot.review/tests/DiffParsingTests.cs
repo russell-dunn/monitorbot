@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using System.Net;
 using scbot.review.diffparser;
 
 namespace scbot.review.tests
 {
-    class DiffParsingTests
+	class DiffParsingTests
     {
         private void Log(string str) { Console.WriteLine(str); }
 
