@@ -53,16 +53,27 @@ namespace scbot.teamcity.webhooks
             Match trackMatch;
             if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_TrackRegex.TryMatch(toTrack, out trackMatch))
             {
-                var trackType = trackMatch.Groups["trackType"].ToString();
-                var trackItem = trackMatch.Groups["trackItem"].ToString();
-                var eventType = trackMatch.Groups["eventType"].ToString();
-                switch (trackType)
-                {
-                    case "build": return TrackBuild(message, trackItem);
-                    case "branch": return TrackBranch(message, trackItem, eventType);
-                }
+                return ProcessMessage(message, trackMatch);
             }
             return MessageResult.Empty;
+        }
+
+        private MessageResult ProcessMessage(Message message, Match regexMatch)
+        {
+            var trackType = regexMatch.Groups["trackType"].ToString();
+            var trackItem = regexMatch.Groups["trackItem"].ToString();
+            var eventType = regexMatch.Groups["eventType"].ToString();
+            return ProcessMessage(message, trackType, trackItem, eventType);
+        }
+
+        private MessageResult ProcessMessage(Message message, string trackType, string trackItem, string eventType)
+        {
+            switch (trackType)
+            {
+                case "build": return TrackBuild(message, trackItem);
+                case "branch": return TrackBranch(message, trackItem, eventType);
+                default: return MessageResult.Empty;
+            }
         }
 
         private MessageResult TrackBranch(Message message, string branch, string eventType)
