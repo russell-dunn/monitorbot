@@ -29,7 +29,7 @@ namespace scbot.review.diffparser
                 {
                     case 'd': ParseHeader(result, lines, ref line); break;
                     case '@': ParseChunk(result, lines, ref line); break;
-                    default: Log("unknown " + lineStr); break;
+                    default: Log("unknown " + lineStr); line++; break;
                 }
             }
 
