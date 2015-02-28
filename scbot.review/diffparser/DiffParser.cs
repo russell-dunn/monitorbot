@@ -40,7 +40,7 @@ namespace scbot.review.diffparser
         {
             result.Add(new GitDiffHeader(lines[line]));
             line++;
-            while (true)
+            while (line < lines.Length)
             {
                 var lineStr = lines[line];
                 switch (lineStr[0])
