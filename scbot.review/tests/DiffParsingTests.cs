@@ -13,13 +13,42 @@ namespace scbot.review.tests
     {
         private void Log(string str) { Console.WriteLine(str); }
 
+        private const string c_ExampleDiff = @"diff --git a/data/Sweetiebot.sass b/data/Sweetiebot.sass
+index 3b9cc06..bdbb5fb 100644
+--- a/data/Sweetiebot.sass
++++ b/data/Sweetiebot.sass
+@@ -163,3 +163,4 @@ well butterscotch loves me and isn't that what counts?
+ y'all silly people need Celestia
+ y'all silly people need jesus
+ Мой корабль полон угрей!
++*takes out one earbud* ""not guilty, your honor""
+diff --git a/modules/SweetieLookup.py b/modules/SweetieLookup.py
+index de9cf17..53a6760 100644
+--- a/modules/SweetieLookup.py
++++ b/modules/SweetieLookup.py
+@@ -253,7 +253,7 @@ def random_reddit_link(self, subreddit, domain_filter=None):
+         link = choice['data']['url']
+         text = choice['data']['title']
+         html = '<a href=""{}"">{}</a>'.format(link, text)
+-        plain = '{} [{}]'.format(text, link)
++        plain = '{} [ {} ]'.format(text, link)
+         return MessageResponse(plain, None, html=html)
+ 
+     @botcmd
+@@ -280,7 +280,7 @@ def woon(self, message):
+         text = random.choice(link_title_data)['data']['body']
+         text = re.split('\.|!|\?', text)[0]
+         html = '<a href=""{}"">{}</a>'.format(link, text)
+-        plain = '{} [{}]'.format(text, link)
++        plain = '{} [ {} ]'.format(text, link)
+         return MessageResponse(plain, None, html=html)
+ 
+     def get_children_of_type(self, reddit_data, kind):";
+
         [Test]
         public void CanParseDiff()
         {
-            var client = new WebClient();
-            client.Encoding = new UTF8Encoding(false);
-            var diff = client.DownloadString("https://github.com/nyctef/sweetiebot/commit/6c27dccb66cb93654bbaf27573562ff715f42866.diff");
-            List<DiffLine> result = DiffParser.ParseDiff(diff);
+            List<DiffLine> result = DiffParser.ParseDiff(c_ExampleDiff);
 
             foreach (var l in result) { Log(l.ToString()); }
         }
@@ -27,10 +56,7 @@ namespace scbot.review.tests
         [Test]
         public void CanVisitDiff()
         {
-            var client = new WebClient();
-            client.Encoding = new UTF8Encoding(false);
-            var diff = client.DownloadString("https://github.com/nyctef/sweetiebot/commit/6c27dccb66cb93654bbaf27573562ff715f42866.diff");
-            List<DiffLine> result = DiffParser.ParseDiff(diff);
+            List<DiffLine> result = DiffParser.ParseDiff(c_ExampleDiff);
 
             var visitor = new LineVisitorContext();
             foreach (var l in result)
