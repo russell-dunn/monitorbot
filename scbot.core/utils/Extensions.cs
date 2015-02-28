@@ -1,4 +1,6 @@
 ﻿using scbot.core.bot;
+using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace scbot.core.utils
 {
@@ -25,5 +27,11 @@ namespace scbot.core.utils
         {
             return !Equals(x, default(T));
         }
+
+		public static async Task<dynamic> DownloadJson(this WebClient webClient, string url)
+		{
+			var json = await webClient.DownloadString(url);
+			return Json.Decode(json);
+		}
     }
 }
