@@ -7,3 +7,4 @@ bin
 *.sln.ide
 packages
 local.config
+.vs
