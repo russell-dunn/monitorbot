@@ -48,6 +48,10 @@
     <Compile Include="diffparser\DiffParser.cs" />
     <Compile Include="diffparser\IDiffLineVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reviewer\DiffComment.cs" />
+    <Compile Include="reviewer\DiffReviewerBase.cs" />
+    <Compile Include="reviewer\DontAddTabCharacters.cs" />
+    <Compile Include="reviewer\IDiffReviewer.cs" />
     <Compile Include="tests\DiffParsingTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,21 @@
+﻿using scbot.review.diffparser;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace scbot.review.reviewer
+{
+    class DontAddTabCharacters : DiffReviewerBase
+    {
+        public override void Visit(AddedLine line)
+        {
+            base.Visit(line);
+            if (line.Line.Contains('\t'))
+            {
+                Comments.Add(new DiffComment("tab-characters", string.Format("Tab character added at line {0} in {1}", CurrentNewFileLineNumber, CurrentNewFile)));
+            }
+        }
+    }
+}
