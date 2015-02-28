@@ -62,6 +62,8 @@
     <Compile Include="meta\CompositeMessageProcessor.cs" />
     <Compile Include="meta\ConcattingMessageProcessor.cs" />
     <Compile Include="meta\ErrorCatchingMessageProcessor.cs" />
+    <Compile Include="persistence\HashPersistenceApi.cs" />
+    <Compile Include="persistence\IHashPersistenceApi.cs" />
     <Compile Include="persistence\IKeyValueStore.cs" />
     <Compile Include="persistence\IListPersistenceApi.cs" />
     <Compile Include="persistence\InMemoryKeyValueStore.cs" />
