@@ -8,7 +8,10 @@ namespace scbot.review.diffparser
 {
     public abstract class DiffLine
     {
-        protected readonly string m_Line;
+        private readonly string m_Line;
+
+        public string Line { get { return m_Line; } }
+
         protected DiffLine(string line)
         {
             m_Line = line;
@@ -16,7 +19,7 @@ namespace scbot.review.diffparser
 
         public override string ToString()
         {
-            return "<" + this.GetType().Name + " " + m_Line + ">";
+            return "<" + this.GetType().Name + " " + Line + ">";
         }
 
         public abstract void Accept(IDiffLineVisitor visitor);
@@ -48,7 +51,7 @@ namespace scbot.review.diffparser
 
     public class OldFile : DiffLine
     {
-        public OldFile(string line) : base(line.Substring(4))
+        public OldFile(string line) : base(line.Substring(6))
         {
         }
 
@@ -60,7 +63,7 @@ namespace scbot.review.diffparser
 
     public class NewFile : DiffLine
     {
-        public NewFile(string line) : base(line.Substring(4))
+        public NewFile(string line) : base(line.Substring(6))
         {
         }
 
