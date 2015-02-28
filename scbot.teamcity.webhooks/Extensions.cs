@@ -16,5 +16,10 @@ namespace scbot.teamcity.webhooks
         {
             return trackedBranch.Value.TrackedEventTypes.HasFlag(types);
         }
+
+        internal static string Group(this Match match, string groupName)
+        {
+            return match.Groups[groupName].ToString();
+        }
     }
 }

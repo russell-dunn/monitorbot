@@ -20,7 +20,9 @@ namespace scbot.core.persistence
 
         private IDictionary<string, TValue> ReadAll()
         {
-            return Json.Decode<IDictionary<string, TValue>>(m_Underlying.Get(m_UnderlyingKey));
+            var json = m_Underlying.Get(m_UnderlyingKey);
+            if (String.IsNullOrWhiteSpace(json)) return new Dictionary<string, TValue>();
+            return Json.Decode<IDictionary<string, TValue>>(json);
         }
 
         public TValue Get(string key)

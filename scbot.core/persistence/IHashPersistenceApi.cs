@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scbot.core.persistence
 {
-    interface IHashPersistenceApi<TValue>
+    public interface IHashPersistenceApi<TValue>
     {
         List<string> GetKeys();
         List<TValue> GetValues();
