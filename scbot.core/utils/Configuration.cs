@@ -18,6 +18,8 @@ namespace scbot.core.utils
 
         public static string TeamcityApiBase { get { return GetConfigValue("teamcity-api-base"); } }
 
+        public static string TeamcityWebhooksEndpoint { get { return GetConfigValue("teamcity-webhooks-endpoint"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];
