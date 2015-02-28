@@ -63,7 +63,7 @@ namespace scbot.review.diffparser
         {
             result.Add(new ChunkHeader(lines[line]));
             line++;
-            while (true)
+            while (line < lines.Length)
             {
                 var lineStr = lines[line];
                 if (lineStr.Length == 0) return;
