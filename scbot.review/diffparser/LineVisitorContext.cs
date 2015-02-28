@@ -59,7 +59,7 @@ namespace scbot.review.diffparser
             var parts = header.Line.Split(new[] { ' ' }, 4);
             var oldRange = parts[0];
             var newRange = parts[1].Substring(1);
-            var contextLine = parts[3];
+            var contextLine = parts.Length == 4 ? parts[3] : "";
             CurrentContext = contextLine;
             CurrentFunctionName = GetFunctionName(contextLine);
             CurrentNewFileLineNumber = GetCurrentLineNumber(newRange);
