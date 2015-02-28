@@ -14,13 +14,12 @@ namespace scbot.teamcity
         private readonly ListPersistenceApi<Tracked<TeamcityBuildStatus>> m_Persistence;
         private readonly ITeamcityBuildApi m_TeamcityBuildApi;
         private static readonly Regex s_TeamcityBuildRegex = new Regex(@"^build#(?<id>\d{5,10})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private const string c_PersistenceKey = "tracked-tc-builds";
         private readonly CompareEngine<TeamcityBuildStatus> m_TeamcityBuildCompareEngine;
 
         public TeamcityBuildTracker(ICommandParser commandParser, IKeyValueStore persistence, ITeamcityBuildApi teamcityBuildApi)
         {
             m_CommandParser = commandParser;
-            m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence);
+            m_Persistence = new ListPersistenceApi<Tracked<TeamcityBuildStatus>>(persistence, "tracked-tc-builds");
             m_TeamcityBuildApi = teamcityBuildApi;
             m_TeamcityBuildCompareEngine = new CompareEngine<TeamcityBuildStatus>(x => string.Format("<http://teamcity/viewLog.html?buildId={0}|Build {0}> ({1}) updated:", x.Id, x.Name),
                 new[] { new PropertyComparer<TeamcityBuildStatus>(x => x.OldValue.State != x.NewValue.State, FormatStateChanged)});
@@ -38,7 +37,7 @@ namespace scbot.teamcity
 
         public MessageResult ProcessTimerTick()
         {
-            var trackedTickets = m_Persistence.ReadList(c_PersistenceKey);
+            var trackedTickets = m_Persistence.ReadList();
 
             var comparison = trackedTickets.Select(x =>
                 new Update<TeamcityBuildStatus>(x.Channel, x.Value, m_TeamcityBuildApi.GetBuild(x.Value.Id).Result)
@@ -49,8 +48,8 @@ namespace scbot.teamcity
             foreach (var result in results)
             {
                 var id = result.NewValue.Id;
-                m_Persistence.RemoveFromList(c_PersistenceKey, x => x.Value.Id == id);
-                m_Persistence.AddToList(c_PersistenceKey, new Tracked<TeamcityBuildStatus>(result.NewValue, result.Response.Channel));
+                m_Persistence.RemoveFromList(x => x.Value.Id == id);
+                m_Persistence.AddToList(new Tracked<TeamcityBuildStatus>(result.NewValue, result.Response.Channel));
             }
 
             return new MessageResult(results.Select(x => x.Response).ToList());
@@ -63,7 +62,7 @@ namespace scbot.teamcity
             {
                 var build = m_TeamcityBuildApi.GetBuild(toTrack.Substring(6)).Result;
                 if (build.Equals(TeamcityBuildStatus.Unknown)) return new MessageResult(new[] { Response.ToMessage(message, FormatNotFoundMessage(toTrack)) });
-                m_Persistence.AddToList(c_PersistenceKey, new Tracked<TeamcityBuildStatus>(build, message.Channel));
+                m_Persistence.AddToList(new Tracked<TeamcityBuildStatus>(build, message.Channel));
                 return new MessageResult(new[] { Response.ToMessage(message, FormatNowTrackingMessage(toTrack)) });
             }
             return MessageResult.Empty;

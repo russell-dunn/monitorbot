@@ -5,8 +5,8 @@ namespace scbot.core.persistence
 {
     public interface IListPersistenceApi<T>
     {
-        void AddToList(string key, T value);
-        int RemoveFromList(string key, Predicate<T> toRemove);
-        List<T> ReadList(string key);
+        void AddToList(T value);
+        int RemoveFromList(Predicate<T> toRemove);
+        List<T> ReadList();
     }
 }

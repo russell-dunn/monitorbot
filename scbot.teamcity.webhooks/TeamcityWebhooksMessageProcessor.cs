@@ -11,8 +11,6 @@ namespace scbot.teamcity.webhooks
 {
     public class TeamcityWebhooksMessageProcessor : IMessageProcessor, IAcceptTeamcityEvents
     {
-        private const string c_TrackedBuilds = "tcwh-tracked-builds";
-        private const string c_TrackedBranches = "tcwh-tracked-branches";
         private readonly IListPersistenceApi<Tracked<Build>> m_BuildPersistence;
         private readonly IListPersistenceApi<Tracked<Branch>> m_BranchPersistence;
         private readonly ICommandParser m_CommandParser;
@@ -30,8 +28,8 @@ namespace scbot.teamcity.webhooks
         }
 
         public TeamcityWebhooksMessageProcessor(IKeyValueStore kvs, ICommandParser commandParser)
-         : this(new ListPersistenceApi<Tracked<Build>>(kvs), 
-                new ListPersistenceApi<Tracked<Branch>>(kvs), 
+         : this(new ListPersistenceApi<Tracked<Build>>(kvs, "tcwh-tracked-builds"), 
+                new ListPersistenceApi<Tracked<Branch>>(kvs, "tcwh-tracked-branches"), 
                 commandParser)
         {
         }
@@ -40,8 +38,8 @@ namespace scbot.teamcity.webhooks
         {
             var result = new List<Response>();
             TeamcityEvent nextEvent;
-            var trackedBuilds = m_BuildPersistence.ReadList(c_TrackedBuilds);
-            var trackedBranches = m_BranchPersistence.ReadList(c_TrackedBranches);
+            var trackedBuilds = m_BuildPersistence.ReadList();
+            var trackedBranches = m_BranchPersistence.ReadList();
             while (m_Queue.TryDequeue(out nextEvent))
             {
                 result.AddRange(m_TeamcityEventHandler.GetResponseTo(nextEvent, trackedBuilds, trackedBranches));
@@ -70,7 +68,7 @@ namespace scbot.teamcity.webhooks
         private MessageResult TrackBranch(Message message, string branch, string eventType)
         {
             var parsedEventType = GetEventTypes(eventType);
-            m_BranchPersistence.AddToList(c_TrackedBranches, new Tracked<Branch>(new Branch(parsedEventType, branch), message.Channel));
+            m_BranchPersistence.AddToList(new Tracked<Branch>(new Branch(parsedEventType, branch), message.Channel));
             return new MessageResult(new[]{Response.ToMessage(message, string.Format("Now tracking {0} for branch {1}", eventType, branch))});
         }
 
@@ -87,7 +85,7 @@ namespace scbot.teamcity.webhooks
 
         private MessageResult TrackBuild(Message message, string buildId)
         {
-            m_BuildPersistence.AddToList(c_TrackedBuilds, new Tracked<Build>(new Build(buildId), message.Channel));
+            m_BuildPersistence.AddToList(new Tracked<Build>(new Build(buildId), message.Channel));
             return new MessageResult(new[]{Response.ToMessage(message, string.Format("Now tracking build#{0}", buildId))});
         }
 

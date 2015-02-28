@@ -28,7 +28,7 @@ namespace scbot.teamcity.webhooks.tests
             var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
             var response = processor.ProcessMessage(new Message("a-channel", "a-user", "scbot track build 12345"));
             Assert.AreEqual("Now tracking build#12345", response.Responses.Single().Message);
-            m_TrackedBuilds.Verify(x => x.AddToList("tcwh-tracked-builds", new Tracked<Build>(new Build("12345"), "a-channel")));
+            m_TrackedBuilds.Verify(x => x.AddToList(new Tracked<Build>(new Build("12345"), "a-channel")));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace scbot.teamcity.webhooks.tests
             var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, commandParser);
             var response = processor.ProcessMessage(new Message("a-channel", "a-user", "a-message"));
             Assert.AreEqual("Now tracking breakages for branch master", response.Responses.Single().Message);
-            m_TrackedBranches.Verify(x => x.AddToList("tcwh-tracked-branches", new Tracked<Branch>(new Branch(TeamcityEventTypes.BreakingBuilds, "master", null), "a-channel")));
+            m_TrackedBranches.Verify(x => x.AddToList(new Tracked<Branch>(new Branch(TeamcityEventTypes.BreakingBuilds, "master", null), "a-channel")));
         }
 
 
