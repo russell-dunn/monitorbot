@@ -2,8 +2,8 @@
 {
     public class DiffComment
     {
-        private readonly string Description;
-        private readonly string Type;
+        public readonly string Description;
+        public readonly string Type;
 
         public DiffComment(string type, string description)
         {

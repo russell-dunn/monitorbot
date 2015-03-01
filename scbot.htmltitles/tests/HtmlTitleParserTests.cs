@@ -3,6 +3,7 @@ using NUnit.Framework;
 using scbot.core.utils;
 using scbot.htmltitles.services;
 using System;
+using System.Collections.Generic;
 
 namespace scbot.htmltitles.tests
 {
@@ -19,7 +20,7 @@ namespace scbot.htmltitles.tests
         public void DoesntThrowExceptionOnBadUrl()
         {
 			var throwsException = new Mock<IWebClient>();
-			throwsException.Setup(x => x.DownloadString(It.IsAny<string>())).ThrowsAsync(new Exception());
+			throwsException.Setup(x => x.DownloadString(It.IsAny<string>(), It.IsAny<IEnumerable<string>>())).ThrowsAsync(new Exception());
             var titleParser = new HtmlTitleParser(throwsException.Object);
             Assert.AreEqual(null, titleParser.GetHtmlTitle("foo://bar.baz"));
         }
