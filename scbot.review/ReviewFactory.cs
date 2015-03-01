@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace scbot.review
@@ -20,6 +21,10 @@ namespace scbot.review
                 new Func<IDiffReviewer>[] {
                     () => new DontAddTabCharacters(),
                     () => new UseWindowsNewlines(),
+                    () => new GeneralBadThing("todo", "TODO found", RegexOptions.IgnoreCase),
+                    () => new GeneralBadThing("NotImplementedException", "NotImplementedException found"),
+                    () => new GeneralBadThing("NotSupportedException", "NotSupportedException found"),
+                    () => new GeneralBadThing(@"<SpecificVersion>\s*[fF]alse\s*</SpecificVersion>", "SpecificVersion=False found"),
             });
             return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
         }
