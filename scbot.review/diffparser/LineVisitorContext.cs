@@ -34,7 +34,7 @@ namespace scbot.review.diffparser
         public virtual void Visit(AddedLine line)
         {
             CurrentLineText = line.Line;
-            if (StartOfAddedLines == -1)
+            if (StartOfAddedLines == -1 && StartOfRemovedLines != -1)
             {
                 CurrentNewFileLineNumber = StartOfRemovedLines;
                 StartOfAddedLines = CurrentNewFileLineNumber;
@@ -47,7 +47,7 @@ namespace scbot.review.diffparser
 
         public virtual void Visit(NewFile file)
         {
-            CurrentNewFile = file.Line;
+            CurrentNewFile = file.Line.Trim();
         }
 
         public virtual void Visit(ChunkHeader header)

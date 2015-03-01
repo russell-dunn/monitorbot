@@ -9,6 +9,8 @@ namespace scbot.review.tests
     {
         private void Log(string str) { Console.WriteLine(str); }
 
+        #region test diffs
+
         private const string c_ExampleDiff = @"diff --git a/data/Sweetiebot.sass b/data/Sweetiebot.sass
 index 3b9cc06..bdbb5fb 100644
 --- a/data/Sweetiebot.sass
@@ -41,6 +43,37 @@ index de9cf17..53a6760 100644
  
      def get_children_of_type(self, reddit_data, kind):";
 
+        private const string c_AddedFile = @"diff --git a/scbot.review/Extensions.cs b/scbot.review/Extensions.cs
+new file mode 100644
+index 0000000..4e89371
+--- /dev/null
++++ b/scbot.review/Extensions.cs
+@@ -0,0 +1,22 @@
++using scbot.review.diffparser;
++using scbot.review.reviewer;
++using System;
++using System.Collections.Generic;
++using System.Linq;
++using System.Text;
++using System.Threading.Tasks;
++
++namespace scbot.review
++{
++    public static class Extensions
++    {
++        internal static IEnumerable<DiffComment> Review(this IDiffReviewer reviewer, List<DiffLine> diffLines)
++        {
++            foreach (var line in diffLines)
++            {
++                line.Accept(reviewer);
++            }
++            return reviewer.Comments;
++        }
++    }
++}";
+
+        #endregion
+
         [Test]
         public void CanParseDiff()
         {
@@ -60,6 +93,21 @@ index de9cf17..53a6760 100644
                 l.Accept(visitor);
                 Console.WriteLine("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext);
             }
+        }
+
+        [Test]
+        public void CanParseAddedFile()
+        {
+            List<DiffLine> result = DiffParser.ParseDiff(c_AddedFile);
+
+            var visitor = new LineVisitorContext();
+            foreach (var l in result)
+            {
+                l.Accept(visitor);
+                Console.WriteLine("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext);
+            }
+
+            Assert.AreEqual(22, visitor.CurrentNewFileLineNumber);
         }
     }
 }
