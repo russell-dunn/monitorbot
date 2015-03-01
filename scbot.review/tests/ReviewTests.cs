@@ -19,7 +19,7 @@ namespace scbot.review.tests
         {
             var reviewApi = new Mock<IReviewApi>();
             reviewApi.Setup(x => x.ReviewForPullRequest("fooCorp", "fooMatic", 123)).ReturnsAsync(
-                new[] { new DiffComment("sucks", "this sucks"), new DiffComment("rocks", "this rocks") });
+                new[] { new DiffComment("sucks", "this sucks", "f", 1), new DiffComment("rocks", "this rocks", "g", 2) });
             var commandParser = CommandlineParser.For("review 123");
             var processor = new GithubReviewMessageProcessor(commandParser, reviewApi.Object, "fooCorp", "fooMatic");
 
