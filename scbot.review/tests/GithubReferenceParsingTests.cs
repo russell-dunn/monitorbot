@@ -75,6 +75,16 @@ namespace scbot.review.tests
         }
 
         [Test]
+        public void ParsesExplicitComparisonWithRepo()
+        {
+            var gref = GithubReferenceParser.Parse("fooCorp/fooRepo@master...bug/SC-1234");
+            Assert.AreEqual("fooCorp", gref.User);
+            Assert.AreEqual("fooRepo", gref.Repo);
+            Assert.AreEqual("master", gref.BaseBranch);
+            Assert.AreEqual("bug/SC-1234", gref.Branch);
+        }
+
+        [Test]
         public void ReturnsNullForNonGithubReference()
         {
             Assert.Null(GithubReferenceParser.Parse("not a reference"));
