@@ -29,14 +29,35 @@ namespace scbot.review
             string toReview;
             if (m_CommandParser.TryGetCommand(message, "review", out toReview))
             {
-                int prNumber;
-                if (int.TryParse(toReview.Trim(), out prNumber))
+                var reference = GithubReferenceParser.Parse(toReview);
+                if (reference == null) return MessageResult.Empty;
+                var user = reference.User ?? m_DefaultUser;
+                var repo = reference.Repo ?? m_DefaultRepo;
+                IEnumerable<DiffComment> comments = null;
+                if (reference.Commit != null)
                 {
-                    return FormatComments(message, m_ReviewApi.ReviewForPullRequest(m_DefaultUser, m_DefaultRepo, prNumber).Result);
+                    comments = m_ReviewApi.ReviewForCommit(user, repo, reference.Commit).Result;
                 }
-                else
+                if (reference.BaseBranch != null)
                 {
-                    return FormatComments(message, m_ReviewApi.ReviewForCommit(m_DefaultUser, m_DefaultRepo, toReview.Trim()).Result);
+                    comments = m_ReviewApi.ReviewForComparison(user, repo, reference.BaseBranch + "..." + reference.Branch).Result;
+                }
+                if (reference.Branch == "master")
+                {
+                    comments = m_ReviewApi.ReviewForComparison(user, repo, "master@{1day}..." + reference.Branch).Result;
+                }
+                if (reference.Branch != null)
+                {
+                    comments = m_ReviewApi.ReviewForComparison(user, repo, "master..." + reference.Branch).Result;
+                }
+                if (reference.Issue > 0)
+                {
+                    comments = m_ReviewApi.ReviewForPullRequest(user, repo, reference.Issue).Result;
+                }
+
+                if (comments != null)
+                {
+                    return FormatComments(message, comments);
                 }
             }
             return MessageResult.Empty;
