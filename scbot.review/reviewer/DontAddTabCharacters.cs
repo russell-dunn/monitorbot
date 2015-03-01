@@ -10,7 +10,7 @@ namespace scbot.review.reviewer
             base.Visit(line);
             if (line.Line.Contains('\t'))
             {
-                Comments.Add(new DiffComment("Tab character added", CurrentNewFile, CurrentNewFileLineNumber));
+                Comments.Add(new DiffComment("Tab character found", CurrentNewFile, CurrentNewFileLineNumber));
             }
         }
     }
