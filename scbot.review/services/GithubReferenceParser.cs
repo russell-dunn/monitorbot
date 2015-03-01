@@ -61,12 +61,34 @@ namespace scbot.review.services
 
         private static GithubReference ParseCommitOrBranch(string user, string repo, string commitOrBranch)
         {
+            string[] comparison;
+            if (TrySplitComparison(commitOrBranch, out comparison) && comparison.Length == 2)
+            {
+                return GithubReference.FromComparison(user, repo, comparison[1], comparison[0]);
+            }
+
             if (Regex.IsMatch(commitOrBranch, @"^[a-f0-9]{4,40}$"))
             {
                 return GithubReference.FromCommit(user, repo, commitOrBranch);
             }
 
             return GithubReference.FromBranch(user, repo, commitOrBranch);
+        }
+
+        private static bool TrySplitComparison(string input, out string[] result)
+        {
+            if (input.Contains("..."))
+            {
+                result = input.Split(new string[] { "..." }, StringSplitOptions.None);
+                return true;
+            }
+            if (input.Contains(".."))
+            {
+                result = input.Split(new string[] { ".." }, StringSplitOptions.None);
+                return true;
+            }
+            result = null;
+            return false;
         }
     }
 }
