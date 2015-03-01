@@ -67,7 +67,8 @@ namespace scbot.review
         private IEnumerable<string> GroupByLine(IEnumerable<DiffComment> comments)
         {
             var groupedByLine = comments.GroupBy(x => x.Line);
-            return groupedByLine.Select(x => x.Key.ToString());
+            // TODO: actually link to lines
+            return groupedByLine.Select(x => string.Format("L{0}", x.Key.ToString()));
         }
 
         private IEnumerable<string> GetFirstThree(IEnumerable<string> input)
