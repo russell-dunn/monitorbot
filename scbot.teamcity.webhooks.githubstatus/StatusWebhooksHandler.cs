@@ -1,4 +1,5 @@
-﻿using scbot.teamcity.webhooks.githubstatus.services;
+﻿using scbot.core.utils;
+using scbot.teamcity.webhooks.githubstatus.services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,23 @@ using System.Threading.Tasks;
 
 namespace scbot.teamcity.webhooks.githubstatus
 {
-    class StatusWebhooksHandler : IAcceptTeamcityEvents
+    public class StatusWebhooksHandler : IAcceptTeamcityEvents
     {
         private readonly IGithubStatusApi m_StatusApi;
         private readonly ITeamcityChangesApi m_TeamcityApi;
 
-        public StatusWebhooksHandler(IGithubStatusApi statusApi, ITeamcityChangesApi teamcityApi)
+        internal StatusWebhooksHandler(IGithubStatusApi statusApi, ITeamcityChangesApi teamcityApi)
         {
             m_StatusApi = statusApi;
             m_TeamcityApi = teamcityApi;
+        }
+
+        public static StatusWebhooksHandler Create(ITime time, IWebClient webClient)
+        {
+            return new StatusWebhooksHandler(
+                new FakeGithubStatusApi(), 
+                new TeamcityChangesApi(
+                    new CachedTeamcityBuildJsonApi(time, new TeamcityBuildJsonApi(webClient, null))));
         }
 
         public void Accept(TeamcityEvent teamcityEvent)

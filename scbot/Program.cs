@@ -18,6 +18,7 @@ using scbot.teamcity.webhooks;
 using scbot.zendesk;
 using scbot.zendesk.services;
 using scbot.review;
+using scbot.teamcity.webhooks.githubstatus;
 
 namespace scbot
 {
@@ -51,10 +52,12 @@ namespace scbot
 
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
 
+            var webClient = new WebClient();
+
             var tcWebHooksProcessor = new TeamcityWebhooksMessageProcessor(persistence, commandParser);
+            var tcWebHooksStatus = StatusWebhooksHandler.Create(time, webClient);
             var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new[] {tcWebHooksProcessor});
 
-            var webClient = new WebClient();
             var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
                 Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
 

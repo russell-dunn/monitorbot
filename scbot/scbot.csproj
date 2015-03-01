@@ -85,6 +85,10 @@
       <Project>{41c297f3-6693-43e0-8dd8-948f3d87be2b}</Project>
       <Name>scbot.teamcity.webhooks.endpoint</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.teamcity.webhooks.githubstatus\scbot.teamcity.webhooks.githubstatus.csproj">
+      <Project>{31ee92c7-81ff-4202-a19e-d70eb45b26d8}</Project>
+      <Name>scbot.teamcity.webhooks.githubstatus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.teamcity.webhooks\scbot.teamcity.webhooks.csproj">
       <Project>{AB7B27FF-6EC0-4998-8191-56826E758DC7}</Project>
       <Name>scbot.teamcity.webhooks</Name>
