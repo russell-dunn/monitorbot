@@ -7,12 +7,12 @@ namespace scbot.htmltitles.services
 {
     public class HtmlTitleParser : IHtmlTitleParser
     {
-		private readonly IWebClient m_WebClient;
+        private readonly IWebClient m_WebClient;
 
-		public HtmlTitleParser(IWebClient webClient)
-		{
-			m_WebClient = webClient;
-		}
+        public HtmlTitleParser(IWebClient webClient)
+        {
+            m_WebClient = webClient;
+        }
 
         public string GetHtmlTitle(string url)
         {

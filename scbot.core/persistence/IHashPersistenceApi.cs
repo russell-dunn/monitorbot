@@ -2,7 +2,7 @@
 
 namespace scbot.core.persistence
 {
-	public interface IHashPersistenceApi<TValue>
+    public interface IHashPersistenceApi<TValue>
     {
         List<string> GetKeys();
         List<TValue> GetValues();

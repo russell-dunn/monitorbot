@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace scbot.review.reviewer
 {
-	class DontAddTabCharacters : DiffReviewerBase
+    class DontAddTabCharacters : DiffReviewerBase
     {
         public override void Visit(AddedLine line)
         {

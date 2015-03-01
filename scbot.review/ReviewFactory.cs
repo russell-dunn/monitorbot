@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace scbot.review
 {
-	public static class ReviewFactory
-	{
-		public static IMessageProcessor GetProcessor(ICommandParser commandParser, IWebClient webClient, 
-			string githubToken, string defaultUser, string defaultRepo)
-		{
-			var githubApi = new GithubDiffApi(webClient, githubToken);
-			var reviewApi = new ReviewApi(githubApi, 
-				new Func<IDiffReviewer>[] {
-					() => new DontAddTabCharacters(),
-			});
-			return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
-		}
-	}
+    public static class ReviewFactory
+    {
+        public static IMessageProcessor GetProcessor(ICommandParser commandParser, IWebClient webClient, 
+            string githubToken, string defaultUser, string defaultRepo)
+        {
+            var githubApi = new GithubDiffApi(webClient, githubToken);
+            var reviewApi = new ReviewApi(githubApi, 
+                new Func<IDiffReviewer>[] {
+                    () => new DontAddTabCharacters(),
+            });
+            return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
+        }
+    }
 }

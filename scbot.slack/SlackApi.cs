@@ -20,41 +20,41 @@ namespace scbot.slack
         public async Task<ISlackRealTimeMessaging> StartRtm()
         {
             var result = await GetApiResult("rtm.start");
-			PrintRtmData(result);
+            PrintRtmData(result);
             var wsUrl = result.url;
             // TODO: getting the bot id here seems to be the most convenient but it's probably not the best idea since we have to pass it around so much 
             var botId = result.self.id; 
             return await SlackRealTimeMessaging.Connect(new Uri(wsUrl), botId, new CancellationToken());
         }
 
-		private void PrintRtmData(dynamic result)
-		{
-			try
-			{
-				Console.WriteLine("I am {0} ({1})", result.self.name, result.self.id);
-				Console.WriteLine("I am connecting to {0} ({1})", result.team.name, result.team.id);
-				Console.WriteLine("Users:");
-				PrintThingList(result.users);
-				Console.WriteLine("Channels:");
-				PrintThingList(result.channels);
-				Console.WriteLine("IMs:");
-				PrintThingList(result.ims);
-			}
-			catch (Exception e)
-			{
-				Console.Error.WriteLine("Error reading rtm.start result: " + e);
-			}
-		}
+        private void PrintRtmData(dynamic result)
+        {
+            try
+            {
+                Console.WriteLine("I am {0} ({1})", result.self.name, result.self.id);
+                Console.WriteLine("I am connecting to {0} ({1})", result.team.name, result.team.id);
+                Console.WriteLine("Users:");
+                PrintThingList(result.users);
+                Console.WriteLine("Channels:");
+                PrintThingList(result.channels);
+                Console.WriteLine("IMs:");
+                PrintThingList(result.ims);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error reading rtm.start result: " + e);
+            }
+        }
 
-		private void PrintThingList(dynamic things)
-		{
-			foreach (var thing in things)
-			{
-				Console.WriteLine("  {0} ({1})", thing.name ?? thing.user, thing.id);
-			}
-		}
+        private void PrintThingList(dynamic things)
+        {
+            foreach (var thing in things)
+            {
+                Console.WriteLine("  {0} ({1})", thing.name ?? thing.user, thing.id);
+            }
+        }
 
-		public async Task PostMessage(Response response)
+        public async Task PostMessage(Response response)
         {
             var message = HttpUtility.UrlEncode(response.Message);
             var channel = HttpUtility.UrlEncode(response.Channel);

@@ -14,11 +14,11 @@ namespace scbot.core.utils
 
         public static string TeamcityWebhooksEndpoint { get { return GetConfigValue("teamcity-webhooks-endpoint"); } }
 
-		public static string GithubToken { get { return GetConfigValue("github-token"); } }
+        public static string GithubToken { get { return GetConfigValue("github-token"); } }
 
-		public static string GithubDefaultRepo { get { return GetConfigValue("github-default-repo"); } }
+        public static string GithubDefaultRepo { get { return GetConfigValue("github-default-repo"); } }
 
-		public static string GithubDefaultUser { get { return GetConfigValue("github-default-user"); } }
+        public static string GithubDefaultUser { get { return GetConfigValue("github-default-user"); } }
 
         private static string GetConfigValue(string configKey)
         {

@@ -1,6 +1,6 @@
 ﻿namespace scbot.review.diffparser
 {
-	public interface IDiffLineVisitor
+    public interface IDiffLineVisitor
     {
         void Visit(GitDiffHeader header);
         void Visit(ChunkHeader header);

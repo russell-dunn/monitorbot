@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace scbot.review.reviewer
 {
-	abstract class DiffReviewerBase : LineVisitorContext, IDiffReviewer
+    abstract class DiffReviewerBase : LineVisitorContext, IDiffReviewer
     {
         private readonly List<DiffComment> m_Comments = new List<DiffComment>();
 

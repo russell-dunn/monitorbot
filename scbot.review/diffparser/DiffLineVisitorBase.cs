@@ -1,6 +1,6 @@
 ﻿namespace scbot.review.diffparser
 {
-	class DiffLineVisitorBase : IDiffLineVisitor
+    class DiffLineVisitorBase : IDiffLineVisitor
     {
         public virtual void Visit(OldFile file) { }
 

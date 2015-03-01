@@ -2,7 +2,7 @@
 
 namespace scbot.review.diffparser
 {
-	static class DiffParser
+    static class DiffParser
     {
         private static void Log(string str)
         {

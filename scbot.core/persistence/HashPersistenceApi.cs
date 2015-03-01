@@ -5,7 +5,7 @@ using System.Web.Helpers;
 
 namespace scbot.core.persistence
 {
-	public class HashPersistenceApi<TValue> : IHashPersistenceApi<TValue>
+    public class HashPersistenceApi<TValue> : IHashPersistenceApi<TValue>
     {
         private readonly IKeyValueStore m_Underlying;
         private readonly string m_UnderlyingKey;

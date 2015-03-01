@@ -29,10 +29,10 @@ namespace scbot.core.utils
             return !Equals(x, default(T));
         }
 
-		public static async Task<dynamic> DownloadJson(this IWebClient webClient, string url, IEnumerable<string> headers = null)
-		{
-			var json = await webClient.DownloadString(url, headers);
-			return Json.Decode(json);
-		}
+        public static async Task<dynamic> DownloadJson(this IWebClient webClient, string url, IEnumerable<string> headers = null)
+        {
+            var json = await webClient.DownloadString(url, headers);
+            return Json.Decode(json);
+        }
     }
 }

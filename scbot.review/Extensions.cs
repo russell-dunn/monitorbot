@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace scbot.review
 {
-	public static class Extensions
-	{
-		internal static IEnumerable<DiffComment> Review(this IDiffReviewer reviewer, List<DiffLine> diffLines)
-		{
-			foreach (var line in diffLines)
-			{
-				line.Accept(reviewer);
-			}
-			return reviewer.Comments;
-		}
-	}
+    public static class Extensions
+    {
+        internal static IEnumerable<DiffComment> Review(this IDiffReviewer reviewer, List<DiffLine> diffLines)
+        {
+            foreach (var line in diffLines)
+            {
+                line.Accept(reviewer);
+            }
+            return reviewer.Comments;
+        }
+    }
 }

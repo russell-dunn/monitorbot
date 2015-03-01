@@ -54,11 +54,11 @@ namespace scbot
             var tcWebHooksProcessor = new TeamcityWebhooksMessageProcessor(persistence, commandParser);
             var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new[] {tcWebHooksProcessor});
 
-			var webClient = new WebClient();
-			var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
-				Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
+            var webClient = new WebClient();
+            var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
+                Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
 
-			var processor =
+            var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
                         new CompositeMessageProcessor(
@@ -69,7 +69,7 @@ namespace scbot
                             new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor,
-							githubReviewer)));
+                            githubReviewer)));
 
             var bot = new Bot(processor);
 

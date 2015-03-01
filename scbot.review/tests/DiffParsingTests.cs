@@ -5,7 +5,7 @@ using scbot.review.diffparser;
 
 namespace scbot.review.tests
 {
-	class DiffParsingTests
+    class DiffParsingTests
     {
         private void Log(string str) { Console.WriteLine(str); }
 
