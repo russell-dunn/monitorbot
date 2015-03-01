@@ -54,6 +54,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="ReviewFactory.cs" />
     <Compile Include="services\GithubDiffApi.cs" />
+    <Compile Include="services\GithubReference.cs" />
+    <Compile Include="services\GithubReferenceParser.cs" />
     <Compile Include="services\IGithubDiffApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="reviewer\DiffComment.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="services\ReviewApi.cs" />
     <Compile Include="tests\DiffParsingTests.cs" />
     <Compile Include="GithubReviewMessageProcessor.cs" />
+    <Compile Include="tests\GithubReferenceParsingTests.cs" />
     <Compile Include="tests\ReviewTests.cs" />
   </ItemGroup>
   <ItemGroup>
