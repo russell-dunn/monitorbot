@@ -19,6 +19,7 @@ namespace scbot.review
             var reviewApi = new ReviewApi(githubApi, 
                 new Func<IDiffReviewer>[] {
                     () => new DontAddTabCharacters(),
+                    () => new UseWindowsNewlines(),
             });
             return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
         }
