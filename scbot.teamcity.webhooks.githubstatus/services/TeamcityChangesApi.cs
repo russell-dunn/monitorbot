@@ -19,12 +19,13 @@ namespace scbot.teamcity.webhooks.githubstatus.services
         {
             var build = await m_Api.Build(buildId);
             var repo = GetRepo(build);
+            var user = GetUser(build);
             if (build.revisions.revision != null)
             foreach (var revision in build.revisions.revision)
             {
                 if (revision["vcs-root-instance"]["vcs-root-id"] == "GitHubParameterised")
                 {
-                    return new TeamcityRevisionForBuild(buildId, repo, revision.version);
+                    return new TeamcityRevisionForBuild(buildId, user, repo, revision.version);
                 }
             }
             foreach (var dependency in build["snapshot-dependencies"].build)
@@ -37,9 +38,19 @@ namespace scbot.teamcity.webhooks.githubstatus.services
 
         private string GetRepo(dynamic build)
         {
+            return GetProperty(build, "github_repository");
+        }
+
+        private string GetUser(dynamic build)
+        {
+            return GetProperty(build, "github_user");
+        }
+
+        private static string GetProperty(dynamic build, string propertyName)
+        {
             foreach (var property in build.properties.property)
             {
-                if (property.name == "github_repository") return property.value;
+                if (property.name == propertyName) return property.value;
             }
             return null;
         }

@@ -30,12 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1409.1722, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="services\FakeGithubStatusApi.cs" />
+    <Compile Include="services\IGithubStatusApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\CachedTeamcityBuildJsonApi.cs" />
     <Compile Include="services\ITeamcityBuildJsonApi.cs" />
@@ -50,7 +57,9 @@
     <Compile Include="services\TeamcityBuildJsonApi.cs" />
     <Compile Include="services\TeamcityChangesApi.cs" />
     <Compile Include="services\TeamcityRevisionForBuild.cs" />
-    <Compile Include="Tests.cs" />
+    <Compile Include="StatusWebhooksHandler.cs" />
+    <Compile Include="tests\IntegrationTests.cs" />
+    <Compile Include="tests\WebhooksHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\scbot.core\scbot.core.csproj">
