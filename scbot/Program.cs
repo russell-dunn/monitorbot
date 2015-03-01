@@ -17,6 +17,7 @@ using scbot.teamcity.services;
 using scbot.teamcity.webhooks;
 using scbot.zendesk;
 using scbot.zendesk.services;
+using scbot.review;
 
 namespace scbot
 {
@@ -54,6 +55,9 @@ namespace scbot
             var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new[] {tcWebHooksProcessor});
 
 			var webClient = new WebClient();
+			var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
+				Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
+
 			var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
@@ -64,7 +68,8 @@ namespace scbot
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
                             new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
-                            tcWebHooksProcessor)));
+                            tcWebHooksProcessor,
+							githubReviewer)));
 
             var bot = new Bot(processor);
 

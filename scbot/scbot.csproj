@@ -73,6 +73,10 @@
       <Project>{f1bfb84c-f9aa-4759-9088-466c1239b58b}</Project>
       <Name>scbot.notes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.review\scbot.review.csproj">
+      <Project>{cf6cf142-744e-4ce7-bb38-5bac479ab244}</Project>
+      <Name>scbot.review</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.slack\scbot.slack.csproj">
       <Project>{299c0492-d039-4daa-8183-08d97a16639c}</Project>
       <Name>scbot.slack</Name>
