@@ -30,15 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener">
-      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Hosting">
-      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
-    </Reference>
     <Reference Include="Moq, Version=4.2.1409.1722, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
@@ -46,9 +37,6 @@
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,12 +50,8 @@
   <ItemGroup>
     <Compile Include="Branch.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="ForceReference.cs" />
-    <Compile Include="IAcceptTeamcityEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TeamcityEvent.cs" />
     <Compile Include="TeamcityEventHandler.cs" />
-    <Compile Include="TeamcityWebhooksEndpoint.cs" />
     <Compile Include="TeamcityWebhooksMessageProcessor.cs" />
     <Compile Include="tests\Build.cs" />
     <Compile Include="tests\BuildTrackingTests.cs" />
@@ -76,6 +60,10 @@
     <ProjectReference Include="..\scbot.core\scbot.core.csproj">
       <Project>{c7168f51-9f82-4d25-9792-f8ae92600c53}</Project>
       <Name>scbot.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\scbot.teamcity.webhooks.endpoint\scbot.teamcity.webhooks.endpoint.csproj">
+      <Project>{41c297f3-6693-43e0-8dd8-948f3d87be2b}</Project>
+      <Name>scbot.teamcity.webhooks.endpoint</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

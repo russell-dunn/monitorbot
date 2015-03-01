@@ -81,6 +81,10 @@
       <Project>{299c0492-d039-4daa-8183-08d97a16639c}</Project>
       <Name>scbot.slack</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.teamcity.webhooks.endpoint\scbot.teamcity.webhooks.endpoint.csproj">
+      <Project>{41c297f3-6693-43e0-8dd8-948f3d87be2b}</Project>
+      <Name>scbot.teamcity.webhooks.endpoint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.teamcity.webhooks\scbot.teamcity.webhooks.csproj">
       <Project>{AB7B27FF-6EC0-4998-8191-56826E758DC7}</Project>
       <Name>scbot.teamcity.webhooks</Name>

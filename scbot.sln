@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot", "scbot\scbot.csproj", "{B2258502-E3A8-4E53-86B8-56C62D32B92B}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.teamcity.webhooks", "scbot.teamcity.webhooks\scbot.teamcity.webhooks.csproj", "{AB7B27FF-6EC0-4998-8191-56826E758DC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.review", "scbot.review\scbot.review.csproj", "{CF6CF142-744E-4CE7-BB38-5BAC479AB244}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.teamcity.webhooks.endpoint", "scbot.teamcity.webhooks.endpoint\scbot.teamcity.webhooks.endpoint.csproj", "{41C297F3-6693-43E0-8DD8-948F3D87BE2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{CF6CF142-744E-4CE7-BB38-5BAC479AB244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF6CF142-744E-4CE7-BB38-5BAC479AB244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF6CF142-744E-4CE7-BB38-5BAC479AB244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41C297F3-6693-43E0-8DD8-948F3D87BE2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41C297F3-6693-43E0-8DD8-948F3D87BE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41C297F3-6693-43E0-8DD8-948F3D87BE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41C297F3-6693-43E0-8DD8-948F3D87BE2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
