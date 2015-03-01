@@ -52,6 +52,7 @@
     <Compile Include="diffparser\DiffParser.cs" />
     <Compile Include="diffparser\IDiffLineVisitor.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="reviewer\AvoidAppConfig.cs" />
     <Compile Include="reviewer\GeneralBadThing.cs" />
     <Compile Include="reviewer\MaximumLineLength.cs" />
     <Compile Include="reviewer\UseWindowsNewlines.cs" />

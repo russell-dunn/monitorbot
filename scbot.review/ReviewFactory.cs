@@ -25,6 +25,7 @@ namespace scbot.review
                     () => new GeneralBadThing("NotImplementedException", "NotImplementedException found"),
                     () => new GeneralBadThing("NotSupportedException", "NotSupportedException found"),
                     () => new GeneralBadThing(@"<SpecificVersion>\s*[fF]alse\s*</SpecificVersion>", "SpecificVersion=False found"),
+                    () => new AvoidAppConfig(),
             });
             return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
         }
