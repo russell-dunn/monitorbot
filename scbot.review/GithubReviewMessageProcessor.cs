@@ -34,13 +34,21 @@ namespace scbot.review
 				{
 					return FormatComments(message, m_ReviewApi.ReviewForPullRequest(m_DefaultUser, m_DefaultRepo, prNumber).Result);
 				}
+				else
+				{
+					return FormatComments(message, m_ReviewApi.ReviewForCommit(m_DefaultUser, m_DefaultRepo, toReview.Trim()).Result);
+				}
 			}
 			return MessageResult.Empty;
 		}
 
 		private MessageResult FormatComments(Message message, IEnumerable<DiffComment> comments)
 		{
-			var responses = comments.Select(x => Response.ToMessage(message, x.Description));
+			if (!comments.Any())
+			{
+				return new MessageResult(new[] { Response.ToMessage(message, "No issues detected. Looks good!") });
+			}
+			var responses = comments.Distinct().Take(20).Select(x => Response.ToMessage(message, x.Description));
 			return new MessageResult(responses);
 		}
 
