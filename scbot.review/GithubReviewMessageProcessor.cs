@@ -76,7 +76,7 @@ namespace scbot.review
         private IEnumerable<string> Group(IEnumerable<DiffComment> comments)
         {
             var groupedByType = comments.GroupBy(x => x.Description);
-            return groupedByType.Select(x => "*" + x.Key + ":* (" + String.Join(", ", GetFirstThree(GroupByFile(x))) + ")");
+            return groupedByType.Select(x => "*" + x.Key + ":* " + String.Join(", ", GetFirstThree(GroupByFile(x))));
         }
 
         private IEnumerable<string> GroupByFile(IEnumerable<DiffComment> comments)
