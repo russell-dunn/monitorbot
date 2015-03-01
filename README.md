@@ -14,6 +14,10 @@ Chatbot, currently running against slack on [redgate-compare.slack.com](https://
 - Simple note tracking (per-user): (`scbot: note this feature` / `notes` / `delete note 1`)
 - Zendesk issue tracking (per-channel): (`scbot: track ZD#12345` / [time passes] / `1 comment(s) were added to ZD#12345`)
 
+experimental / half-done:
+- #2: Teamcity tcWebhooks integration (per-channel): (`scbot: track breakages on branch master`)
+- #14: Automated code review: (`scbot: review c78d33a1864`)
+
 ### Design
 
 Tries to be functional (pure, immutable) where possible - but since most relevant features call out to third-party services a lot, this isn't always possible.
