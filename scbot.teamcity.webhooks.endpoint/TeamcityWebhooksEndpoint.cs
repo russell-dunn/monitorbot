@@ -43,8 +43,8 @@ namespace scbot.teamcity.webhooks.endpoint
                     GetBuildResultDelta(build.buildResultDelta),
                     build.branchName,
                     GetBuildState(build.buildResult),
-                    build.buildStatus
-                    );
+                    build.buildStatus,
+                    build.buildNumber);
             }
             catch (Exception e)
             {

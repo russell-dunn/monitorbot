@@ -12,9 +12,10 @@ namespace scbot.teamcity.webhooks.endpoint
         public readonly string BranchName;
         public readonly TeamcityBuildState BuildState;
         public readonly string BuildStateText;
+        public readonly string BuildNumber;
 
         public TeamcityEvent(TeamcityEventType eventType, string buildId, string buildTypeId, string buildName, BuildResultDelta buildResultDelta, 
-            string branchName, TeamcityBuildState buildState, string buildStateText)
+            string branchName, TeamcityBuildState buildState, string buildStateText, string buildNumber)
         {
             EventType = eventType;
             BuildId = buildId;
@@ -24,6 +25,7 @@ namespace scbot.teamcity.webhooks.endpoint
             BranchName = branchName;
             BuildState = buildState;
             BuildStateText = buildStateText;
+            BuildNumber = buildNumber;
         }
     }
 }
