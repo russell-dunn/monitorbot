@@ -62,6 +62,7 @@ namespace scbot.teamcity.webhooks.githubstatus.services
 
         private static string GetProperty(dynamic build, string propertyName)
         {
+            if (build.properties != null && build.properties.property != null)
             foreach (var property in build.properties.property)
             {
                 if (property.name == propertyName) return property.value;
