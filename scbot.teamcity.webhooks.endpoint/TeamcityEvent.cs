@@ -1,4 +1,6 @@
-﻿namespace scbot.teamcity.webhooks.endpoint
+﻿using System.Text;
+
+namespace scbot.teamcity.webhooks.endpoint
 {
     public class TeamcityEvent
     {
@@ -9,9 +11,10 @@
         public readonly BuildResultDelta BuildResultDelta;
         public readonly string BranchName;
         public readonly TeamcityBuildState BuildState;
+        public readonly string BuildStateText;
 
         public TeamcityEvent(TeamcityEventType eventType, string buildId, string buildTypeId, string buildName, BuildResultDelta buildResultDelta, 
-            string branchName, TeamcityBuildState buildState)
+            string branchName, TeamcityBuildState buildState, string buildStateText)
         {
             EventType = eventType;
             BuildId = buildId;
@@ -20,6 +23,7 @@
             BuildResultDelta = buildResultDelta;
             BranchName = branchName;
             BuildState = buildState;
+            BuildStateText = buildStateText;
         }
     }
 }

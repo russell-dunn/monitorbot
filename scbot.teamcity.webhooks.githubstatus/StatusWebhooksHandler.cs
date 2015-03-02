@@ -56,10 +56,15 @@ namespace scbot.teamcity.webhooks.githubstatus
         private void SetStatus(TeamcityEvent teamcityEvent, TeamcityRevisionForBuild revision)
         {
             var buildLink = string.Format("http://buildserver/viewLog.html?buildId={0}", teamcityEvent.BuildId);
-            if (teamcityEvent.EventType == TeamcityEventType.BuildStarted)
+            switch (teamcityEvent.EventType)
             {
-                m_StatusApi.SetStatus(revision.User, revision.Repo, revision.Hash, "pending",
-                    "build started", teamcityEvent.BuildName, buildLink);
+                case TeamcityEventType.BuildStarted:
+                    m_StatusApi.SetStatus(revision.User, revision.Repo, revision.Hash, "pending", "build started", teamcityEvent.BuildName, buildLink);
+                    break;
+                case TeamcityEventType.BuildFinished:
+                    var status = teamcityEvent.BuildState == TeamcityBuildState.Success ? "success" : "failure";
+                    m_StatusApi.SetStatus(revision.User, revision.Repo, revision.Hash, status, teamcityEvent.BuildStateText, teamcityEvent.BuildName, buildLink);
+                    break;
             }
         }
     }
