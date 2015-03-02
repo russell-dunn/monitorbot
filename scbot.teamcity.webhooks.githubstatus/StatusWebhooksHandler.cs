@@ -33,8 +33,27 @@ namespace scbot.teamcity.webhooks.githubstatus
                 // github only shows status for comparisons, so we're not going to see any on the master branch
                 return;
             }
-            var revision = m_TeamcityApi.RevisionForBuild(teamcityEvent.BuildId).Result;
+            var buildId = teamcityEvent.BuildId;
+            var revision = m_TeamcityApi.RevisionForBuild(buildId).Result;
 
+            if (revision == null)
+            {
+                // build doesn't have a revision yet -- try again soon
+                Console.WriteLine("Delaying revision fetch for build #" + buildId);
+                Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                    Console.WriteLine("Retrying for build #"+buildId);
+                    Accept(teamcityEvent);
+                });
+                return;
+            }
+
+            SetStatus(teamcityEvent, revision);
+        }
+
+        private void SetStatus(TeamcityEvent teamcityEvent, TeamcityRevisionForBuild revision)
+        {
             var buildLink = string.Format("http://buildserver/viewLog.html?buildId={0}", teamcityEvent.BuildId);
             if (teamcityEvent.EventType == "buildStarted")
             {
