@@ -20,10 +20,10 @@ namespace scbot.teamcity.webhooks.githubstatus
             m_TeamcityApi = teamcityApi;
         }
 
-        public static StatusWebhooksHandler Create(ITime time, IWebClient webClient)
+        public static StatusWebhooksHandler Create(ITime time, IWebClient webClient, string githubToken)
         {
             return new StatusWebhooksHandler(
-                new FakeGithubStatusApi(), 
+                new GithubStatusApi(webClient, githubToken), 
                 new TeamcityChangesApi(time, new TeamcityBuildJsonApi(webClient, null)));
         }
 

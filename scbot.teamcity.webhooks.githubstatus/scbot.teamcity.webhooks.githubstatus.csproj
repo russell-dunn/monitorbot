@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="services\FakeGithubStatusApi.cs" />
+    <Compile Include="services\GithubStatusApi.cs" />
     <Compile Include="services\IGithubStatusApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\CachedTeamcityBuildJsonApi.cs" />

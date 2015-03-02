@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,22 @@ namespace scbot.core.utils
                     }
                 }
                 return await client.DownloadStringTaskAsync(url);
+            }
+        }
+
+        public async Task<string> PostString(string url, string text, string[] headers = null)
+        {
+            using (var client = new System.Net.WebClient())
+            {
+                client.Headers.Add("user-agent: scbot/" + Version());
+                if (headers != null)
+                {
+                    foreach (var header in headers)
+                    {
+                        client.Headers.Add(header);
+                    }
+                }
+                return await client.UploadStringTaskAsync(url, text);
             }
         }
 

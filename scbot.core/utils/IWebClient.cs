@@ -9,5 +9,6 @@ namespace scbot.core.utils
     public interface IWebClient
     {
         Task<string> DownloadString(string url, IEnumerable<string> headers = null);
+        Task<string> PostString(string url, string text, string[] headers = null);
     }
 }
