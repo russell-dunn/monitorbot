@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin.Host.HttpListener;
 
-namespace scbot.teamcity.webhooks
+namespace scbot.teamcity.webhooks.endpoint
 {
     static class ForceReference
     {

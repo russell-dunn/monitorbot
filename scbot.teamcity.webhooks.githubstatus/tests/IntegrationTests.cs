@@ -1,13 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using scbot.core.utils;
 using scbot.teamcity.webhooks.githubstatus.services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace scbot.teamcity.webhooks.githubstatus
+namespace scbot.teamcity.webhooks.githubstatus.tests
 {
     class Tests
     {

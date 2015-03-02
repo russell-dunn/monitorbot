@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using scbot.core.bot;
 using scbot.core.compareengine;
+using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.tests;
 
 namespace scbot.teamcity.webhooks

@@ -18,6 +18,7 @@ using scbot.teamcity.webhooks;
 using scbot.zendesk;
 using scbot.zendesk.services;
 using scbot.review;
+using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.githubstatus;
 
 namespace scbot

@@ -1,4 +1,4 @@
-﻿namespace scbot.teamcity.webhooks
+﻿namespace scbot.teamcity.webhooks.endpoint
 {
     public interface IAcceptTeamcityEvents
     {

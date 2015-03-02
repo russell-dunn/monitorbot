@@ -6,7 +6,7 @@ using System.Web.Helpers;
 using Microsoft.Owin.Hosting;
 using Owin;
 
-namespace scbot.teamcity.webhooks
+namespace scbot.teamcity.webhooks.endpoint
 {
     public static class TeamcityWebhooksEndpoint
     {

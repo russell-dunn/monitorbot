@@ -7,6 +7,7 @@ using scbot.core.bot;
 using scbot.core.compareengine;
 using scbot.core.persistence;
 using scbot.core.tests;
+using scbot.teamcity.webhooks.endpoint;
 
 namespace scbot.teamcity.webhooks.tests
 {
