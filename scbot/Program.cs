@@ -56,7 +56,7 @@ namespace scbot
 
             var tcWebHooksProcessor = new TeamcityWebhooksMessageProcessor(persistence, commandParser);
             var tcWebHooksStatus = StatusWebhooksHandler.Create(time, webClient);
-            var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new[] {tcWebHooksProcessor});
+            var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new IAcceptTeamcityEvents[] {tcWebHooksProcessor, tcWebHooksStatus});
 
             var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
                 Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
