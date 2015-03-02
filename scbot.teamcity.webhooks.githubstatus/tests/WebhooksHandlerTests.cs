@@ -44,7 +44,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             handler.Accept(new TeamcityEvent(TeamcityEventType.BuildStarted, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Unknown, "", "1.0"));
 
             var url = "http://buildserver/viewLog.html?buildId=build-id";
-            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "pending", "build started", "build name 1.0", url));
+            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "pending", "build started", "build name", url));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             handler.Accept(new TeamcityEvent(TeamcityEventType.BuildFinished, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Success, "tests passed", "1.0"));
 
             var url = "http://buildserver/viewLog.html?buildId=build-id";
-            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "success", "tests passed", "build name 1.0", url)); 
+            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "success", "tests passed", "build name", url)); 
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             handler.Accept(new TeamcityEvent(TeamcityEventType.BuildFinished, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Failure, "Error message is logged", "1.0"));
 
             var url = "http://buildserver/viewLog.html?buildId=build-id";
-            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "failure", "Error message is logged", "build name 1.0", url));
+            githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "failure", "Error message is logged", "build name", url));
         }
     }
 }

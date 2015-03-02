@@ -56,7 +56,7 @@ namespace scbot.teamcity.webhooks.githubstatus
         private void SetStatus(TeamcityEvent teamcityEvent, TeamcityRevisionForBuild revision)
         {
             var buildLink = string.Format("http://buildserver/viewLog.html?buildId={0}", teamcityEvent.BuildId);
-            var description = teamcityEvent.BuildName + " " + teamcityEvent.BuildNumber;
+            var description = AbbreviateBuildName(teamcityEvent);
             switch (teamcityEvent.EventType)
             {
                 case TeamcityEventType.BuildStarted:
@@ -67,6 +67,17 @@ namespace scbot.teamcity.webhooks.githubstatus
                     m_StatusApi.SetStatus(revision.User, revision.Repo, revision.Hash, status, teamcityEvent.BuildStateText, description, buildLink);
                     break;
             }
+        }
+
+        private static string AbbreviateBuildName(TeamcityEvent teamcityEvent)
+        {
+            return teamcityEvent.BuildName
+                .Replace("SQL Compare Engine", "SCE")
+                .Replace("SQL Data Compare Engine", "SDCE")
+                .Replace("SQL Compare UI", "SCUI")
+                .Replace("SQL Data Compare UI", "SDCUI")
+                .Replace("SQL Compare", "SC")
+                .Replace("SQL Data Compare", "SDC");
         }
     }
 }
