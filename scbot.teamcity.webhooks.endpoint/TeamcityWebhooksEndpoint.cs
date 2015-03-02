@@ -36,18 +36,53 @@ namespace scbot.teamcity.webhooks
             {
                 var build = Json.Decode(eventJson).build;
                 return new TeamcityEvent(
-                    build.notifyType,
+                    GetEventType(build.notifyType),
                     build.buildId,
                     build.buildTypeId,
                     build.buildName,
-                    build.buildResultDelta,
-                    build.branchName
+                    GetBuildResultDelta(build.buildResultDelta),
+                    build.branchName,
+                    GetBuildState(build.buildResult)
                     );
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        private static TeamcityBuildState GetBuildState(string buildResult)
+        {
+            switch (buildResult)
+            {
+                case "running": return TeamcityBuildState.Running;
+                case "success": return TeamcityBuildState.Success;
+                case "failure": return TeamcityBuildState.Failure;
+                default: return TeamcityBuildState.Unknown;
+            }
+        }
+
+        private static TeamcityEventType GetEventType(string notifyType)
+        {
+            switch (notifyType)
+            {
+                case "buildStarted": return TeamcityEventType.BuildStarted;
+                case "buildInterrupted": return TeamcityEventType.BuildInterrupted;
+                case "beforeBuildFinish": return TeamcityEventType.BeforeBuildFinish;
+                case "buildFinished": return TeamcityEventType.BuildFinished;
+                default: return TeamcityEventType.Unknown;
+            }
+        }
+
+        private static BuildResultDelta GetBuildResultDelta(string buildResultDelta)
+        {
+            switch (buildResultDelta)
+            {
+                case "unchanged": return BuildResultDelta.Unchanged;
+                case "broken": return BuildResultDelta.Broken;
+                case "fixed": return BuildResultDelta.Fixed;
+                case "unknown": default: return BuildResultDelta.Unknown;
             }
         }
     }

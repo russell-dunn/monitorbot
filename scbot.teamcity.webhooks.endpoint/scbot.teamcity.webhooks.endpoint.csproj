@@ -56,10 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildResultDelta.cs" />
     <Compile Include="ForceReference.cs" />
     <Compile Include="IAcceptTeamcityEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamcityBuildState.cs" />
     <Compile Include="TeamcityEvent.cs" />
+    <Compile Include="TeamcityEventType.cs" />
     <Compile Include="TeamcityWebhooksEndpoint.cs" />
   </ItemGroup>
   <ItemGroup>

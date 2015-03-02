@@ -17,7 +17,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             var teamcityApi = new Mock<ITeamcityChangesApi>();
             var githubApi = new Mock<IGithubStatusApi>();
             var handler = new StatusWebhooksHandler(githubApi.Object, teamcityApi.Object);
-            handler.Accept(new TeamcityEvent("", "build-id", "buildType", "build name", "unknown", "foo"));
+            handler.Accept(new TeamcityEvent(TeamcityEventType.Unknown, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Unknown));
 
             teamcityApi.Verify(x => x.RevisionForBuild("build-id"));
         }
@@ -28,7 +28,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             var teamcityApi = new Mock<ITeamcityChangesApi>();
             var githubApi = new Mock<IGithubStatusApi>();
             var handler = new StatusWebhooksHandler(githubApi.Object, teamcityApi.Object);
-            handler.Accept(new TeamcityEvent("", "build-id", "buildType", "build name", "unknown", "master"));
+            handler.Accept(new TeamcityEvent(TeamcityEventType.Unknown, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "master", TeamcityBuildState.Unknown));
 
             teamcityApi.Verify(x => x.RevisionForBuild("build-id"), Times.Never);
         }
@@ -40,7 +40,7 @@ namespace scbot.teamcity.webhooks.githubstatus.tests
             teamcityApi.Setup(x => x.RevisionForBuild("build-id")).ReturnsAsync(new TeamcityRevisionForBuild("build-id", "a-user", "a-repo", "123hash"));
             var githubApi = new Mock<IGithubStatusApi>();
             var handler = new StatusWebhooksHandler(githubApi.Object, teamcityApi.Object);
-            handler.Accept(new TeamcityEvent("buildStarted", "build-id", "buildType", "build name", "unknown", "foo"));
+            handler.Accept(new TeamcityEvent(TeamcityEventType.BuildStarted, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Unknown));
 
             var url = "http://buildserver/viewLog.html?buildId=build-id";
             githubApi.Verify(x => x.SetStatus("a-user", "a-repo", "123hash", "pending", "build started", "build name", url));

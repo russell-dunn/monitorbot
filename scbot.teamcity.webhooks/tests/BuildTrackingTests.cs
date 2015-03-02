@@ -45,14 +45,14 @@ namespace scbot.teamcity.webhooks.tests
         public void AcceptsEventsToHandle()
         {
             var processor = new TeamcityWebhooksMessageProcessor(m_TrackedBuilds.Object, m_TrackedBranches.Object, new Mock<ICommandParser>().Object);
-            processor.Accept(new TeamcityEvent("eventType", "buildId", "buildTypeId", "buildName", "buildResultDelta", "branchName"));
+            processor.Accept(new TeamcityEvent(TeamcityEventType.Unknown, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Unknown));
         }
 
         [Test]
         public void PostsResponseIfTrackingBuildId()
         {
             var trackedBuilds = new List<Tracked<Build>> {new Tracked<Build>(new Build("12345"), "a-channel")};
-            var teamcityEvent = new TeamcityEvent("buildFinished", "12345", "bt1234", "the build", "unknown", "master");
+            var teamcityEvent = new TeamcityEvent(TeamcityEventType.Unknown, "12345", "buildType", "build name", BuildResultDelta.Unknown, "foo", TeamcityBuildState.Unknown);
             CollectionAssert.IsNotEmpty(new TeamcityEventHandler().GetResponseTo(teamcityEvent, trackedBuilds, new List<Tracked<Branch>>()));
         }
 
@@ -60,7 +60,7 @@ namespace scbot.teamcity.webhooks.tests
         public void PostsResponseIfTrackingBranchBreakage()
         {
             var trackedBranches = new List<Tracked<Branch>> { new Tracked<Branch>(new Branch(TeamcityEventTypes.BreakingBuilds, "master"), "a-channel") };
-            var teamcityEvent = new TeamcityEvent("buildFinished", "12345", "bt1234", "the build", "broken", "master");
+            var teamcityEvent = new TeamcityEvent(TeamcityEventType.Unknown, "build-id", "buildType", "build name", BuildResultDelta.Broken, "master", TeamcityBuildState.Unknown);
             CollectionAssert.IsNotEmpty(new TeamcityEventHandler().GetResponseTo(teamcityEvent, new List<Tracked<Build>>(), trackedBranches));
         }
 
@@ -68,7 +68,7 @@ namespace scbot.teamcity.webhooks.tests
         public void PostsResponseIfTrackingBuildFinish()
         {
             var trackedBranches = new List<Tracked<Branch>> { new Tracked<Branch>(new Branch(TeamcityEventTypes.FinishedBuilds, "asdf"), "a-channel") };
-            var teamcityEvent = new TeamcityEvent("buildFinished", "12345", "bt1234", "the build", "unknown", "asdf");
+            var teamcityEvent = new TeamcityEvent(TeamcityEventType.BuildFinished, "build-id", "buildType", "build name", BuildResultDelta.Unknown, "asdf", TeamcityBuildState.Unknown);
             CollectionAssert.IsNotEmpty(new TeamcityEventHandler().GetResponseTo(teamcityEvent, new List<Tracked<Build>>(), trackedBranches));
         }
 
@@ -79,7 +79,7 @@ namespace scbot.teamcity.webhooks.tests
             var processor = new TeamcityWebhooksMessageProcessor(new InMemoryKeyValueStore(), commandParser.Object);
             processor.ProcessMessage(new Message("a-channel", "a-user", "m#1"), "branch", "master", "breakages");
             processor.ProcessMessage(new Message("a-channel", "a-user", "m#1"), "branch", "master", "breakages");
-            processor.Accept(new TeamcityEvent("", "", "", "", "broken", "master"));
+            processor.Accept(new TeamcityEvent(TeamcityEventType.BuildFinished, "build-id", "buildType", "build name", BuildResultDelta.Broken, "master", TeamcityBuildState.Unknown));
 
             var response = processor.ProcessTimerTick();
             Assert.AreEqual(1, response.Responses.Count());
@@ -92,7 +92,7 @@ namespace scbot.teamcity.webhooks.tests
             var processor = new TeamcityWebhooksMessageProcessor(new InMemoryKeyValueStore(), commandParser.Object);
             processor.ProcessMessage(new Message("a-channel",  "a-user", "m#1"), "branch", "master", "breakages");
             processor.ProcessMessage(new Message("a-channel2", "a-user", "m#1"), "branch", "master", "breakages");
-            processor.Accept(new TeamcityEvent("", "", "", "", "broken", "master"));
+            processor.Accept(new TeamcityEvent(TeamcityEventType.BuildFinished, "build-id", "buildType", "build name", BuildResultDelta.Broken, "master", TeamcityBuildState.Unknown));
 
             var response = processor.ProcessTimerTick();
             Assert.AreEqual(2, response.Responses.Count());
