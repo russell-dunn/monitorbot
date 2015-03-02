@@ -23,8 +23,7 @@ namespace scbot.teamcity.webhooks.githubstatus
         {
             return new StatusWebhooksHandler(
                 new FakeGithubStatusApi(), 
-                new TeamcityChangesApi(
-                    new CachedTeamcityBuildJsonApi(time, new TeamcityBuildJsonApi(webClient, null))));
+                new TeamcityChangesApi(time, new TeamcityBuildJsonApi(webClient, null)));
         }
 
         public void Accept(TeamcityEvent teamcityEvent)

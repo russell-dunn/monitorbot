@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using scbot.core.utils;
 
 namespace scbot.teamcity.webhooks.githubstatus.services
 {
     class TeamcityChangesApi : ITeamcityChangesApi
     {
         private readonly ITeamcityBuildJsonApi m_Api;
+        private readonly Cache<string, TeamcityRevisionForBuild> m_Cache;
 
-        public TeamcityChangesApi(ITeamcityBuildJsonApi api)
+        public TeamcityChangesApi(ITime time, ITeamcityBuildJsonApi api)
         {
             m_Api = api;
+            m_Cache = new Cache<string, TeamcityRevisionForBuild>(time, TimeSpan.FromDays(1));
         }
 
         public async Task<TeamcityRevisionForBuild> RevisionForBuild(string buildId)
         {
+            if (m_Cache.Get(buildId) != null)
+            {
+                return m_Cache.Get(buildId);
+            }
+
             var build = await m_Api.Build(buildId);
             var repo = GetRepo(build);
             var user = GetUser(build);
@@ -25,14 +33,19 @@ namespace scbot.teamcity.webhooks.githubstatus.services
             {
                 if (revision["vcs-root-instance"]["vcs-root-id"] == "GitHubParameterised")
                 {
-                    return new TeamcityRevisionForBuild(buildId, user, repo, revision.version);
+                    var result = new TeamcityRevisionForBuild(buildId, user, repo, revision.version);
+                    m_Cache.Set(buildId, result);
+                    return result;
                 }
             }
             if (build["snapshot-dependencies"] != null && build["snapshot-dependencies"].build != null)
             foreach (var dependency in build["snapshot-dependencies"].build)
             {
                 var revisionFromDependency = await RevisionForBuild(dependency.id.ToString());
-                if (revisionFromDependency != null) return revisionFromDependency;
+                if (revisionFromDependency != null)
+                {
+                    return revisionFromDependency;
+                }
             }
             return null;
         }
