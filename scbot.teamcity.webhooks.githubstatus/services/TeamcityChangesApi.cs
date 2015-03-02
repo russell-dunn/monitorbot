@@ -28,6 +28,7 @@ namespace scbot.teamcity.webhooks.githubstatus.services
                     return new TeamcityRevisionForBuild(buildId, user, repo, revision.version);
                 }
             }
+            if (build["snapshot-dependencies"] != null && build["snapshot-dependencies"].build != null)
             foreach (var dependency in build["snapshot-dependencies"].build)
             {
                 var revisionFromDependency = await RevisionForBuild(dependency.id.ToString());
