@@ -20,6 +20,7 @@ using scbot.zendesk.services;
 using scbot.review;
 using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.githubstatus;
+using scbot.logging;
 
 namespace scbot
 {
@@ -27,7 +28,10 @@ namespace scbot
     {
         public static void Main(string[] args)
         {
-            MainAsync().Wait();
+            using (var dash = new LoggingDashboard(Configuration.LoggingEndpoint))
+            {
+                MainAsync().Wait();
+            }
         }
 
         private static async Task MainAsync()

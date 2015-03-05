@@ -69,6 +69,10 @@
       <Project>{189207b2-c9d7-49aa-8958-74d1490c5c57}</Project>
       <Name>scbot.jira</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.logging\scbot.logging.csproj">
+      <Project>{4d975da4-e829-4b0b-9c82-5c1ebd0fa398}</Project>
+      <Name>scbot.logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.notes\scbot.notes.csproj">
       <Project>{f1bfb84c-f9aa-4759-9088-466c1239b58b}</Project>
       <Name>scbot.notes</Name>

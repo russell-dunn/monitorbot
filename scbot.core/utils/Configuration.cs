@@ -20,6 +20,8 @@ namespace scbot.core.utils
 
         public static string GithubDefaultUser { get { return GetConfigValue("github-default-user"); } }
 
+        public static string LoggingEndpoint { get { return GetConfigValue("logging-dashboard-endpoint"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];
