@@ -6,11 +6,13 @@
         public readonly string Title;
         public readonly string Status;
         public readonly int CommentCount;
+        internal readonly string Description;
 
-        public JiraBug(string id, string title, string status, int commentCount)
+        public JiraBug(string id, string title, string description, string status, int commentCount)
         {
             Id = id;
             Title = title;
+            Description = description;
             Status = status;
             CommentCount = commentCount;
         }

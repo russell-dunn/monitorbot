@@ -15,6 +15,7 @@ namespace scbot.jira.tests
             Assert.AreEqual("Projects occasionally blow up when loaded against dbs with schema differences", bug.Title);
             Assert.AreEqual("Open", bug.Status);
             Assert.AreEqual(1, bug.CommentCount);
+            StringAssert.Contains("User has a source DB", bug.Description);
         }
 
         [Test]
