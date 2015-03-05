@@ -71,7 +71,7 @@ namespace scbot
                     new ConcattingMessageProcessor(
                         new CompositeMessageProcessor(
                             new NoteProcessor(commandParser, new NoteApi(persistence)),
-                            new JiraBugProcessor(jiraApi),
+                            new JiraBugProcessor(commandParser, jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
                             new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
