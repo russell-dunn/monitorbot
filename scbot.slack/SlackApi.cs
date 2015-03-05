@@ -43,7 +43,7 @@ namespace scbot.slack
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("Error reading rtm.start result: " + e);
+                Trace.TraceError("Error reading rtm.start result: " + e);
             }
         }
 

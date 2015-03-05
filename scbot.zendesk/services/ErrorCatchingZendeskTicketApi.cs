@@ -21,8 +21,8 @@ namespace scbot.zendesk.services
             }
             catch (Exception e)
             {
-                Trace.WriteLine("\n\n" + e + "\n\n" + DateTime.Now);
-                return default(ZendeskTicket); // TODO: log
+                Trace.TraceError(e.ToString());
+                return default(ZendeskTicket);
             }
         }
     }

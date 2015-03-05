@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Helpers;
@@ -30,9 +31,10 @@ namespace scbot.jira.services
             {
                 return await FromApi(id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null; // TODO: log
+                Trace.TraceError(e.ToString());
+                return null;
             }
         }
     }

@@ -28,7 +28,7 @@ namespace scbot.core.meta
 
         private void LogException(Exception exception)
         {
-            Trace.WriteLine("\n\n"+exception+"\n\n");
+            Trace.TraceError(exception.ToString());
         }
 
         public MessageResult ProcessMessage(Message message)

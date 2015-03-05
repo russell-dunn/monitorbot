@@ -36,7 +36,7 @@ namespace scbot.slack
             }
             catch (WebSocketException wse)
             {
-                Trace.WriteLine(wse);
+                Trace.TraceError(wse.ToString());
             }
 
             Trace.WriteLine("Caught websocket exception .. reconnecting");
@@ -52,9 +52,9 @@ namespace scbot.slack
             {
                 m_Underlying.Dispose();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                ;
+                Trace.TraceError(e.ToString());
             }
         }
 

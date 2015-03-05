@@ -49,7 +49,7 @@ namespace scbot.teamcity.webhooks.endpoint
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Trace.TraceError(e.ToString());
                 return null;
             }
         }

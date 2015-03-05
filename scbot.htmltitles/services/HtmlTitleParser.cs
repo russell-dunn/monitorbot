@@ -2,6 +2,7 @@
 using System.Net;
 using HtmlAgilityPack;
 using scbot.core.utils;
+using System.Diagnostics;
 
 namespace scbot.htmltitles.services
 {
@@ -23,9 +24,9 @@ namespace scbot.htmltitles.services
                 var title = doc.DocumentNode.SelectSingleNode("//title");
                 return WebUtility.HtmlDecode(title.InnerText);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // TODO: log
+                Trace.TraceError(e.ToString());
                 return null;
             }
         }
