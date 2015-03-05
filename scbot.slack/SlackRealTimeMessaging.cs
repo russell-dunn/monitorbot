@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using scbot.core.utils;
+using System.Diagnostics;
 
 namespace scbot.slack
 {
@@ -30,7 +31,7 @@ namespace scbot.slack
         public async Task<string> Receive(CancellationToken cancellationToken)
         {
             var result = await m_StringClientWebSocket.ReceiveString(cancellationToken);
-            Console.WriteLine("Got: "+result);
+            Trace.WriteLine("Got: "+result);
             return result;
         }
 

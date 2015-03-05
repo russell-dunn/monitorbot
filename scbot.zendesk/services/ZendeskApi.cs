@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,16 +32,16 @@ namespace scbot.zendesk.services
 
             using (var client = new CookieAwareWebClient(cookieJar))
             {
-                Console.WriteLine("getting login cookie");
+                Trace.WriteLine("getting login cookie");
                 var r1 = await client.DownloadStringTaskAsync("https://redgatesupport.zendesk.com/login?return_to=https%3A//redgatesupport.zendesk.com/");
-                Console.WriteLine("logging into rgid");
+                Trace.WriteLine("logging into rgid");
                 var r2 = await client.DownloadStringTaskAsync(string.Format("https://authentication.red-gate.com/openid/login?callback=c&emailAddress={0}&password={1}&_=5", username, password));
                 if (!r2.StartsWith("c(") && r2.EndsWith(")")) throw new Exception("expected jsonp callback called c()");
                 var fixedJson = r2.Substring("c(".Length, r2.Length - "c(".Length - ")".Length);
                 var redirectTo = (string)Json.Decode(fixedJson).redirectTo;
-                Console.WriteLine("redirect back to zdesk");
+                Trace.WriteLine("redirect back to zdesk");
                 var r3 = await client.DownloadStringTaskAsync(redirectTo);
-                Console.WriteLine("downloading a real issue to get api access (for some reason this seems to make future requests more reliable)");
+                Trace.WriteLine("downloading a real issue to get api access (for some reason this seems to make future requests more reliable)");
                 var real = await client.DownloadStringTaskAsync("https://redgatesupport.zendesk.com/agent/tickets/36414");
             }
 

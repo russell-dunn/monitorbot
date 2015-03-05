@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace scbot.zendesk.services
 
             // You can trigger this code by going to the Zendesk profile page, 
             // selecting the Devices and apps tab and deleting other sessions
-            Console.WriteLine("Caught 401 from zendesk .. attempting to reauth");
+            Trace.WriteLine("Caught 401 from zendesk .. attempting to reauth");
             // reconnect and retry once
             m_ZdApi = await m_ZdApiFactory();
             return await method();

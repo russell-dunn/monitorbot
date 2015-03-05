@@ -6,7 +6,7 @@ namespace scbot.review.diffparser
     {
         private static void Log(string str)
         {
-            // Console.WriteLine(str);
+            // Trace.WriteLine(str);
         }
 
         public static List<DiffLine> ParseDiff(string diff)

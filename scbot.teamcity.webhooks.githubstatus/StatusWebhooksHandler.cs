@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using scbot.teamcity.webhooks.endpoint;
+using System.Diagnostics;
 
 namespace scbot.teamcity.webhooks.githubstatus
 {
@@ -40,11 +41,11 @@ namespace scbot.teamcity.webhooks.githubstatus
             if (revision == null)
             {
                 // build doesn't have a revision yet -- try again soon
-                Console.WriteLine("Delaying revision fetch for build #" + buildId);
+                Trace.WriteLine("Delaying revision fetch for build #" + buildId);
                 Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(30));
-                    Console.WriteLine("Retrying for build #"+buildId);
+                    Trace.WriteLine("Retrying for build #"+buildId);
                     Accept(teamcityEvent);
                 });
                 return;

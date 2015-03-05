@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using scbot.core.bot;
+using System.Diagnostics;
 
 namespace scbot.slack.tests
 {
@@ -33,11 +34,11 @@ namespace scbot.slack.tests
         {
             if (!args.Any())
             {
-                Console.WriteLine(message);
+                Trace.WriteLine(message);
             }
             else
             {
-                Console.WriteLine(message, args);
+                Trace.WriteLine(string.Format(message, args));
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace scbot.zendesk.services
@@ -20,7 +21,7 @@ namespace scbot.zendesk.services
             }
             catch (Exception e)
             {
-                Console.WriteLine("\n\n" + e + "\n\n" + DateTime.Now);
+                Trace.WriteLine("\n\n" + e + "\n\n" + DateTime.Now);
                 return default(ZendeskTicket); // TODO: log
             }
         }

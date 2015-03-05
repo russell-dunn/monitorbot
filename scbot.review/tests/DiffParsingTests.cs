@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using scbot.review.diffparser;
+using System.Diagnostics;
 
 namespace scbot.review.tests
 {
     class DiffParsingTests
     {
-        private void Log(string str) { Console.WriteLine(str); }
+        private void Log(string str) { Trace.WriteLine(str); }
 
         #region test diffs
 
@@ -91,7 +92,7 @@ index 0000000..4e89371
             foreach (var l in result)
             {
                 l.Accept(visitor);
-                Console.WriteLine("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext);
+                Trace.WriteLine(string.Format("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext));
             }
         }
 
@@ -104,7 +105,7 @@ index 0000000..4e89371
             foreach (var l in result)
             {
                 l.Accept(visitor);
-                Console.WriteLine("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext);
+                Trace.WriteLine(string.Format("{0} {1} {2}", visitor.CurrentNewFile, visitor.CurrentNewFileLineNumber, visitor.CurrentLineText ?? visitor.CurrentFunctionName ?? visitor.CurrentContext));
             }
 
             Assert.AreEqual(22, visitor.CurrentNewFileLineNumber);

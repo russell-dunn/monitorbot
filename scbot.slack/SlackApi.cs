@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using scbot.core.bot;
+using System.Diagnostics;
 
 namespace scbot.slack
 {
@@ -31,13 +32,13 @@ namespace scbot.slack
         {
             try
             {
-                Console.WriteLine("I am {0} ({1})", result.self.name, result.self.id);
-                Console.WriteLine("I am connecting to {0} ({1})", result.team.name, result.team.id);
-                Console.WriteLine("Users:");
+                Trace.WriteLine((string)string.Format("I am {0} ({1})", result.self.name, result.self.id));
+                Trace.WriteLine((string)string.Format("I am connecting to {0} ({1})", result.team.name, result.team.id));
+                Trace.WriteLine("Users:");
                 PrintThingList(result.users);
-                Console.WriteLine("Channels:");
+                Trace.WriteLine("Channels:");
                 PrintThingList(result.channels);
-                Console.WriteLine("IMs:");
+                Trace.WriteLine("IMs:");
                 PrintThingList(result.ims);
             }
             catch (Exception e)
@@ -50,7 +51,7 @@ namespace scbot.slack
         {
             foreach (var thing in things)
             {
-                Console.WriteLine("  {0} ({1})", thing.name ?? thing.user, thing.id);
+                Trace.WriteLine((string)string.Format("  {0} ({1})", thing.name ?? thing.user, thing.id));
             }
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Helpers;
 using Microsoft.Owin.Hosting;
 using Owin;
+using System.Diagnostics;
 
 namespace scbot.teamcity.webhooks.endpoint
 {
@@ -48,7 +49,7 @@ namespace scbot.teamcity.webhooks.endpoint
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Trace.WriteLine(e);
                 return null;
             }
         }

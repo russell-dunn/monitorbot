@@ -1,5 +1,6 @@
 using System;
 using scbot.core.bot;
+using System.Diagnostics;
 
 namespace scbot.core.meta
 {
@@ -27,7 +28,7 @@ namespace scbot.core.meta
 
         private void LogException(Exception exception)
         {
-            Console.WriteLine("\n\n"+exception+"\n\n");
+            Trace.WriteLine("\n\n"+exception+"\n\n");
         }
 
         public MessageResult ProcessMessage(Message message)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,10 +36,10 @@ namespace scbot.slack
             }
             catch (WebSocketException wse)
             {
-                Console.WriteLine(wse);
+                Trace.WriteLine(wse);
             }
 
-            Console.WriteLine("Caught websocket exception .. reconnecting");
+            Trace.WriteLine("Caught websocket exception .. reconnecting");
             // reconnect and retry once
             TryDisposeOld();
             m_Underlying = await m_Factory();

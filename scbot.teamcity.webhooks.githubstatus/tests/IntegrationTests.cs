@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using scbot.core.utils;
 using scbot.teamcity.webhooks.githubstatus.services;
+using System.Diagnostics;
 
 namespace scbot.teamcity.webhooks.githubstatus.tests
 {

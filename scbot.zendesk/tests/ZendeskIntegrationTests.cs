@@ -18,8 +18,8 @@ namespace scbot.zendesk.tests
             var comment = ticket.Comments.ElementAt(1);
             Assert.NotNull(comment.Author);
             Assert.NotNull(comment.Avatar);
-            Console.WriteLine(comment.Author);
-            Console.WriteLine(comment.Avatar);
+            Trace.WriteLine(comment.Author);
+            Trace.WriteLine(comment.Avatar);
         }
 
         [Test, Explicit]
