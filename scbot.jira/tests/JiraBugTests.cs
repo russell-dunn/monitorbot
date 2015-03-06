@@ -66,7 +66,7 @@ namespace scbot.jira.tests
             jiraApi.Setup(x => x.FromId("SC-1234")).ReturnsAsync(bug);
 
             var commandParser = CommandParser.For("suggest labels for SC-1234");
-            var jiraBugProcessor = new JiraBugProcessor(commandParser, jiraApi.Object);
+            var jiraBugProcessor = new JiraLabelSuggester(commandParser, jiraApi.Object);
             var result = jiraBugProcessor.ProcessMessage(new Message("a-channel", "a-user", "msg"));
             Assert.AreEqual("bugtype:oom repo:sharedsql", result.Responses.Single().Message);
         }
