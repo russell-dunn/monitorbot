@@ -12,6 +12,8 @@ namespace scbot.core.bot
             Responses = responses;
         }
 
+        public MessageResult(Response response) : this(new[] { response }) { }
+
         public static readonly MessageResult Empty = new MessageResult(Enumerable.Empty<Response>());
     }
 }

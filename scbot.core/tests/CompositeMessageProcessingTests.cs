@@ -16,9 +16,9 @@ namespace scbot.core.tests
             var subProcessor2 = new Mock<IMessageProcessor>();
 
             var response1 = new Response("a", "b");
-            subProcessor1.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(new[] {response1,}));
+            subProcessor1.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(response1));
             var response2 = new Response("c", "d", "image");
-            subProcessor2.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(new[] {response2,}));
+            subProcessor2.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(response2));
 
             var compositeMessageProcessor = new CompositeMessageProcessor(subProcessor1.Object, subProcessor2.Object);
             var result = compositeMessageProcessor.ProcessMessage(new Message("asdf", "a-user", "some-text"));
@@ -47,7 +47,7 @@ namespace scbot.core.tests
         public void ErrorCatchingMessageProcessorPassesThroughResults()
         {
             var underlying = new Mock<IMessageProcessor>();
-            underlying.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(new[] {new Response("a", "b")}));
+            underlying.Setup(x => x.ProcessMessage(It.IsAny<Message>())).Returns(new MessageResult(new Response("a", "b")));
 
             var compositeMessageProcessor = new ErrorCatchingMessageProcessor(underlying.Object);
             var result = compositeMessageProcessor.ProcessMessage(new Message("asdf", "a-user", "some-text"));

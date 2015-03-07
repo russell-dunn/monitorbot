@@ -32,24 +32,24 @@ namespace scbot.notes
             {
                 if (String.IsNullOrWhiteSpace(noteText)) return Usage(message);
                 var note = m_NoteApi.AddNote(message.User, noteText);
-                return new MessageResult(new[] {Response.ToMessage(message, FormatNoteStoredResponse(note))});
+                return new MessageResult(Response.ToMessage(message, FormatNoteStoredResponse(note)));
             }
             if (m_CommandParser.TryGetCommand(message, "notes", out ignored))
             {
                 var notes = m_NoteApi.GetNotes(message.User);
-                return new MessageResult(new[] {Response.ToMessage(message, FormateNoteListResponse(notes.ToList()))});
+                return new MessageResult(Response.ToMessage(message, FormateNoteListResponse(notes.ToList())));
             }
             if (m_CommandParser.TryGetCommand(message, "delete note", out noteId))
             {
                 m_NoteApi.RemoveNote(message.User, noteId);
-                return new MessageResult(new[] {Response.ToMessage(message, "note "+noteId+" deleted")});
+                return new MessageResult(Response.ToMessage(message, "note "+noteId+" deleted"));
             }
             return MessageResult.Empty;
         }
 
         private static MessageResult Usage(Message message)
         {
-            return new MessageResult(new[] {Response.ToMessage(message, "usage: note <text> | notes | delete note <id>")});
+            return new MessageResult(Response.ToMessage(message, "usage: note <text> | notes | delete note <id>"));
         }
 
         private static string FormatNoteStoredResponse(Note note)

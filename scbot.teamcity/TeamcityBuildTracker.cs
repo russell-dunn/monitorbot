@@ -61,9 +61,9 @@ namespace scbot.teamcity
             if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_TeamcityBuildRegex.IsMatch(toTrack))
             {
                 var build = m_TeamcityBuildApi.GetBuild(toTrack.Substring(6)).Result;
-                if (build.Equals(TeamcityBuildStatus.Unknown)) return new MessageResult(new[] { Response.ToMessage(message, FormatNotFoundMessage(toTrack)) });
+                if (build.Equals(TeamcityBuildStatus.Unknown)) return new MessageResult(Response.ToMessage(message, FormatNotFoundMessage(toTrack)));
                 m_Persistence.AddToList(new Tracked<TeamcityBuildStatus>(build, message.Channel));
-                return new MessageResult(new[] { Response.ToMessage(message, FormatNowTrackingMessage(toTrack)) });
+                return new MessageResult(Response.ToMessage(message, FormatNowTrackingMessage(toTrack)));
             }
             return MessageResult.Empty;
         }

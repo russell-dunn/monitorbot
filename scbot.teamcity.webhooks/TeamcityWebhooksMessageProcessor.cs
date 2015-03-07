@@ -78,7 +78,7 @@ namespace scbot.teamcity.webhooks
         {
             var parsedEventType = GetEventTypes(eventType);
             m_BranchPersistence.Set(KeyFor(message.Channel, branch), new Tracked<Branch>(new Branch(parsedEventType, branch), message.Channel));
-            return new MessageResult(new[] { Response.ToMessage(message, string.Format("Now tracking {0} for branch {1}", eventType, branch)) });
+            return new MessageResult(Response.ToMessage(message, string.Format("Now tracking {0} for branch {1}", eventType, branch)));
         }
 
         private TeamcityEventTypes GetEventTypes(string eventType)
@@ -95,7 +95,7 @@ namespace scbot.teamcity.webhooks
         private MessageResult TrackBuild(Message message, string buildId)
         {
             m_BuildPersistence.Set(KeyFor(message.Channel, buildId), new Tracked<Build>(new Build(buildId), message.Channel));
-            return new MessageResult(new[] { Response.ToMessage(message, string.Format("Now tracking build#{0}", buildId)) });
+            return new MessageResult(Response.ToMessage(message, string.Format("Now tracking build#{0}", buildId)));
         }
 
         public void Accept(TeamcityEvent teamcityEvent)

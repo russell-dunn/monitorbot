@@ -39,11 +39,11 @@ namespace scbot.rg
             try
             {
                 Directory.Delete(path);
-                return new MessageResult(new[] { Response.ToMessage(message, "Deleted " + path) });
+                return new MessageResult(Response.ToMessage(message, "Deleted " + path));
             }
             catch (Exception e)
             {
-                return new MessageResult(new[] { Response.ToMessage(message, "Failed to delete " + path + ": " + e.Message) });
+                return new MessageResult(Response.ToMessage(message, "Failed to delete " + path + ": " + e.Message));
             }
         }
 
