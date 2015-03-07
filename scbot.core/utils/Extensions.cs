@@ -1,5 +1,6 @@
 ﻿using scbot.core.bot;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
@@ -33,6 +34,17 @@ namespace scbot.core.utils
         {
             var json = await webClient.DownloadString(url, headers);
             return Json.Decode(json);
+        }
+
+        public static bool TryMatch(this Regex regex, string input, out Match match)
+        {
+            match = regex.Match(input);
+            return match.Success;
+        }
+
+        public static string Group(this Match match, string groupName)
+        {
+            return match.Groups[groupName].ToString();
         }
     }
 }
