@@ -21,6 +21,7 @@ using scbot.review;
 using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.githubstatus;
 using scbot.logging;
+using scbot.rg;
 
 namespace scbot
 {
@@ -78,7 +79,8 @@ namespace scbot
                             new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor,
-                            githubReviewer)));
+                            githubReviewer,
+                            new RecordReplayTraceManagement(commandParser))));
 
             var bot = new Bot(processor);
 

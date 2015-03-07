@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.logging", "scbot.logging\scbot.logging.csproj", "{4D975DA4-E829-4B0B-9C82-5C1EBD0FA398}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.rg", "scbot.rg\scbot.rg.csproj", "{0F742B7F-2429-473E-813C-B4BB317C307B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{4D975DA4-E829-4B0B-9C82-5C1EBD0FA398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D975DA4-E829-4B0B-9C82-5C1EBD0FA398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D975DA4-E829-4B0B-9C82-5C1EBD0FA398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F742B7F-2429-473E-813C-B4BB317C307B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F742B7F-2429-473E-813C-B4BB317C307B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F742B7F-2429-473E-813C-B4BB317C307B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F742B7F-2429-473E-813C-B4BB317C307B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
