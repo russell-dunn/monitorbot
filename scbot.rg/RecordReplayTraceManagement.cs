@@ -26,7 +26,8 @@ namespace scbot.rg
             {
                 return new Dictionary<Regex, Func<Message, Match, MessageResult>>
                 {
-                    { new Regex(@"delete traces for (?<branch>[^ ]+)"), DeleteTracesFor }
+                    { new Regex(@"delete traces for (?<branch>[^ ]+)"), DeleteTracesFor },
+                    { new Regex(@"init[^ ]* traces for (?<branch>[^ ]+)"), InitTracesFor },
                 };
             }
         }
@@ -34,7 +35,7 @@ namespace scbot.rg
         private static MessageResult DeleteTracesFor(Message message, Match args)
         {
             var branch = args.Group("branch");
-            var path = SanitizeSlashesInBranch(Path.Combine(c_RecordReplayBase, branch));
+            var path = PathForBranch(branch);
             Trace.TraceInformation("DeleteTracesFor " + path);
             try
             {
@@ -47,6 +48,27 @@ namespace scbot.rg
             }
         }
 
+        private static MessageResult InitTracesFor(Message message, Match args)
+        {
+            var branch = args.Group("branch");
+            var path = PathForBranch(branch);
+            Trace.TraceInformation("DeleteTracesFor " + path);
+            try
+            {
+                CopyDirectory(PathForBranch("master"), path, true, true);
+                return Response.ToMessage(message, "Copied traces from master into " + path);
+            }
+            catch (Exception e)
+            {
+                return Response.ToMessage(message, "Failed to copy traces to " + path + ": " + e.Message);
+            };
+        }
+
+        private static string PathForBranch(string branch)
+        {
+            return SanitizeSlashesInBranch(Path.Combine(c_RecordReplayBase, branch));
+        }
+
         private static string SanitizeSlashesInBranch(string path)
         {
             return Path.GetFullPath(path);
@@ -54,7 +76,7 @@ namespace scbot.rg
 
         // https://msdn.microsoft.com/en-us/library/bb762914
         // How to: Copy Directories (sigh)
-        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwrite)
+        private static void CopyDirectory(string sourceDirName, string destDirName, bool copySubDirs, bool overwrite)
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -92,7 +114,7 @@ namespace scbot.rg
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string temppath = Path.Combine(destDirName, subdir.Name);
-                    DirectoryCopy(subdir.FullName, temppath, copySubDirs, overwrite);
+                    CopyDirectory(subdir.FullName, temppath, copySubDirs, overwrite);
                 }
             }
         }
