@@ -28,9 +28,9 @@ namespace scbot.jira
                 var bug = m_JiraApi.FromId(toSuggest).Result;
                 if (bug == null)
                 {
-                    return new MessageResult(Response.ToMessage(message, "Couldn't find bug " + toSuggest));
+                    return Response.ToMessage(message, "Couldn't find bug " + toSuggest);
                 }
-                return new MessageResult(Response.ToMessage(message, String.Join(" ", SuggestionsFor(bug).Distinct())));
+                return Response.ToMessage(message, String.Join(" ", SuggestionsFor(bug).Distinct()));
             }
             return MessageResult.Empty;
         }

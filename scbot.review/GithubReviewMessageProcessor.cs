@@ -67,7 +67,7 @@ namespace scbot.review
         {
             if (!comments.Any())
             {
-                return new MessageResult(Response.ToMessage(message, "No issues detected. Looks good!"));
+                return Response.ToMessage(message, "No issues detected. Looks good!");
             }
             var responses = Group(comments).Take(20).Select(x => Response.ToMessage(message, x)).ToList();
             return new MessageResult(responses);

@@ -79,13 +79,13 @@ namespace scbot.zendesk
             {
                 var ticket = m_ZendeskApi.FromId(toTrack.Substring(3)).Result;
                 m_Persistence.AddToList(new Tracked<ZendeskTicket>(ticket, message.Channel));
-                return new MessageResult(Response.ToMessage(message, FormatNowTrackingMessage(toTrack)));
+                return Response.ToMessage(message, FormatNowTrackingMessage(toTrack));
             }
             if (m_CommandParser.TryGetCommand(message, "untrack", out toUntrack) && s_ZendeskIdRegex.IsMatch(toUntrack))
             {
                 var idToUntrack = toUntrack.Substring(3);
                 m_Persistence.RemoveFromList(x => x.Value.Id == idToUntrack);
-                return new MessageResult(Response.ToMessage(message, FormatNowNotTrackingMessage(toUntrack)));
+                return Response.ToMessage(message, FormatNowNotTrackingMessage(toUntrack));
             }
             return MessageResult.Empty;
         }
