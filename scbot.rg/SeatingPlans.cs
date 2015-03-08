@@ -22,13 +22,13 @@ namespace scbot.rg
             m_Underlying = new RegexCommandMessageProcessor(commandParser, Commands);
         }
 
-        public Dictionary<Regex, MessageHandler> Commands
+        public Dictionary<string, MessageHandler> Commands
         {
             get
             {
-                return new Dictionary<Regex, MessageHandler>
+                return new Dictionary<string, MessageHandler>
                 {
-                    { new Regex(@"where is (?<thing>.+)"), WhereIs },
+                    { "where is (?<thing>.+)", WhereIs },
                     //{ new Regex(@"init[^ ]* traces for (?<branch>[^ ]+)"), InitTracesFor },
                 };
             }

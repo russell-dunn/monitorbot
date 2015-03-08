@@ -24,14 +24,14 @@ namespace scbot.rg
             m_Pass = userPass[1];
         }
 
-        public Dictionary<Regex, MessageHandler> Commands
+        public Dictionary<string, MessageHandler> Commands
         {
             get
             {
-                return new Dictionary<Regex, MessageHandler>
+                return new Dictionary<string, MessageHandler>
                 {
-                    { new Regex(@"cafcam|lunch|food"), PostCafcam },
-                    { new Regex(@"foos|fooscam"), PostFooscam },
+                    { "cafcam|lunch|food", PostCafcam },
+                    { "foos|fooscam", PostFooscam },
                 };
             }
         }

@@ -21,14 +21,14 @@ namespace scbot.silly
             m_WebClient = webclient;
         }
 
-        public Dictionary<Regex, MessageHandler> Commands
+        public Dictionary<string, MessageHandler> Commands
         {
             get
             {
-                return new Dictionary<Regex, MessageHandler>
+                return new Dictionary<string, MessageHandler>
                 {
-                    { new Regex(@"quote"), Quote },
-                    { new Regex(@"class name|name (a )?class"), ClassName },
+                    { "quote", Quote },
+                    { "class name|name (a )?class", ClassName },
                     //{ new Regex(@"method name|name (a )?method"), MethodName },
                 };
             }
