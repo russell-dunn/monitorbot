@@ -89,6 +89,19 @@ namespace scbot.zendesk.tests
         }
 
         [Test]
+        public void DoesNotNotifyForPendingOrHold()
+        {
+            var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;
+            var responses = comparer.Compare(new[]
+            {
+                new Update<ZendeskTicket>("a-channel",
+                    new ZendeskTicket("12345", "a-description", "pending", new ZendeskTicket.Comment[3]),
+                    new ZendeskTicket("12345", "a-description", "hold", new ZendeskTicket.Comment[3])),
+            });
+            CollectionAssert.IsEmpty(responses);
+        }
+
+        [Test]
         public void HasSpecificMessageForDescriptionChanged()
         {
             var comparer = new ZendeskTicketTracker(null, null, null).m_ZendeskTicketCompareEngine;

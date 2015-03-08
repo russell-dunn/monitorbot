@@ -27,9 +27,15 @@ namespace scbot.zendesk
                 new[]
                 {
                     new PropertyComparer<ZendeskTicket>(x => x.OldValue.Comments.Count < x.NewValue.Comments.Count, FormatCommentsAdded),
-                    new PropertyComparer<ZendeskTicket>(x => x.OldValue.Status != x.NewValue.Status, FormatStatusChanged), 
+                    new PropertyComparer<ZendeskTicket>(ClosedOrOpened, FormatStatusChanged), 
                     new PropertyComparer<ZendeskTicket>(x => x.OldValue.Description != x.NewValue.Description, FormatDescriptionChanged), 
                 });
+        }
+
+        private bool ClosedOrOpened(Update<ZendeskTicket> x)
+        {
+            return x.OldValue.Status != x.NewValue.Status && 
+            (x.OldValue.Status == "closed" || x.NewValue.Status == "closed");
         }
 
         private static Response FormatCommentsAdded(Update<ZendeskTicket> x)
