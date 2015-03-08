@@ -1,4 +1,5 @@
 ﻿using scbot.core.bot;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -45,6 +46,11 @@ namespace scbot.core.utils
         public static string Group(this Match match, string groupName)
         {
             return match.Groups[groupName].ToString();
+        }
+
+        public static bool Contains(this string haystack, string needle, StringComparison stringComparison)
+        {
+            return haystack.IndexOf(needle, stringComparison) != -1;
         }
     }
 }

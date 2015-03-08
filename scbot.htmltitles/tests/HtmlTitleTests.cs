@@ -77,5 +77,16 @@ namespace scbot.htmltitles.tests
             htmlTitleParser.Verify(x => x.GetHtmlTitle(It.IsAny<string>()), Times.Never);
         }
 
+        [Test]
+        public void IgnoresLoginPages()
+        {
+            var htmlTitleParser = new Mock<IHtmlTitleParser>();
+            var url = "http://example.com";
+            var title = "Log In: Example Domain";
+            htmlTitleParser.Setup(x => x.GetHtmlTitle(url)).Returns(title);
+            var htmlTitle = new HtmlTitleProcessor(htmlTitleParser.Object, new string[0]);
+            var response = htmlTitle.ProcessMessage(new Message("a-channel", "some-user", string.Format("this is a link: <{0}>", url)));
+            CollectionAssert.IsEmpty(response.Responses);
+        }
     }
 }
