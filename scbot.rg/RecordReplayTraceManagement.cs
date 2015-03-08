@@ -27,7 +27,7 @@ namespace scbot.rg
                 return new Dictionary<Regex, Func<Message, Match, MessageResult>>
                 {
                     { new Regex(@"delete traces for (?<branch>[^ ]+)"), DeleteTracesFor },
-                    { new Regex(@"init[^ ]* traces for (?<branch>[^ ]+)"), InitTracesFor },
+                    //{ new Regex(@"init[^ ]* traces for (?<branch>[^ ]+)"), InitTracesFor },
                 };
             }
         }
