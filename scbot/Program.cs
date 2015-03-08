@@ -84,7 +84,8 @@ namespace scbot
                             new RecordReplayTraceManagement(commandParser),
                             new SeatingPlans(commandParser, webClient),
                             new Webcams(commandParser, Configuration.WebcamAuth),
-                            new Silly(commandParser, webClient))));
+                            new Silly(commandParser, webClient),
+                            new Installers(commandParser, webClient))));
 
             var bot = new Bot(processor);
 
