@@ -52,7 +52,7 @@ namespace scbot.rg
         {
             var branch = args.Group("branch");
             var path = PathForBranch(branch);
-            Trace.TraceInformation("DeleteTracesFor " + path);
+            Trace.TraceInformation("InitTracesFor " + path);
             try
             {
                 CopyDirectory(PathForBranch("master"), path, true, true);
