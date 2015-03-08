@@ -22,7 +22,7 @@ namespace scbot.jira.services
         {
             var json = await ApiCall(c_ApiBase + id);
             var obj = Json.Decode(json);
-            return new JiraBug(id, obj.fields.summary, obj.fields.description, obj.fields.status.name, obj.fields.comment.total);
+            return new JiraBug(id, obj.fields.issuetype.name, obj.fields.summary, obj.fields.description, obj.fields.status.name, obj.fields.comment.total);
         }
 
         public async Task<JiraBug> FromId(string id)

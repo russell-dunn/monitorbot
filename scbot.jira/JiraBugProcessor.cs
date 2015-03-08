@@ -42,8 +42,8 @@ namespace scbot.jira
 
         private static string FormatBug(JiraBug bug)
         {
-            return string.Format("<{0}|{1}> | {2} | {3} | {4} {5}", "https://jira.red-gate.com/browse/" + bug.Id, bug.Id,
-                bug.Title, bug.Status, bug.CommentCount, bug.CommentCount == 1 ? "comment" : "comments");
+            return string.Format("<{0}|{1}> | {2} | {3} | {4} | {5} {6}", "https://jira.red-gate.com/browse/" + bug.Id, bug.Id,
+                bug.Type, bug.Title, bug.Status, bug.CommentCount, bug.CommentCount == 1 ? "comment" : "comments");
         }
     }
 }
