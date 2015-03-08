@@ -20,11 +20,11 @@ namespace scbot.rg
         {
         }
 
-        public static Dictionary<Regex, Func<Message, Match, MessageResult>> Commands
+        public static Dictionary<Regex, MessageHandler> Commands
         {
             get
             {
-                return new Dictionary<Regex, Func<Message, Match, MessageResult>>
+                return new Dictionary<Regex, MessageHandler>
                 {
                     { new Regex(@"delete traces for (?<branch>[^ ]+)"), DeleteTracesFor },
                     //{ new Regex(@"init[^ ]* traces for (?<branch>[^ ]+)"), InitTracesFor },
