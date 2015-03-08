@@ -39,7 +39,7 @@ namespace scbot.rg
             Trace.TraceInformation("DeleteTracesFor " + path);
             try
             {
-                Directory.Delete(path);
+                Directory.Delete(path, true);
                 return Response.ToMessage(message, "Deleted " + path);
             }
             catch (Exception e)
