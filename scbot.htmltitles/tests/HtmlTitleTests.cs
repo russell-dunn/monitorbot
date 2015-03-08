@@ -61,5 +61,21 @@ namespace scbot.htmltitles.tests
             CollectionAssert.IsEmpty(response.Responses);
         }
 
+        [Test]
+        public void IgnoresSpecialSlackCommands()
+        {
+            var htmlTitleParser = new Mock<IHtmlTitleParser>(MockBehavior.Strict);
+            var htmlTitle = new HtmlTitleProcessor(htmlTitleParser.Object, new[] { "example.com" });
+            foreach (var command in new[] {
+                "<#chan|this is a channel link>",
+                "<@U1234|this is a user link>",
+                "<!thing> this is a special command" })
+            {
+                var response = htmlTitle.ProcessMessage(new Message("a-channel", "some-user", command));
+                CollectionAssert.IsEmpty(response.Responses);
+            }
+            htmlTitleParser.Verify(x => x.GetHtmlTitle(It.IsAny<string>()), Times.Never);
+        }
+
     }
 }
