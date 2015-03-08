@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using scbot.core.bot;
 using scbot.core.compareengine;
@@ -66,10 +67,16 @@ namespace scbot.zendesk
             {
                 var id = result.NewValue.Id;
                 m_Persistence.RemoveFromList(x => x.Value.Id == id);
-                m_Persistence.AddToList(new Tracked<ZendeskTicket>(result.NewValue, result.Response.Channel));
+                m_Persistence.AddToList(new Tracked<ZendeskTicket>(StripCommentText(result.NewValue), result.Response.Channel));
             }
 
             return new MessageResult(results.Select(x => x.Response).ToList());
+        }
+
+        private ZendeskTicket StripCommentText(ZendeskTicket newValue)
+        {
+            return new ZendeskTicket(newValue.Id, newValue.Description, newValue.Status, 
+                newValue.Comments.Select(x => new ZendeskTicket.Comment("<text>", x.Author, x.Avatar)).ToList());
         }
 
         public MessageResult ProcessMessage(Message message)
