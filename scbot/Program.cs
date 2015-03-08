@@ -22,6 +22,7 @@ using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.githubstatus;
 using scbot.logging;
 using scbot.rg;
+using scbot.silly;
 
 namespace scbot
 {
@@ -82,7 +83,8 @@ namespace scbot
                             githubReviewer,
                             new RecordReplayTraceManagement(commandParser),
                             new SeatingPlans(commandParser, webClient),
-                            new Webcams(commandParser, Configuration.WebcamAuth))));
+                            new Webcams(commandParser, Configuration.WebcamAuth),
+                            new Silly(commandParser, webClient))));
 
             var bot = new Bot(processor);
 
