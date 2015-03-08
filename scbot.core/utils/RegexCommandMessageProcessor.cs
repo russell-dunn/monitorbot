@@ -1,5 +1,4 @@
 ﻿using scbot.core.bot;
-using scbot.core.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace scbot.rg
+namespace scbot.core.utils
 {
     public class RegexCommandMessageProcessor : IMessageProcessor
     {

@@ -82,6 +82,7 @@
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="utils\ITime.cs" />
     <Compile Include="utils\IWebClient.cs" />
+    <Compile Include="utils\RegexCommandMessageProcessor.cs" />
     <Compile Include="utils\StringClientWebSocket.cs" />
     <Compile Include="utils\Time.cs" />
     <Compile Include="utils\WebClient.cs" />
