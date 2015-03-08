@@ -22,6 +22,8 @@ namespace scbot.core.utils
 
         public static string LoggingEndpoint { get { return GetConfigValue("logging-dashboard-endpoint"); } }
 
+        public static string WebcamAuth { get { return GetConfigValue("webcam-auth"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];

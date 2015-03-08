@@ -81,7 +81,8 @@ namespace scbot
                             tcWebHooksProcessor,
                             githubReviewer,
                             new RecordReplayTraceManagement(commandParser),
-                            new SeatingPlans(commandParser, webClient))));
+                            new SeatingPlans(commandParser, webClient),
+                            new Webcams(commandParser, Configuration.WebcamAuth))));
 
             var bot = new Bot(processor);
 

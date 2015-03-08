@@ -48,7 +48,9 @@
     <Compile Include="RegexCommandMessageProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeatingPlans.cs" />
+    <Compile Include="tests\LunchtimeTests.cs" />
     <Compile Include="tests\SeatingPlansTests.cs" />
+    <Compile Include="Webcams.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\scbot.core\scbot.core.csproj">
