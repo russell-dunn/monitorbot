@@ -80,7 +80,8 @@ namespace scbot
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor,
                             githubReviewer,
-                            new RecordReplayTraceManagement(commandParser))));
+                            new RecordReplayTraceManagement(commandParser),
+                            new SeatingPlans(commandParser, webClient))));
 
             var bot = new Bot(processor);
 
