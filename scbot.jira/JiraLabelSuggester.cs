@@ -43,6 +43,7 @@ namespace scbot.jira
                 { "OutOfMemoryException", "bugtype:oom" },
                 { "ErrorsOccurredDuringScriptFileParsingException", "bugtype:parsefail" },
                 { "NullReferenceException", "bugtype:nullref" },
+                { "NotImplementedException", "bugtype:notimplementedexception" },
             };
 
             foreach (var suggestion in titleSuggestions)
@@ -64,6 +65,8 @@ namespace scbot.jira
                 { "RedGate.SQLSourceControl.Engine", "seenin:soc" },
                 { "ToCommitChangeSet", "feature:soc-commit" },
                 { "ToRetrieveChangeSet", "feature:soc-getlatest" },
+                { "CompareTable(", "bugtype:comparisonfail" },
+                { "BackupReader", "feature:backupreader" },
             };
 
             foreach (var suggestion in descriptionSuggestions)
