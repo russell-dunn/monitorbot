@@ -31,7 +31,7 @@ namespace scbot.teamcity.webhooks.githubstatus.services
             if (build.revisions.revision != null)
             foreach (var revision in build.revisions.revision)
             {
-                if (revision["vcs-root-instance"]["vcs-root-id"] == "GitHubParameterised")
+                if (revision["vcs-root-instance"]["vcs-root-id"] == "SqlCompareDataCompareStaging_GitHubAutocrlfParameterised")
                 {
                     var result = new TeamcityRevisionForBuild(buildId, user, repo, revision.version);
                     m_Cache.Set(buildId, result);
