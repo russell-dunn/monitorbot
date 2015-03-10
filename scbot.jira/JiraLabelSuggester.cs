@@ -67,6 +67,7 @@ namespace scbot.jira
                 { "ToRetrieveChangeSet", "feature:soc-getlatest" },
                 { "CompareTable(", "bugtype:comparisonfail" },
                 { "BackupReader", "feature:backupreader" },
+                { "Failed to get an object name for id", "bugtype:objectidfail" },
             };
 
             foreach (var suggestion in descriptionSuggestions)
