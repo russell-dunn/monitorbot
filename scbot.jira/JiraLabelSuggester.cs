@@ -44,6 +44,9 @@ namespace scbot.jira
                 { "ErrorsOccurredDuringScriptFileParsingException", "bugtype:parsefail" },
                 { "NullReferenceException", "bugtype:nullref" },
                 { "NotImplementedException", "bugtype:notimplementedexception" },
+                { "AccessViolationException", "bugtype:wtf" },
+                { "InvalidProgramException", "bugtype:wtf" },
+                { "MissingMethodException", "bugtype:wtf" },
             };
 
             foreach (var suggestion in titleSuggestions)
