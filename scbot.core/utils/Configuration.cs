@@ -24,6 +24,8 @@ namespace scbot.core.utils
 
         public static string WebcamAuth { get { return GetConfigValue("webcam-auth"); } }
 
+        public static string TeamcityCredentials { get { return GetConfigValue("teamcity-auth"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];
