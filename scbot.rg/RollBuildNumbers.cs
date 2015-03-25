@@ -52,7 +52,7 @@ namespace scbot.release
 
                     foreach (var bt in buildTypes)
                     {
-                        var btCounterUrl = string.Format(baseUrl, null,
+                        var btCounterUrl = string.Format(baseUrl,
                             "buildTypes/id:" + bt + "/settings/buildNumberCounter");
                         webClient.UploadString(btCounterUrl, "PUT", "1");
                     }
