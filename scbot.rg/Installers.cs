@@ -37,7 +37,8 @@ namespace scbot.rg
                 return Response.ToMessage(message, string.Format("Could not find installer for {0} {1}", product, version));
             }
             var installerUrl = json.file[0].content.href;
-            return Response.ToMessage(message, string.Format("<http://teamcity.red-gate.com{0}|{1} {2}>", installerUrl, product, version));
+            var installerName = json.file[0].name;
+            return Response.ToMessage(message, string.Format("<http://teamcity.red-gate.com{0}|{1}>", installerUrl, installerName));
         }
 
         private static string GetBuildType(string product)
