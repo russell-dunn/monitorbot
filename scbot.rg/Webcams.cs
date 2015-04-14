@@ -43,7 +43,7 @@ namespace scbot.rg
 
         private MessageResult PostFooscam(Message message, Match args)
         {
-            return Response.ToMessage(message, string.Format("<http://10.120.115.224/snapshot.cgi?user={0}&pwd={1}&.jpg|{2}>", m_User, m_Pass, FoosMessage()));
+            return Response.ToMessage(message, string.Format("<http://10.120.115.224/snapshot.cgi?user={0}&pwd=&.jpg|{1}>", m_User, FoosMessage()));
         }
 
         private string FoosMessage()
