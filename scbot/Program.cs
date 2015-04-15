@@ -78,7 +78,7 @@ namespace scbot
                             new JiraLabelSuggester(commandParser, jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
                             new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
-                            new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
+                            //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor,
                             githubReviewer,
