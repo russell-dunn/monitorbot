@@ -47,9 +47,9 @@ namespace scbot.rg
             {
                 case "compare":
                 default:
-                    return "SqlCompareDataCompareStaging_Installers_SqlCompareInstallerFrequentUpdatesChanne";
+                    return "bt2529";
                 case "data compare":
-                    return "SqlCompareDataCompareStaging_Installers_SqlDataCompareInstallerDefaultChannel";
+                    return "bt2543";
             }
         }
 
