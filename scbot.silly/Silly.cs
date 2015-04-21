@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Web;
 using HtmlAgilityPack;
 
 namespace scbot.silly
@@ -14,6 +15,7 @@ namespace scbot.silly
     {
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;
+        private readonly Random m_Random = new Random();
 
         public Silly(ICommandParser parser, IWebClient webclient)
         {
@@ -29,6 +31,7 @@ namespace scbot.silly
                 {
                     { "quote", Quote },
                     { "class name|name (a )?class", ClassName },
+                    { "giphy (?<search>.*)", Giphy},
                     //{ new Regex(@"method name|name (a )?method"), MethodName },
                 };
             }
@@ -46,6 +49,21 @@ namespace scbot.silly
         {
             var className = m_WebClient.DownloadString("http://www.classnamer.com/index.txt?generator=spring").Result;
             return Response.ToMessage(message, string.Format("How about {0}?", className));
+        }
+
+        private MessageResult Giphy(Message message, Match args)
+        {
+            var search = args.Group("search");
+            var giphyResponse =
+                m_WebClient.DownloadJson(string.Format(
+                    "http://api.giphy.com/v1/gifs/random?tag={0}&api_key=dc6zaTOxFJmzC&rating=pg", 
+                    HttpUtility.UrlEncode(search))).Result;
+            if (giphyResponse.data.image_url == null)
+            {
+                return Response.ToMessage(message, string.Format("No results found for '{0}'", search));
+            }
+            var url = giphyResponse.data.image_url.Replace("giphy.gif", "200.gif");
+            return Response.ToMessage(message, string.Format("<{0}|{1}>", url, search));
         }
 
         public MessageResult ProcessMessage(Message message)
