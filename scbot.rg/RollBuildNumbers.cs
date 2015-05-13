@@ -39,7 +39,7 @@ namespace scbot.release
                     "projects/id:SqlCompareDataCompareStaging/parameters/system.BranchVersion/value");
                 string projectVersionSetUrl = string.Format(baseUrl,
                     "projects/id:SqlCompareDataCompareStaging/parameters/system.BranchVersion");
-                var buildTypes = new[] { "bt2530", "bt2544", "bt2535", "bt2531", "bt2546", "bt2514" };
+                var buildTypes = new[] { "bt2530", "bt2535", "bt2514", "SqlCompareDataCompareStaging_SQLCompareUIs" };
                 try
                 {
                     var branchVersion = webClient.DownloadString(projectVersionGetUrl);
