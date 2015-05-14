@@ -21,6 +21,7 @@ using scbot.review;
 using scbot.teamcity.webhooks.endpoint;
 using scbot.teamcity.webhooks.githubstatus;
 using scbot.logging;
+using scbot.polls;
 using scbot.release;
 using scbot.rg;
 using scbot.silly;
@@ -87,6 +88,7 @@ namespace scbot
                             new Webcams(commandParser, Configuration.WebcamAuth),
                             new Silly(commandParser, webClient),
                             new Installers(commandParser, webClient),
+                            new Polls(commandParser),
                             new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials))));
 
             var bot = new Bot(processor);

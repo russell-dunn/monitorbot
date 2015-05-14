@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.rg", "scbot.rg\scbot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.silly", "scbot.silly\scbot.silly.csproj", "{F2E31598-496F-4095-899C-0F96E4D250FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.polls", "scbot.polls\scbot.polls.csproj", "{E0BF2D12-442F-4752-9398-CEF173E56051}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{F2E31598-496F-4095-899C-0F96E4D250FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2E31598-496F-4095-899C-0F96E4D250FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2E31598-496F-4095-899C-0F96E4D250FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0BF2D12-442F-4752-9398-CEF173E56051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0BF2D12-442F-4752-9398-CEF173E56051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0BF2D12-442F-4752-9398-CEF173E56051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0BF2D12-442F-4752-9398-CEF173E56051}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

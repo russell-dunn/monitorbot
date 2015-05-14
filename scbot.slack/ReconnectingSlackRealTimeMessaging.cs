@@ -39,10 +39,26 @@ namespace scbot.slack
                 Trace.TraceError(wse.ToString());
             }
 
-            Trace.WriteLine("Caught websocket exception .. reconnecting");
-            // reconnect and retry once
-            TryDisposeOld();
-            m_Underlying = await m_Factory();
+            for (int i = 0; i < 5; i++)
+            {
+                TryDisposeOld();
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                Trace.WriteLine("Caught websocket exception .. reconnecting");
+                try
+                {
+                    m_Underlying = await m_Factory();
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError("Failed to reconnect .. " + e);
+                }
+            }
+
+            if (m_Underlying == null)
+            {
+                throw new Exception("Failed to reconnect to Slack after several tries");
+            }
+
             return await m_Underlying.Receive(cancellationToken);
         }
 
@@ -51,6 +67,7 @@ namespace scbot.slack
             try
             {
                 m_Underlying.Dispose();
+                m_Underlying = null;
             }
             catch (Exception e)
             {

@@ -10,5 +10,10 @@ namespace scbot.core.tests
             var command = commandText;
             commandParser.Setup(x => x.TryGetCommand(It.IsAny<Message>(), out command)).Returns(true);
         }
+
+        public static MessageResult ProcessMessage(this IMessageProcessor processor)
+        {
+            return processor.ProcessMessage(new Message("channel", "user", "message")); 
+        }
     }
 }

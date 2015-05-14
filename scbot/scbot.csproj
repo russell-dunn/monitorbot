@@ -77,6 +77,10 @@
       <Project>{f1bfb84c-f9aa-4759-9088-466c1239b58b}</Project>
       <Name>scbot.notes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.polls\scbot.polls.csproj">
+      <Project>{e0bf2d12-442f-4752-9398-cef173e56051}</Project>
+      <Name>scbot.polls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.review\scbot.review.csproj">
       <Project>{cf6cf142-744e-4ce7-bb38-5bac479ab244}</Project>
       <Name>scbot.review</Name>
