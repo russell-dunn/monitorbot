@@ -102,7 +102,7 @@ namespace scbot.polls
         {
             if (m_PollRunning)
             {
-                return Response.ToMessage(message, "A poll is already running in " + message.Channel);
+                return Response.ToMessage(message, "A poll is already running in " + m_CurrentPollChannel);
             }
             m_PollRunning = true;
             m_CurrentPollChannel = message.Channel;

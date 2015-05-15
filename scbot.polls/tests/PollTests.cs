@@ -34,9 +34,9 @@ namespace scbot.polls.tests
         public void ComplainsIfPollCreatedWhilePollIsRunning()
         {
             var polls = new Polls(CommandParser.For("start poll"));
-            polls.ProcessMessage(new Message("channel", "user", "message"));
-            var result = polls.ProcessMessage(new Message("a-channel", "user", "text"));
-            Assert.AreEqual("A poll is already running in a-channel", result.Responses.Single().Message);
+            polls.ProcessMessage(new Message("poll-channel", "user", "message"));
+            var result = polls.ProcessMessage(new Message("other-channel", "user", "text"));
+            Assert.AreEqual("A poll is already running in poll-channel", result.Responses.Single().Message);
         }
 
         [Test]
