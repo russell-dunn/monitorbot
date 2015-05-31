@@ -81,6 +81,7 @@ namespace scbot
             var installers = new BasicFeature("installers", "get a compare/data compare installer", "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build", new Installers(commandParser, webClient));
             var polls = new BasicFeature("polls", "run a poll to enact the tyranny of the majority", "use `start poll` to start a poll", new Polls(commandParser));
             var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
+            var githubreview = new BasicFeature("githubreview", "[experimental] run some automated checks against github pull requests", "- `review fooRepo#123` review a pull request\n- `review fooRepo@bug/SC-1234` review a branch (against master)\n- `review fooCorp/fooRepo@abc123` review a specific commit", githubReviewer);
             var features = new FeatureMessageProcessor(commandParser,
                 notes,
                 zdTracker,
@@ -90,7 +91,8 @@ namespace scbot
                 silly,
                 installers,
                 polls,
-                rollbuildnumbers
+                rollbuildnumbers,
+                githubreview
                 );
 
             var processor =
@@ -103,8 +105,7 @@ namespace scbot
                             new ZendeskTicketProcessor(zendeskApi),
                             //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
-                            tcWebHooksProcessor,
-                            githubReviewer)));
+                            tcWebHooksProcessor)));
 
             var bot = new Bot(processor);
 
