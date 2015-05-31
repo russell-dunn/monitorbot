@@ -45,7 +45,8 @@ namespace scbot.core.tests
             var message = new Message("a-channel", "a-user", "help");
             var result = processor.ProcessMessage(message);
 
-            Assert.AreEqual("*test*: test feature please ignore\n*test2*: test feature please ignore", result.Responses.Single().Message);
+            Assert.AreEqual("*test*: test feature please ignore\n*test2*: test feature please ignore\n\nuse `help <feature>` for help on a specific feature", 
+                result.Responses.Single().Message);
             underlying.Verify(x => x.ProcessMessage(message), Times.Never);
         }
 

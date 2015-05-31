@@ -46,7 +46,7 @@ namespace scbot.core.bot
                     }
                 }
 
-                return Response.ToMessage(message, Join("\n", m_Features.Values.Select(FormatFeature)));
+                return Response.ToMessage(message, Join("\n", m_Features.Values.Select(FormatFeature))+"\n\nuse `help <feature>` for help on a specific feature");
             }
             return m_MessageProcessor.ProcessMessage(message);
         }
