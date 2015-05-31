@@ -80,7 +80,7 @@ namespace scbot
             var silly = new BasicFeature("silly", "get a random quote, class name, gif, etc", "use `quote`, `class name`, or `giphy <search>` to find something interesting", new Silly(commandParser, webClient));
             var installers = new BasicFeature("installers", "get a compare/data compare installer", "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build", new Installers(commandParser, webClient));
             var polls = new BasicFeature("polls", "run a poll to see who is wrong on the internet", "use `start poll` to start a poll", new Polls(commandParser));
-            var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
+            var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
             var features = new FeatureMessageProcessor(commandParser,
                 notes,
                 zdTracker,
