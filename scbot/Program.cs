@@ -70,26 +70,41 @@ namespace scbot
             var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
                 Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
 
+            var notes = new BasicFeature("notes", "save notes for later", "use `note <text>` to save a note, `notes` to list notes and `delete note <num>` to delete a specific note",
+                new NoteProcessor(commandParser, new NoteApi(persistence)));
+            var zdTracker = new BasicFeature("zdtracker", "track comments added to zendesk tickets", "use `track ZD#12345` to start tracking a zendesk ticket in the current channel",
+                            new ZendeskTicketTracker(commandParser, persistence, zendeskApi));
+            var recordreplay = new BasicFeature("recordreplay", "delete record/replay traces for a branch", "use `delete traces for <branch>` to force everything to be regenerated", new RecordReplayTraceManagement(commandParser));
+            var seatingPlans = new BasicFeature("seatingplans", "find people/rooms in the building", "use `where is <search>` to search for a person or room", new SeatingPlans(commandParser, webClient));
+            var webcams = new BasicFeature("webcams", "get links to webcams in the building", "use `cafcam` or `fooscam` to get the relevant webcam", new Webcams(commandParser, Configuration.WebcamAuth));
+            var silly = new BasicFeature("silly", "get a random quote, class name, gif, etc", "use `quote`, `class name`, or `giphy <search>` to find something interesting", new Silly(commandParser, webClient));
+            var installers = new BasicFeature("installers", "get a compare/data compare installer", "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build", new Installers(commandParser, webClient));
+            var polls = new BasicFeature("polls", "run a poll to see who is wrong on the internet", "use `start poll` to start a poll", new Polls(commandParser));
+            var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
+            var features = new FeatureMessageProcessor(commandParser,
+                notes,
+                zdTracker,
+                recordreplay,
+                seatingPlans,
+                webcams,
+                silly,
+                installers,
+                polls,
+                rollbuildnumbers
+                );
+
             var processor =
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
                         new CompositeMessageProcessor(
-                            new NoteProcessor(commandParser, new NoteApi(persistence)),
+                            features,
                             new JiraBugProcessor(commandParser, jiraApi),
                             new JiraLabelSuggester(commandParser, jiraApi),
                             new ZendeskTicketProcessor(zendeskApi),
-                            new ZendeskTicketTracker(commandParser, persistence, zendeskApi),
                             //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
                             tcWebHooksProcessor,
-                            githubReviewer,
-                            new RecordReplayTraceManagement(commandParser),
-                            new SeatingPlans(commandParser, webClient),
-                            new Webcams(commandParser, Configuration.WebcamAuth),
-                            new Silly(commandParser, webClient),
-                            new Installers(commandParser, webClient),
-                            new Polls(commandParser),
-                            new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials))));
+                            githubReviewer)));
 
             var bot = new Bot(processor);
 

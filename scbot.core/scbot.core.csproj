@@ -47,9 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bot\BasicFeature.cs" />
     <Compile Include="bot\Bot.cs" />
+    <Compile Include="bot\FeatureMessageProcessor.cs" />
     <Compile Include="bot\IBot.cs" />
     <Compile Include="bot\ICommandParser.cs" />
+    <Compile Include="bot\IFeature.cs" />
     <Compile Include="bot\IMessageProcessor.cs" />
     <Compile Include="bot\Message.cs" />
     <Compile Include="bot\MessageResult.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="tests\CommandParser.cs" />
     <Compile Include="tests\CompositeMessageProcessingTests.cs" />
     <Compile Include="tests\Extensions.cs" />
+    <Compile Include="tests\FeatureMessageProcessorTests.cs" />
     <Compile Include="tests\persistence\InMemoryKeyValueStoreTests.cs" />
     <Compile Include="tests\persistence\JsonFileKeyValueStoreTests.cs" />
     <Compile Include="tests\persistence\KeyValueStoreTests.cs" />
