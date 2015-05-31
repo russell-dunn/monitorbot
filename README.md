@@ -4,7 +4,7 @@ Chatbot, currently running against slack on [redgate-compare.slack.com](https://
 
 - Should build after a nuget package restore 
 - May need ASP.NET MVC to be installed for the System.Web.Helpers dll - use the Web Platform Installer and search for MVC
-- Tests are split up into `fasttests` (unit, isolated) and `slowtests` (integration)
+- Features are split up by assembly, and each assembly has its own tests
 - To run, find `scbot/bin/Debug/scbot.exe.config` and fill in the details, then run `scbot.exe`. 
 
 ### Features 
