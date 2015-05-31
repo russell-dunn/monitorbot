@@ -14,7 +14,7 @@ namespace scbot.zendesk
         private readonly ICommandParser m_CommandParser;
         private readonly IListPersistenceApi<Tracked<ZendeskTicket>> m_Persistence;
         private readonly IZendeskTicketApi m_ZendeskApi;
-        private static readonly Regex s_ZendeskIdRegex = new Regex(@"^ZD#(?<id>\d{5})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex s_ZendeskIdRegex = new Regex(@"(?:ZD#(?<id>\d{5})|\<https\:\/\/redgatesupport.zendesk.com\/agent\/tickets\/(?<id>\d{5})\>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         internal readonly CompareEngine<ZendeskTicket> m_ZendeskTicketCompareEngine; // internal for tests -- should be injected?
 
         public ZendeskTicketTracker(ICommandParser commandParser, IKeyValueStore persistence, IZendeskTicketApi zendeskApi)
@@ -88,29 +88,29 @@ namespace scbot.zendesk
         public MessageResult ProcessMessage(Message message)
         {
             string toTrack, toUntrack;
-            if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_ZendeskIdRegex.IsMatch(toTrack))
+            Match idMatch;
+            if (m_CommandParser.TryGetCommand(message, "track", out toTrack) && s_ZendeskIdRegex.TryMatch(toTrack, out idMatch))
             {
-                var ticket = m_ZendeskApi.FromId(toTrack.Substring(3)).Result;
+                var ticket = m_ZendeskApi.FromId(idMatch.Group("id")).Result;
                 m_Persistence.AddToList(new Tracked<ZendeskTicket>(ticket, message.Channel));
-                return Response.ToMessage(message, FormatNowTrackingMessage(toTrack));
+                return Response.ToMessage(message, FormatNowTrackingMessage(idMatch.Group("id")));
             }
-            if (m_CommandParser.TryGetCommand(message, "untrack", out toUntrack) && s_ZendeskIdRegex.IsMatch(toUntrack))
+            if (m_CommandParser.TryGetCommand(message, "untrack", out toUntrack) && s_ZendeskIdRegex.TryMatch(toUntrack, out idMatch))
             {
-                var idToUntrack = toUntrack.Substring(3);
-                m_Persistence.RemoveFromList(x => x.Value.Id == idToUntrack);
-                return Response.ToMessage(message, FormatNowNotTrackingMessage(toUntrack));
+                m_Persistence.RemoveFromList(x => x.Value.Id == idMatch.Group("id"));
+                return Response.ToMessage(message, FormatNowNotTrackingMessage(idMatch.Group("id")));
             }
             return MessageResult.Empty;
         }
 
-        private string FormatNowNotTrackingMessage(string toUntrack)
+        private string FormatNowNotTrackingMessage(string id)
         {
-            return string.Format(@"No longer tracking {0}.", toUntrack);
+            return string.Format(@"No longer tracking ZD#{0}.", id);
         }
 
-        private static string FormatNowTrackingMessage(string toTrack)
+        private static string FormatNowTrackingMessage(string id)
         {
-            return string.Format("Now tracking {0}. To stop tracking, use `scbot untrack {0}`", toTrack);
+            return string.Format("Now tracking ZD#{0}. To stop tracking, use `scbot untrack ZD#{0}`", id);
         }
     }
 }

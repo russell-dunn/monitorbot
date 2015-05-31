@@ -38,6 +38,22 @@ namespace scbot.zendesk.tests
         }
 
         [Test]
+        public void CanTrackTicketFromUrl()
+        {
+            var zendeskApi = new Mock<IZendeskTicketApi>(MockBehavior.Strict);
+            var ticket1 = new ZendeskTicket("12345", "description", "open", new ZendeskTicket.Comment[3]);
+            var ticket2 = new ZendeskTicket("12345", "description", "open", new ZendeskTicket.Comment[5]);
+            var persistence = new InMemoryKeyValueStore();
+            zendeskApi.Setup(x => x.FromId("12345")).ReturnsAsync(ticket1);
+
+            var commandParser = CommandParser.For("track <https://redgatesupport.zendesk.com/agent/tickets/12345>");
+            var zendeskTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi.Object);
+
+            var result = zendeskTracker.ProcessMessage(new Message("a-channel", "a-user", @"scbot track <https://redgatesupport.zendesk.com/agent/tickets/12345>"));
+            Assert.AreEqual("Now tracking ZD#12345. To stop tracking, use `scbot untrack ZD#12345`", result.Responses.Single().Message);
+        }
+
+        [Test]
         public void DoesNotUpdateIfZendeskApiReturnsNull()
         {
             var zendeskApi = new Mock<IZendeskTicketApi>();
