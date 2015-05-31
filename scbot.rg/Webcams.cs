@@ -69,6 +69,10 @@ namespace scbot.rg
             }
             if (hours < 13)
             {
+                return "Lunchtime!";
+            }
+            if (hours < 14)
+            {
                 return "Lunchtime is nearly over! There's probably some food left ...";
             }
             if (hours < 24)
