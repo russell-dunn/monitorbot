@@ -75,7 +75,7 @@ namespace scbot.teamcity
 
         private static string FormatNowTrackingMessage(string toTrack)
         {
-            return string.Format("Now tracking {0}. To stop tracking, use `scbot untrack {0}`", toTrack);
+            return string.Format("Now tracking {0}. To stop tracking, use `untrack {0}`", toTrack);
         }
     }
 }

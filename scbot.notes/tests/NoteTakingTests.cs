@@ -20,7 +20,7 @@ namespace scbot.notes.tests
             api.Setup(x => x.AddNote("a-user", "this is a note")).Returns(new Note("1", "this is a note"));
             var processor = new NoteProcessor(commandUtils.Object, api.Object);
             var result = processor.ProcessMessage(message);
-            Assert.AreEqual("note stored. Use `scbot delete note 1` to delete note", result.Responses.Single().Message);
+            Assert.AreEqual("note stored. Use `delete note 1` to delete note", result.Responses.Single().Message);
             api.VerifyAll();
         }
 

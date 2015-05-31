@@ -90,12 +90,12 @@ namespace scbot.polls
             var choice = args.Group("choice");
             m_CurrentPollChoices.Add(choice);
             return Response.ToMessage(message, 
-                "Choice added. Use `scbot: vote " + m_CurrentPollChoices.Count + "` to vote for it.");
+                "Choice added. Use `vote " + m_CurrentPollChoices.Count + "` to vote for it.");
         }
 
         private static Response ComplainAboutNoPollRunning(Message message)
         {
-            return Response.ToMessage(message, "The poll is not currently running. Use `scbot: poll start` to start a poll.");
+            return Response.ToMessage(message, "The poll is not currently running. Use `poll start` to start a poll.");
         }
 
         private MessageResult StartPoll(Message message, Match args)
@@ -108,8 +108,8 @@ namespace scbot.polls
             m_CurrentPollChannel = message.Channel;
             m_CurrentPollChoices = new List<string>();
             m_CurrentPollVotes = new Dictionary<string, int>();
-            return Response.ToMessage(message, "Polling started. Use `scbot: poll add <some choice>` to add choices " +
-                                               "and `scbot: vote 1` to vote for a particular option, then `scbot: poll finish` to show the results.");
+            return Response.ToMessage(message, "Polling started. Use `poll add <some choice>` to add choices " +
+                                               "and `vote 1` to vote for a particular option, then `poll finish` to show the results.");
         }
 
         private MessageResult Vote(Message message, Match args)
@@ -126,7 +126,7 @@ namespace scbot.polls
             if (vote > m_CurrentPollChoices.Count)
             {
                 return Response.ToMessage(message,
-                    "There isn't an choice " + vote + ". Use `scbot: poll add <some choice> to add more choices.");
+                    "There isn't an choice " + vote + ". Use `poll add <some choice> to add more choices.");
             }
             m_CurrentPollVotes[message.User] = vote;
             return Response.ToMessage(message,

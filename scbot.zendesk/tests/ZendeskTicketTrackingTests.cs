@@ -50,7 +50,7 @@ namespace scbot.zendesk.tests
             var zendeskTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi.Object);
 
             var result = zendeskTracker.ProcessMessage(new Message("a-channel", "a-user", @"scbot track <https://redgatesupport.zendesk.com/agent/tickets/12345>"));
-            Assert.AreEqual("Now tracking ZD#12345. To stop tracking, use `scbot untrack ZD#12345`", result.Responses.Single().Message);
+            Assert.AreEqual("Now tracking ZD#12345. To stop tracking, use `untrack ZD#12345`", result.Responses.Single().Message);
         }
 
         [Test]

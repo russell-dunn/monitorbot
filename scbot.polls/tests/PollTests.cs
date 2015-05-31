@@ -18,7 +18,7 @@ namespace scbot.polls.tests
         {
             var polls = new Polls(CommandParser.For("vote 1"));
             var result = polls.ProcessMessage();
-            Assert.AreEqual("The poll is not currently running. Use `scbot: poll start` to start a poll.", result.Responses.Single().Message);
+            Assert.AreEqual("The poll is not currently running. Use `poll start` to start a poll.", result.Responses.Single().Message);
         }
 
         [Test]
@@ -26,8 +26,8 @@ namespace scbot.polls.tests
         {
             var polls = new Polls(CommandParser.For("start poll"));
             var result = polls.ProcessMessage();
-            Assert.AreEqual("Polling started. Use `scbot: poll add <some choice>` to add choices " + 
-                "and `scbot: vote 1` to vote for a particular option, then `scbot: poll finish` to show the results.", result.Responses.Single().Message);
+            Assert.AreEqual("Polling started. Use `poll add <some choice>` to add choices " + 
+                "and `vote 1` to vote for a particular option, then `poll finish` to show the results.", result.Responses.Single().Message);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace scbot.polls.tests
             polls.ProcessMessage();
             commandParser.SetupTryGetCommand("poll add some choice");
             var result = polls.ProcessMessage();
-            Assert.AreEqual("Choice added. Use `scbot: vote 1` to vote for it.", result.Responses.Single().Message); 
+            Assert.AreEqual("Choice added. Use `vote 1` to vote for it.", result.Responses.Single().Message); 
         }
 
         [Test]

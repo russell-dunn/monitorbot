@@ -54,7 +54,7 @@ namespace scbot.notes
 
         private static string FormatNoteStoredResponse(Note note)
         {
-            return string.Format("note stored. Use `scbot delete note {0}` to delete note", note.Id);
+            return string.Format("note stored. Use `delete note {0}` to delete note", note.Id);
         }
 
         private static string FormateNoteListResponse(List<Note> notes)

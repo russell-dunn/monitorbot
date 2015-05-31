@@ -110,7 +110,7 @@ namespace scbot.zendesk
 
         private static string FormatNowTrackingMessage(string id)
         {
-            return string.Format("Now tracking ZD#{0}. To stop tracking, use `scbot untrack ZD#{0}`", id);
+            return string.Format("Now tracking ZD#{0}. To stop tracking, use `untrack ZD#{0}`", id);
         }
     }
 }
