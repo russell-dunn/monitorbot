@@ -13,7 +13,7 @@ namespace scbot.review
 {
     public static class ReviewFactory
     {
-        public static IMessageProcessor GetProcessor(ICommandParser commandParser, IWebClient webClient, 
+        public static IFeature Create(ICommandParser commandParser, IWebClient webClient, 
             string githubToken, string defaultUser, string defaultRepo)
         {
             var githubApi = new GithubDiffApi(webClient, githubToken);
@@ -27,7 +27,10 @@ namespace scbot.review
                     () => new GeneralBadThing(@"<SpecificVersion>\s*[fF]alse\s*</SpecificVersion>", "SpecificVersion=False found"),
                     () => new AvoidAppConfig(),
             });
-            return new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
+            var processor = new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
+            return new BasicFeature("githubreview", 
+                "[experimental] run some automated checks against github pull requests", "- `review fooRepo#123` review a pull request\n- `review fooRepo@bug/SC-1234` review a branch (against master)\n- `review fooCorp/fooRepo@abc123` review a specific commit", 
+                processor);
         }
     }
 }

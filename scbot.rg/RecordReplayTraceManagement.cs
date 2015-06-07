@@ -13,6 +13,11 @@ namespace scbot.rg
 {
     public class RecordReplayTraceManagement : RegexCommandMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser)
+        {
+            return new BasicFeature("recordreplay", "delete record/replay traces for a branch", "use `delete traces for <branch>` to force everything to be regenerated", new RecordReplayTraceManagement(commandParser));
+        }
+
         private const string c_RecordReplayBase = @"\\sqlcomparetestdata.red-gate.com\sqlcomparetestdata\RecordReplay\";
 
         public RecordReplayTraceManagement(ICommandParser commandParser)

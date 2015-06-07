@@ -13,6 +13,11 @@ namespace scbot.silly
 {
     public class Silly : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IWebClient webClient)
+        {
+            return new BasicFeature("silly", "get a random quote, class name, gif, etc", "use `quote`, `class name`, or `giphy <search>` to find something interesting", new Silly(commandParser, webClient));
+        }
+
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;
         private readonly Random m_Random = new Random();

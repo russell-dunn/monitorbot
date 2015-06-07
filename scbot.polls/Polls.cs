@@ -12,6 +12,14 @@ namespace scbot.polls
 {
     public class Polls : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser parser)
+        {
+            return new BasicFeature("polls",
+                "run a poll to enact the tyranny of the majority",
+                "use `start poll` to start a poll",
+                new Polls(parser));
+        }
+
         private readonly ICommandParser m_Parser;
         private readonly RegexCommandMessageProcessor m_Underlying;
 

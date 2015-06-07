@@ -12,6 +12,13 @@ namespace scbot.labelprinting
 {
     public class LabelPrinting : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IWebClient webClient, string defaultGithubUser, string githubToken, string printingApiUrl)
+        {
+            return new BasicFeature("labelprinting", 
+                "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request", 
+                new LabelPrinting(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl));
+        }
+
         private readonly string defaultGithubUser;
         private readonly string githubToken;
         private readonly string printingApiUrl;

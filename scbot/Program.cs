@@ -68,34 +68,18 @@ namespace scbot
             var tcWebHooksStatus = StatusWebhooksHandler.Create(time, webClient, Configuration.GithubToken);
             var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new IAcceptTeamcityEvents[] {tcWebHooksProcessor, tcWebHooksStatus});
 
-            var githubReviewer = ReviewFactory.GetProcessor(commandParser, webClient,
-                Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo);
-
-            var notes = new BasicFeature("notes", "save notes for later", "use `note <text>` to save a note, `notes` to list notes and `delete note <num>` to delete a specific note",
-                new NoteProcessor(commandParser, new NoteApi(persistence)));
-            var zdTracker = new BasicFeature("zdtracker", "track comments added to zendesk tickets", "use `track ZD#12345` to start tracking a zendesk ticket in the current channel",
-                            new ZendeskTicketTracker(commandParser, persistence, zendeskApi));
-            var recordreplay = new BasicFeature("recordreplay", "delete record/replay traces for a branch", "use `delete traces for <branch>` to force everything to be regenerated", new RecordReplayTraceManagement(commandParser));
-            var seatingPlans = new BasicFeature("seatingplans", "find people/rooms in the building", "use `where is <search>` to search for a person or room", new SeatingPlans(commandParser, webClient));
-            var webcams = new BasicFeature("webcams", "get links to webcams in the building", "use `cafcam` or `fooscam` to get the relevant webcam", new Webcams(commandParser, Configuration.WebcamAuth));
-            var silly = new BasicFeature("silly", "get a random quote, class name, gif, etc", "use `quote`, `class name`, or `giphy <search>` to find something interesting", new Silly(commandParser, webClient));
-            var installers = new BasicFeature("installers", "get a compare/data compare installer", "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build", new Installers(commandParser, webClient));
-            var polls = new BasicFeature("polls", "run a poll to enact the tyranny of the majority", "use `start poll` to start a poll", new Polls(commandParser));
-            var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
-            var githubreview = new BasicFeature("githubreview", "[experimental] run some automated checks against github pull requests", "- `review fooRepo#123` review a pull request\n- `review fooRepo@bug/SC-1234` review a branch (against master)\n- `review fooCorp/fooRepo@abc123` review a specific commit", githubReviewer);
-            var labelprinting = new BasicFeature("labelprinting", "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request", new LabelPrinting(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl));
             var features = new FeatureMessageProcessor(commandParser,
-                notes,
-                zdTracker,
-                recordreplay,
-                seatingPlans,
-                webcams,
-                silly,
-                installers,
-                polls,
-                rollbuildnumbers,
-                githubreview,
-                labelprinting
+                NoteProcessor.Create(commandParser, persistence),
+                ZendeskTicketTracker.Create(commandParser, persistence, zendeskApi),
+                RecordReplayTraceManagement.Create(commandParser),
+                SeatingPlans.Create(commandParser, webClient),
+                Webcams.Create(commandParser, Configuration.WebcamAuth),
+                Silly.Create(commandParser, webClient),
+                Installers.Create(commandParser, webClient),
+                Polls.Create(commandParser),
+                RollBuildNumbers.Create(commandParser, Configuration.TeamcityCredentials),
+                ReviewFactory.Create(commandParser, webClient, Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo),
+                LabelPrinting.Create(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl)
                 );
 
             var processor =

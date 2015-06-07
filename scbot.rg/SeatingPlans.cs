@@ -12,6 +12,11 @@ namespace scbot.rg
 {
     public class SeatingPlans : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IWebClient webClient)
+        {
+            return new BasicFeature("seatingplans", "find people/rooms in the building", "use `where is <search>` to search for a person or room", new SeatingPlans(commandParser, webClient));
+        }
+
         private const string c_RecordReplayBase = @"\\sqlcomparetestdata.red-gate.com\sqlcomparetestdata\RecordReplay\";
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;

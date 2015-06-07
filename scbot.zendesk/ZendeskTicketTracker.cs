@@ -11,6 +11,11 @@ namespace scbot.zendesk
 {
     public class ZendeskTicketTracker : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence, IZendeskTicketApi zendeskApi)
+        {
+            return new BasicFeature("zdtracker", "track comments added to zendesk tickets", "use `track ZD#12345` to start tracking a zendesk ticket in the current channel",
+                                        new ZendeskTicketTracker(commandParser, persistence, zendeskApi));
+        }
         private readonly ICommandParser m_CommandParser;
         private readonly IListPersistenceApi<Tracked<ZendeskTicket>> m_Persistence;
         private readonly IZendeskTicketApi m_ZendeskApi;

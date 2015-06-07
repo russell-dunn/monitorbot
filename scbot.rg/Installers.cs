@@ -12,6 +12,13 @@ namespace scbot.rg
 {
     public class Installers : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IWebClient webClient)
+        {
+            return new BasicFeature("installers",
+                "get a compare/data compare installer",
+                "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build",
+                new Installers(commandParser, webClient));
+        }
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;
 

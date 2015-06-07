@@ -4,11 +4,18 @@ using System.Linq;
 using scbot.core.bot;
 using scbot.core.utils;
 using scbot.notes.services;
+using scbot.core.persistence;
 
 namespace scbot.notes
 {
     public class NoteProcessor : IMessageProcessor
     {
+        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
+        {
+            return new BasicFeature("notes", "save notes for later", "use `note <text>` to save a note, `notes` to list notes and `delete note <num>` to delete a specific note",
+                new NoteProcessor(commandParser, new NoteApi(persistence)));
+        }
+
         private readonly ICommandParser m_CommandParser;
         private readonly INoteApi m_NoteApi;
 
