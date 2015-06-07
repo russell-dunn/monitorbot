@@ -26,6 +26,8 @@ namespace scbot.core.utils
 
         public static string TeamcityCredentials { get { return GetConfigValue("teamcity-auth"); } }
 
+        public static string LabelPrinterApiUrl { get { return GetConfigValue("printer-api-url"); } }
+
         private static string GetConfigValue(string configKey)
         {
             var value = ConfigurationManager.AppSettings[configKey];

@@ -25,6 +25,7 @@ using scbot.polls;
 using scbot.release;
 using scbot.rg;
 using scbot.silly;
+using scbot.labelprinting;
 
 namespace scbot
 {
@@ -82,6 +83,7 @@ namespace scbot
             var polls = new BasicFeature("polls", "run a poll to enact the tyranny of the majority", "use `start poll` to start a poll", new Polls(commandParser));
             var rollbuildnumbers = new BasicFeature("rollbuildnumbers", "increment the Compare teamcity build numbers after a release", "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)", new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
             var githubreview = new BasicFeature("githubreview", "[experimental] run some automated checks against github pull requests", "- `review fooRepo#123` review a pull request\n- `review fooRepo@bug/SC-1234` review a branch (against master)\n- `review fooCorp/fooRepo@abc123` review a specific commit", githubReviewer);
+            var labelprinting = new BasicFeature("labelprinting", "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request", new LabelPrinting(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl));
             var features = new FeatureMessageProcessor(commandParser,
                 notes,
                 zdTracker,
@@ -92,7 +94,8 @@ namespace scbot
                 installers,
                 polls,
                 rollbuildnumbers,
-                githubreview
+                githubreview,
+                labelprinting
                 );
 
             var processor =

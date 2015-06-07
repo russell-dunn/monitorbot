@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot", "scbot\scbot.csproj", "{B2258502-E3A8-4E53-86B8-56C62D32B92B}"
 EndProject
@@ -39,6 +39,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.silly", "scbot.silly\scbot.silly.csproj", "{F2E31598-496F-4095-899C-0F96E4D250FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.polls", "scbot.polls\scbot.polls.csproj", "{E0BF2D12-442F-4752-9398-CEF173E56051}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scbot.labelprinting", "scbot.labelprinting\scbot.labelprinting.csproj", "{5DEA1219-37B0-413E-9D29-832F66B48118}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,10 @@ Global
 		{E0BF2D12-442F-4752-9398-CEF173E56051}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0BF2D12-442F-4752-9398-CEF173E56051}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0BF2D12-442F-4752-9398-CEF173E56051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DEA1219-37B0-413E-9D29-832F66B48118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DEA1219-37B0-413E-9D29-832F66B48118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DEA1219-37B0-413E-9D29-832F66B48118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DEA1219-37B0-413E-9D29-832F66B48118}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
