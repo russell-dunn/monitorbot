@@ -1,7 +1,6 @@
 ﻿using scbot.core.meta;
 using scbot.core.utils;
 using System;
-using static System.String;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,28 +31,28 @@ namespace scbot.core.bot
             string command;
             if (m_CommandParser.TryGetCommand(message, "help", out command))
             {
-                if (!IsNullOrWhiteSpace(command))
+                if (!String.IsNullOrWhiteSpace(command))
                 {
                     command = command.ToLowerInvariant();
                     if (m_Features.ContainsKey(command))
                     {
                         var feature = m_Features[command];
-                        return Response.ToMessage(message, Format("{0}\n{1}", FormatFeature(feature), feature.HelpText));
+                        return Response.ToMessage(message, String.Format("{0}\n{1}", FormatFeature(feature), feature.HelpText));
                     }
                     else
                     {
-                        return Response.ToMessage(message, Format("Sorry, I don't know about '{0}'.", command));
+                        return Response.ToMessage(message, String.Format("Sorry, I don't know about '{0}'.", command));
                     }
                 }
 
-                return Response.ToMessage(message, Join("\n", m_Features.Values.Select(FormatFeature))+"\n\nuse `help <feature>` for help on a specific feature");
+                return Response.ToMessage(message, String.Join("\n", m_Features.Values.Select(FormatFeature))+"\n\nuse `help <feature>` for help on a specific feature");
             }
             return m_MessageProcessor.ProcessMessage(message);
         }
 
         private string FormatFeature(IFeature feature)
         {
-            return Format("*{0}*: {1}", feature.Name, feature.Description);
+            return String.Format("*{0}*: {1}", feature.Name, feature.Description);
         }
 
         public MessageResult ProcessTimerTick()

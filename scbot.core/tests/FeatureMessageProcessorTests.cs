@@ -4,7 +4,6 @@ using scbot.core.bot;
 using scbot.core.meta;
 using scbot.core.utils;
 using System;
-using static System.String;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
