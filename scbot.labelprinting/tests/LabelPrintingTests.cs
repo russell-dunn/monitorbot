@@ -15,9 +15,8 @@ namespace scbot.labelprinting.tests
         [Test]
         public void TestPrintLabel()
         {
-            var commandParser = CommandParser.For("print label for fooRepo#3");
             var webClient = new Mock<IWebClient>(MockBehavior.Strict);
-            var processor = new LabelPrinting(commandParser, webClient.Object, "fooCorp", "githubToken", "http://my_printer.com:9000");
+            var processor = new LabelPrinting(webClient.Object, "fooCorp", "githubToken", "http://my_printer.com:9000");
 
             webClient.Setup(x => x.DownloadString("https://api.github.com/repos/fooCorp/fooRepo/pulls/3",
                 new[] { "Authorization: token githubToken" }))
@@ -25,7 +24,7 @@ namespace scbot.labelprinting.tests
 
             webClient.Setup(x => x.PostString("http://my_printer.com:9000", @"{""title"":""fooRepo#3: test pull request"",""text"":""test pull request body"",""images"":[""https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"",""example image"",""https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/fooCorp/fooRepo/pull/3""]}", new[] { "content-type:application/json" })).ReturnsAsync("Printing ...");
 
-            var result = processor.ProcessMessage();
+            var result = processor.ProcessCommand("print label for fooRepo#3");
 
             Assert.AreEqual("Printing ...", result.Responses.Single().Message);
         }

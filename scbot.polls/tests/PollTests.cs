@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using scbot.core.bot;
 using scbot.core.tests;
+using scbot.core.utils;
 
 namespace scbot.polls.tests
 {
@@ -16,16 +17,16 @@ namespace scbot.polls.tests
         [Test]
         public void ComplainsIfNoTestIsRunning()
         {
-            var polls = new Polls(CommandParser.For("vote 1"));
-            var result = polls.ProcessMessage();
+            var polls = new Polls();
+            var result = polls.ProcessCommand("vote 1");
             Assert.AreEqual("The poll is not currently running. Use `poll start` to start a poll.", result.Responses.Single().Message);
         }
 
         [Test]
         public void CanCreateAPoll()
         {
-            var polls = new Polls(CommandParser.For("start poll"));
-            var result = polls.ProcessMessage();
+            var polls = new Polls();
+            var result = polls.ProcessCommand("start poll");
             Assert.AreEqual("Polling started. Use `poll add <some choice>` to add choices " + 
                 "and `vote 1` to vote for a particular option, then `poll finish` to show the results.", result.Responses.Single().Message);
         }
@@ -33,57 +34,43 @@ namespace scbot.polls.tests
         [Test]
         public void ComplainsIfPollCreatedWhilePollIsRunning()
         {
-            var polls = new Polls(CommandParser.For("start poll"));
-            polls.ProcessMessage(new Message("poll-channel", "user", "message"));
-            var result = polls.ProcessMessage(new Message("other-channel", "user", "text"));
+            var polls = new Polls();
+            polls.ProcessCommand(new Command("poll-channel", "user", "start poll"));
+            var result = polls.ProcessCommand(new Command("other-channel", "user", "start poll"));
             Assert.AreEqual("A poll is already running in poll-channel", result.Responses.Single().Message);
         }
 
         [Test]
         public void CanAddOptionToPoll()
         {
-            var commandParser = new Mock<ICommandParser>();
-            var polls = new Polls(commandParser.Object);
-            commandParser.SetupTryGetCommand("poll start");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("poll add some choice");
-            var result = polls.ProcessMessage();
+            var polls = new Polls();
+            polls.ProcessCommand("poll start");
+            var result = polls.ProcessCommand("poll add some choice");
             Assert.AreEqual("Choice added. Use `vote 1` to vote for it.", result.Responses.Single().Message); 
         }
 
         [Test]
         public void CanVoteForOption()
         {
-            var commandParser = new Mock<ICommandParser>();
-            var polls = new Polls(commandParser.Object);
-            commandParser.SetupTryGetCommand("poll start");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("poll add some choice");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("vote 1");
-            var result = polls.ProcessMessage();
+            var polls = new Polls();
+            polls.ProcessCommand("poll start");
+            polls.ProcessCommand("poll add some choice");
+            var result = polls.ProcessCommand("vote 1");
             Assert.AreEqual("Vote added for choice 1 (some choice). You can change your vote by voting for something else.", result.Responses.Single().Message);
         }
 
         [Test]
         public void PrintsResultsWhenPollIsClosed()
         {
-            var commandParser = new Mock<ICommandParser>();
-            var polls = new Polls(commandParser.Object);
-            commandParser.SetupTryGetCommand("poll start");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("poll add some choice");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("poll add some other choice");
-            polls.ProcessMessage();
-            commandParser.SetupTryGetCommand("vote 1");
-            polls.ProcessMessage(new Message("channel", "user-1", "message"));
-            polls.ProcessMessage(new Message("channel", "user-2", "message"));
-            commandParser.SetupTryGetCommand("vote 2");
-            polls.ProcessMessage(new Message("channel", "user-3", "message"));
+            var polls = new Polls();
+            polls.ProcessCommand("poll start");
+            polls.ProcessCommand("poll add some choice");
+            polls.ProcessCommand("poll add some other choice");
+            polls.ProcessCommand(new Command("channel", "user-1", "vote 1"));
+            polls.ProcessCommand(new Command("channel", "user-2", "vote 1"));
+            polls.ProcessCommand(new Command("channel", "user-3", "vote 2"));
 
-            commandParser.SetupTryGetCommand("poll finish");
-            var result = polls.ProcessMessage();
+            var result = polls.ProcessCommand("poll finish");
             Assert.AreEqual("Polls closed! The winner is choice 1 (some choice).\n`##` some choice\n`#` some other choice", result.Responses.Single().Message);
         }
     }

@@ -8,33 +8,29 @@ using System.Threading.Tasks;
 
 namespace scbot.core.utils
 {
-    public delegate MessageResult MessageHandler(Message message, Match args);
+    public delegate MessageResult MessageHandler(Command command, Match args);
 
-    public class RegexCommandMessageProcessor : IMessageProcessor
+    public class RegexCommandMessageProcessor : ICommandProcessor
     {
-        private readonly ICommandParser m_CommandParser;
         private readonly Dictionary<Regex, MessageHandler> m_Commands;
 
-        public RegexCommandMessageProcessor(ICommandParser commandParser, 
-            Dictionary<Regex, MessageHandler> commands)
+        public RegexCommandMessageProcessor(Dictionary<Regex, MessageHandler> commands)
         {
-            m_CommandParser = commandParser;
             m_Commands = commands;
         }
 
-        public RegexCommandMessageProcessor(ICommandParser commandParser,
-            Dictionary<string, MessageHandler> commands)
-            : this(commandParser, commands.ToDictionary(x => ToRegex(x.Key), x => x.Value))
+        public RegexCommandMessageProcessor(Dictionary<string, MessageHandler> commands)
+            : this(commands.ToDictionary(x => ToRegex(x.Key), x => x.Value))
         {
         }
 
-        public RegexCommandMessageProcessor(ICommandParser commandParser, Regex regex, MessageHandler command)
-            : this(commandParser, new Dictionary<Regex, MessageHandler> { { regex, command} }) 
+        public RegexCommandMessageProcessor(Regex regex, MessageHandler command)
+            : this(new Dictionary<Regex, MessageHandler> { { regex, command} }) 
         {
         }
 
-        public RegexCommandMessageProcessor(ICommandParser commandParser, string regex, MessageHandler command)
-            : this(commandParser, ToRegex(regex), command)
+        public RegexCommandMessageProcessor(string regex, MessageHandler command)
+            : this(ToRegex(regex), command)
         {
         }
 
@@ -43,16 +39,14 @@ namespace scbot.core.utils
             return new Regex(x, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command incomingCommand)
         {
             foreach (var command in m_Commands)
             {
-                string commandText;
                 Match match;
-                if (m_CommandParser.TryGetCommand(message, out commandText) && 
-                    command.Key.TryMatch(commandText, out match))
+                if (command.Key.TryMatch(incomingCommand.CommandText, out match))
                 {
-                    return command.Value(message, match);
+                    return command.Value(incomingCommand, match);
                 }
             }
             return MessageResult.Empty;

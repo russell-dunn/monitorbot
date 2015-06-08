@@ -15,25 +15,25 @@ using WebClient = System.Net.WebClient;
 
 namespace scbot.release
 {
-    public class RollBuildNumbers : IMessageProcessor
+    public class RollBuildNumbers : ICommandProcessor
     {
         public static IFeature Create(ICommandParser commandParser, string teamcityCredentials)
         {
             return new BasicFeature("rollbuildnumbers",
                 "increment the Compare teamcity build numbers after a release",
                 "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)",
-                new RollBuildNumbers(commandParser, Configuration.TeamcityCredentials));
+                new HandlesCommands(commandParser, new RollBuildNumbers(Configuration.TeamcityCredentials)));
         }
         private readonly string m_TeamcityCredentials;
         private readonly RegexCommandMessageProcessor m_Underlying;
 
-        public RollBuildNumbers(ICommandParser commandParser, string teamcityCredentials)
+        public RollBuildNumbers(string teamcityCredentials)
         {
             m_TeamcityCredentials = teamcityCredentials;
-            m_Underlying = new RegexCommandMessageProcessor(commandParser, "^roll build number(s)?$", RollBuildNumber);
+            m_Underlying = new RegexCommandMessageProcessor("^roll build number(s)?$", RollBuildNumber);
         }
 
-        public MessageResult RollBuildNumber(Message message, Match args)
+        public MessageResult RollBuildNumber(Command message, Match args)
         {
             using (var webClient = new WebClient())
             {
@@ -82,9 +82,9 @@ namespace scbot.release
             }
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command message)
         {
-            return m_Underlying.ProcessMessage(message);
+            return m_Underlying.ProcessCommand(message);
         }
 
         public MessageResult ProcessTimerTick()

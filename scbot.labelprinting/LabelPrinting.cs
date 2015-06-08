@@ -10,13 +10,13 @@ using System.Web.Helpers;
 
 namespace scbot.labelprinting
 {
-    public class LabelPrinting : IMessageProcessor
+    public class LabelPrinting : ICommandProcessor
     {
         public static IFeature Create(ICommandParser commandParser, IWebClient webClient, string defaultGithubUser, string githubToken, string printingApiUrl)
         {
             return new BasicFeature("labelprinting", 
                 "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request", 
-                new LabelPrinting(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl));
+                new HandlesCommands(commandParser, new LabelPrinting( webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl)));
         }
 
         private readonly string defaultGithubUser;
@@ -25,13 +25,13 @@ namespace scbot.labelprinting
         private readonly RegexCommandMessageProcessor underlying;
         private readonly IWebClient webClient;
 
-        public LabelPrinting(ICommandParser commandParser, IWebClient webClient, string defaultGithubUser, string githubToken, string printingApiUrl) 
+        public LabelPrinting(IWebClient webClient, string defaultGithubUser, string githubToken, string printingApiUrl) 
         {
             this.webClient = webClient;
             this.defaultGithubUser = defaultGithubUser;
             this.githubToken = githubToken;
             this.printingApiUrl = printingApiUrl;
-            this.underlying = new RegexCommandMessageProcessor(commandParser, Commands);
+            this.underlying = new RegexCommandMessageProcessor(Commands);
         }
 
         public Dictionary<string, MessageHandler> Commands
@@ -45,9 +45,9 @@ namespace scbot.labelprinting
             }
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command command)
         {
-            return underlying.ProcessMessage(message);
+            return underlying.ProcessCommand(command);
         }
 
         public MessageResult ProcessTimerTick()
@@ -55,7 +55,7 @@ namespace scbot.labelprinting
             return underlying.ProcessTimerTick();
         }
 
-        private MessageResult PrintLabel(Message message, Match args)
+        private MessageResult PrintLabel(Command command, Match args)
         {
             var headers = new[]
             {
@@ -79,7 +79,7 @@ namespace scbot.labelprinting
 
             var response = webClient.PostString(printingApiUrl, printRequest, new[] { "content-type:application/json" }).Result;
 
-            return Response.ToMessage(message, response.Substring(0, Math.Min(response.Length, 50)));
+            return Response.ToMessage(command, response.Substring(0, Math.Min(response.Length, 50)));
         }
     }
 }

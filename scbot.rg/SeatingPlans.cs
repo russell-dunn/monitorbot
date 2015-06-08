@@ -10,21 +10,23 @@ using System.Web;
 
 namespace scbot.rg
 {
-    public class SeatingPlans : IMessageProcessor
+    public class SeatingPlans : ICommandProcessor
     {
         public static IFeature Create(ICommandParser commandParser, IWebClient webClient)
         {
-            return new BasicFeature("seatingplans", "find people/rooms in the building", "use `where is <search>` to search for a person or room", new SeatingPlans(commandParser, webClient));
+            return new BasicFeature("seatingplans", 
+                "find people/rooms in the building", "use `where is <search>` to search for a person or room", 
+                new HandlesCommands(commandParser, new SeatingPlans(webClient)));
         }
 
         private const string c_RecordReplayBase = @"\\sqlcomparetestdata.red-gate.com\sqlcomparetestdata\RecordReplay\";
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;
 
-        public SeatingPlans(ICommandParser commandParser, IWebClient webClient)
+        public SeatingPlans(IWebClient webClient)
         {
             m_WebClient = webClient;
-            m_Underlying = new RegexCommandMessageProcessor(commandParser, Commands);
+            m_Underlying = new RegexCommandMessageProcessor(Commands);
         }
 
         public Dictionary<string, MessageHandler> Commands
@@ -39,7 +41,7 @@ namespace scbot.rg
             }
         }
 
-        private MessageResult WhereIs(Message message, Match args)
+        private MessageResult WhereIs(Command message, Match args)
         {
             var thing = args.Group("thing");
             var results = m_WebClient.DownloadJson("http://seatingplans.red-gate.com/index.php?search_text="
@@ -90,9 +92,9 @@ namespace scbot.rg
             }
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command message)
         {
-            return m_Underlying.ProcessMessage(message);
+            return m_Underlying.ProcessCommand(message);
         }
 
         public MessageResult ProcessTimerTick()

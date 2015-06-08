@@ -9,20 +9,23 @@ using scbot.core.utils;
 
 namespace scbot.rg
 {
-    public class Webcams : IMessageProcessor
+    public class Webcams : ICommandProcessor
     {
         public static IFeature Create(ICommandParser commandParser, string webcamAuth)
         {
-            return new BasicFeature("webcams", "get links to webcams in the building", "use `cafcam` or `fooscam` to get the relevant webcam", new Webcams(commandParser, Configuration.WebcamAuth));
+            return new BasicFeature("webcams", 
+                "get links to webcams in the building",
+                "use `cafcam` or `fooscam` to get the relevant webcam",
+                new HandlesCommands(commandParser, new Webcams(Configuration.WebcamAuth)));
         }
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly string m_User;
 
         private readonly string m_Pass;
 
-        public Webcams(ICommandParser commandParser, string webcamAuth)
+        public Webcams(string webcamAuth)
         {
-            m_Underlying = new RegexCommandMessageProcessor(commandParser, Commands);
+            m_Underlying = new RegexCommandMessageProcessor(Commands);
             var userPass = webcamAuth.Split(new[] { ':' }, 2);
             m_User = userPass[0];
             m_Pass = userPass[1];
@@ -40,12 +43,12 @@ namespace scbot.rg
             }
         }
 
-        private MessageResult PostCafcam(Message message, Match args)
+        private MessageResult PostCafcam(Command message, Match args)
         {
             return Response.ToMessage(message, string.Format("<http://10.120.115.227/snapshot.cgi?loginuse={0}&loginpas={1}|{2}>", m_User, m_Pass, LunchMessage()));
         }
 
-        private MessageResult PostFooscam(Message message, Match args)
+        private MessageResult PostFooscam(Command message, Match args)
         {
             return Response.ToMessage(message, string.Format("<http://10.120.115.224/snapshot.cgi?user={0}&pwd=&.jpg|{1}>", m_User, FoosMessage()));
         }
@@ -86,9 +89,9 @@ namespace scbot.rg
             return "I'm not sure ..";
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command message)
         {
-            return m_Underlying.ProcessMessage(message);
+            return m_Underlying.ProcessCommand(message);
         }
 
         public MessageResult ProcessTimerTick()

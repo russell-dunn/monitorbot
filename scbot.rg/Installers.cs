@@ -10,25 +10,25 @@ using System.Threading.Tasks;
 
 namespace scbot.rg
 {
-    public class Installers : IMessageProcessor
+    public class Installers : ICommandProcessor
     {
         public static IFeature Create(ICommandParser commandParser, IWebClient webClient)
         {
             return new BasicFeature("installers",
                 "get a compare/data compare installer",
                 "use `installer for <compare|data compare> <version>` to get a link to download the teamcity artifact for that build",
-                new Installers(commandParser, webClient));
+                new HandlesCommands(commandParser, new Installers(webClient)));
         }
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly IWebClient m_WebClient;
 
-        public Installers(ICommandParser commandParser, IWebClient webClient)
+        public Installers(IWebClient webClient)
         {
             m_WebClient = webClient;
-            m_Underlying = new RegexCommandMessageProcessor(commandParser, @"installer (for )?(sql )?(?<product>compare|data compare)(?<version> [0-9\.]+)?", InstallerFor);
+            m_Underlying = new RegexCommandMessageProcessor(@"installer (for )?(sql )?(?<product>compare|data compare)(?<version> [0-9\.]+)?", InstallerFor);
         }
 
-        public MessageResult InstallerFor(Message message, Match args)
+        public MessageResult InstallerFor(Command message, Match args)
         {
             var product = args.Group("product");
             var buildType = GetBuildType(product);
@@ -60,14 +60,14 @@ namespace scbot.rg
             }
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command message)
         {
-            return ((IMessageProcessor)m_Underlying).ProcessMessage(message);
+            return m_Underlying.ProcessCommand(message);
         }
 
         public MessageResult ProcessTimerTick()
         {
-            return ((IMessageProcessor)m_Underlying).ProcessTimerTick();
+            return m_Underlying.ProcessTimerTick();
         }
     }
 }

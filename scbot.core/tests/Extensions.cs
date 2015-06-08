@@ -1,5 +1,6 @@
 ﻿using Moq;
 using scbot.core.bot;
+using scbot.core.utils;
 
 namespace scbot.core.tests
 {
@@ -14,6 +15,11 @@ namespace scbot.core.tests
         public static MessageResult ProcessMessage(this IMessageProcessor processor)
         {
             return processor.ProcessMessage(new Message("channel", "user", "message")); 
+        }
+
+        public static MessageResult ProcessCommand(this ICommandProcessor processor, string command)
+        {
+            return processor.ProcessCommand(new Command("a-channel", "a-user", command));
         }
     }
 }

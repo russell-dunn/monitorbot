@@ -1,4 +1,6 @@
-﻿namespace scbot.core.bot
+﻿using scbot.core.utils;
+
+namespace scbot.core.bot
 {
     public class Response
     {
@@ -16,6 +18,11 @@
         public static Response ToMessage(Message message, string text, string image=null)
         {
             return new Response(text, message.Channel, image);
+        }
+
+        public static Response ToMessage(Command command, string text, string image=null)
+        {
+            return new Response(text, command.Channel, image);
         }
     }
 }

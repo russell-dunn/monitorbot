@@ -15,13 +15,16 @@ namespace scbot.rg
     {
         public static IFeature Create(ICommandParser commandParser)
         {
-            return new BasicFeature("recordreplay", "delete record/replay traces for a branch", "use `delete traces for <branch>` to force everything to be regenerated", new RecordReplayTraceManagement(commandParser));
+            return new BasicFeature("recordreplay", 
+                "delete record/replay traces for a branch",
+                "use `delete traces for <branch>` to force everything to be regenerated",
+                new HandlesCommands(commandParser, new RecordReplayTraceManagement()));
         }
 
         private const string c_RecordReplayBase = @"\\sqlcomparetestdata.red-gate.com\sqlcomparetestdata\RecordReplay\";
 
-        public RecordReplayTraceManagement(ICommandParser commandParser)
-            : base(commandParser, Commands)
+        public RecordReplayTraceManagement()
+            : base(Commands)
         {
         }
 
@@ -37,7 +40,7 @@ namespace scbot.rg
             }
         }
 
-        private static MessageResult DeleteTracesFor(Message message, Match args)
+        private static MessageResult DeleteTracesFor(Command message, Match args)
         {
             var branch = args.Group("branch");
             var path = PathForBranch(branch);
@@ -53,7 +56,7 @@ namespace scbot.rg
             }
         }
 
-        private static MessageResult InitTracesFor(Message message, Match args)
+        private static MessageResult InitTracesFor(Command message, Match args)
         {
             var branch = args.Group("branch");
             var path = PathForBranch(branch);

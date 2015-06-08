@@ -82,8 +82,11 @@
     <Compile Include="tests\persistence\JsonFileKeyValueStoreTests.cs" />
     <Compile Include="tests\persistence\KeyValueStoreTests.cs" />
     <Compile Include="utils\Cache.cs" />
+    <Compile Include="utils\Command.cs" />
     <Compile Include="utils\Configuration.cs" />
     <Compile Include="utils\Extensions.cs" />
+    <Compile Include="utils\HandlesCommands.cs" />
+    <Compile Include="utils\ICommandProcessor.cs" />
     <Compile Include="utils\ITime.cs" />
     <Compile Include="utils\IWebClient.cs" />
     <Compile Include="utils\RegexCommandMessageProcessor.cs" />

@@ -15,8 +15,8 @@ namespace scbot.rg.tests
         [Test, Explicit]
         public void CanGetResults()
         {
-            var plans = new SeatingPlans(CommandParser.For("where is mark"), new WebClient());
-            var result = plans.ProcessMessage(new Message("channel", "user", "message"));
+            var plans = new SeatingPlans(new WebClient());
+            var result = plans.ProcessCommand(new Command("channel", "user", "where is mark"));
             CollectionAssert.IsNotEmpty(result.Responses);
         }
     }

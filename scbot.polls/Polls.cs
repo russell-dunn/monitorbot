@@ -10,17 +10,16 @@ using scbot.core.utils;
 
 namespace scbot.polls
 {
-    public class Polls : IMessageProcessor
+    public class Polls : ICommandProcessor
     {
         public static IFeature Create(ICommandParser parser)
         {
             return new BasicFeature("polls",
                 "run a poll to enact the tyranny of the majority",
                 "use `start poll` to start a poll",
-                new Polls(parser));
+                new HandlesCommands(parser, new Polls()));
         }
 
-        private readonly ICommandParser m_Parser;
         private readonly RegexCommandMessageProcessor m_Underlying;
 
         private bool m_PollRunning;
@@ -28,10 +27,9 @@ namespace scbot.polls
         private List<string> m_CurrentPollChoices;
         private Dictionary<string, int> m_CurrentPollVotes;
 
-        public Polls(ICommandParser parser)
+        public Polls()
         {
-            m_Parser = parser;
-            m_Underlying = new RegexCommandMessageProcessor(parser, Commands);
+            m_Underlying = new RegexCommandMessageProcessor(Commands);
         }
 
         public Dictionary<string, MessageHandler> Commands
@@ -48,7 +46,7 @@ namespace scbot.polls
             }
         }
 
-        private MessageResult FinishPoll(Message message, Match args)
+        private MessageResult FinishPoll(Command message, Match args)
         {
             if (!m_PollRunning)
             {
@@ -89,7 +87,7 @@ namespace scbot.polls
             return votes;
         }
 
-        private MessageResult AddChoice(Message message, Match args)
+        private MessageResult AddChoice(Command message, Match args)
         {
             if (!m_PollRunning)
             {
@@ -101,12 +99,12 @@ namespace scbot.polls
                 "Choice added. Use `vote " + m_CurrentPollChoices.Count + "` to vote for it.");
         }
 
-        private static Response ComplainAboutNoPollRunning(Message message)
+        private static Response ComplainAboutNoPollRunning(Command message)
         {
             return Response.ToMessage(message, "The poll is not currently running. Use `poll start` to start a poll.");
         }
 
-        private MessageResult StartPoll(Message message, Match args)
+        private MessageResult StartPoll(Command message, Match args)
         {
             if (m_PollRunning)
             {
@@ -120,7 +118,7 @@ namespace scbot.polls
                                                "and `vote 1` to vote for a particular option, then `poll finish` to show the results.");
         }
 
-        private MessageResult Vote(Message message, Match args)
+        private MessageResult Vote(Command message, Match args)
         {
             if (!m_PollRunning)
             {
@@ -143,12 +141,12 @@ namespace scbot.polls
 
         public MessageResult ProcessTimerTick()
         {
-            return ((IMessageProcessor) m_Underlying).ProcessTimerTick();
+            return m_Underlying.ProcessTimerTick();
         }
 
-        public MessageResult ProcessMessage(Message message)
+        public MessageResult ProcessCommand(Command message)
         {
-            return ((IMessageProcessor) m_Underlying).ProcessMessage(message);
+            return m_Underlying.ProcessCommand(message);
         }
     }
 }
