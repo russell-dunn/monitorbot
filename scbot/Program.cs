@@ -66,15 +66,10 @@ namespace scbot
                 LabelPrinting.Create(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl)
                 );
 
-            var processor =
+            var bot = new Bot(
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
-                        new CompositeMessageProcessor(
-                            features,
-                            Jira.Create(commandParser)
-                            )));
-
-            var bot = new Bot(processor);
+                        new CompositeMessageProcessor(features, Jira.Create(commandParser)))));
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
