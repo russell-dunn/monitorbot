@@ -49,9 +49,6 @@ namespace scbot
             var slackRtmConnection = ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm());
 
-            var time = new Time();
-            var jiraApi = new CachedJiraApi(time, new JiraApi());
-
             var slackRtm = await slackRtmConnection;
 
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
@@ -77,8 +74,7 @@ namespace scbot
                     new ConcattingMessageProcessor(
                         new CompositeMessageProcessor(
                             features,
-                            new JiraBugProcessor(commandParser, jiraApi),
-                            new JiraLabelSuggester(commandParser, jiraApi)
+                            Jira.Create(commandParser)
                             //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             )));
 
