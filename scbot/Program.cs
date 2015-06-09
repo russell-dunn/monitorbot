@@ -33,17 +33,18 @@ namespace scbot
     {
         public static void Main(string[] args)
         {
-            using (var dash = new LoggingDashboard(Configuration.LoggingEndpoint))
+            var configuration = Configuration.Load();
+            using (var dash = new LoggingDashboard(configuration.LoggingEndpoint))
             {
-                MainAsync().Wait();
+                MainAsync(configuration).Wait();
             }
         }
 
-        private static async Task MainAsync()
+        private static async Task MainAsync(Configuration configuration)
         {
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
-            var slackApi = new SlackApi(Configuration.SlackApiKey);
+            var slackApi = new SlackApi(configuration.SlackApiKey);
 
             var slackRtm = await (ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm()));
@@ -54,16 +55,16 @@ namespace scbot
 
             var features = new FeatureMessageProcessor(commandParser,
                 NoteProcessor.Create(commandParser, persistence),
-                ZendeskTicketTracker.Create(commandParser, persistence),
+                ZendeskTicketTracker.Create(commandParser, persistence, configuration),
                 RecordReplayTraceManagement.Create(commandParser),
                 SeatingPlans.Create(commandParser, webClient),
-                Webcams.Create(commandParser, Configuration.WebcamAuth),
+                Webcams.Create(commandParser, configuration),
                 Silly.Create(commandParser, webClient),
                 Installers.Create(commandParser, webClient),
                 Polls.Create(commandParser),
-                RollBuildNumbers.Create(commandParser, Configuration.TeamcityCredentials),
-                ReviewFactory.Create(commandParser, webClient, Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo),
-                LabelPrinting.Create(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl),
+                RollBuildNumbers.Create(commandParser, configuration),
+                ReviewFactory.Create(commandParser, webClient, configuration),
+                LabelPrinting.Create(commandParser, webClient, configuration),
                 Jira.Create(commandParser)
                 );
 

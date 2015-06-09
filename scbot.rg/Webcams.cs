@@ -11,12 +11,12 @@ namespace scbot.rg
 {
     public class Webcams : ICommandProcessor
     {
-        public static IFeature Create(ICommandParser commandParser, string webcamAuth)
+        public static IFeature Create(ICommandParser commandParser, Configuration configuration)
         {
             return new BasicFeature("webcams", 
                 "get links to webcams in the building",
                 "use `cafcam` or `fooscam` to get the relevant webcam",
-                new HandlesCommands(commandParser, new Webcams(Configuration.WebcamAuth)));
+                new HandlesCommands(commandParser, new Webcams(configuration.WebcamAuth)));
         }
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly string m_User;

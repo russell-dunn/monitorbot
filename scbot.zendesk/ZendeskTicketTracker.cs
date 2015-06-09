@@ -12,11 +12,11 @@ namespace scbot.zendesk
 {
     public class ZendeskTicketTracker : IMessageProcessor
     {
-        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
+        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence, Configuration configuration)
         {
             var zendeskApi = new ErrorCatchingZendeskTicketApi(
                 new ZendeskTicketApi(new CachedZendeskApi(new Time(), ReconnectingZendeskApi.CreateAsync(
-                    async () => await ZendeskApi.CreateAsync(Configuration.RedgateId), new Time()).Result)));
+                    async () => await ZendeskApi.CreateAsync(configuration.RedgateId), new Time()).Result)));
 
             var zendeskTicketTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi);
             var zendeskTicketProcessor = new ZendeskTicketProcessor(zendeskApi);

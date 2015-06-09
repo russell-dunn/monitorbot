@@ -6,10 +6,12 @@ namespace scbot.slack.tests
 {
     public class SlackAuthTests
     {
+        private Configuration m_Configuration = Configuration.Load();
+
         [Test, Explicit]
         public async void CanGetRealTimeMessagingApi()
         {
-            var slackApi = new SlackApi(Configuration.SlackApiKey);
+            var slackApi = new SlackApi(m_Configuration.SlackApiKey);
             using (var rtm = await slackApi.StartRtm())
             {
                 var json = await rtm.Receive(new CancellationToken());
@@ -20,7 +22,7 @@ namespace scbot.slack.tests
         [Test, Explicit]
         public async void CanTestApi()
         {
-            var slackApi = new SlackApi(Configuration.SlackApiKey);
+            var slackApi = new SlackApi(m_Configuration.SlackApiKey);
             using (var rtm = await slackApi.StartRtm())
             {
                 var handler = new SlackMessageHandler(new LoggingBot(), rtm.BotId);

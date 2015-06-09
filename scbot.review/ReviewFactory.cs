@@ -14,9 +14,9 @@ namespace scbot.review
     public static class ReviewFactory
     {
         public static IFeature Create(ICommandParser commandParser, IWebClient webClient, 
-            string githubToken, string defaultUser, string defaultRepo)
+            Configuration configuration)
         {
-            var githubApi = new GithubDiffApi(webClient, githubToken);
+            var githubApi = new GithubDiffApi(webClient, configuration.GithubToken);
             var reviewApi = new ReviewApi(githubApi, 
                 new Func<IDiffReviewer>[] {
                     () => new DontAddTabCharacters(),
@@ -27,7 +27,7 @@ namespace scbot.review
                     () => new GeneralBadThing(@"<SpecificVersion>\s*[fF]alse\s*</SpecificVersion>", "SpecificVersion=False found"),
                     () => new AvoidAppConfig(),
             });
-            var processor = new GithubReviewMessageProcessor(commandParser, reviewApi, defaultUser, defaultRepo);
+            var processor = new GithubReviewMessageProcessor(commandParser, reviewApi, configuration.GithubDefaultUser, configuration.GithubDefaultRepo);
             return new BasicFeature("githubreview", 
                 "[experimental] run some automated checks against github pull requests", "- `review fooRepo#123` review a pull request\n- `review fooRepo@bug/SC-1234` review a branch (against master)\n- `review fooCorp/fooRepo@abc123` review a specific commit", 
                 processor);

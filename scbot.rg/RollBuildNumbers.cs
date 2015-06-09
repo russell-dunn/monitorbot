@@ -17,12 +17,12 @@ namespace scbot.release
 {
     public class RollBuildNumbers : ICommandProcessor
     {
-        public static IFeature Create(ICommandParser commandParser, string teamcityCredentials)
+        public static IFeature Create(ICommandParser commandParser, Configuration configuration)
         {
             return new BasicFeature("rollbuildnumbers",
                 "increment the Compare teamcity build numbers after a release",
                 "use `roll build numbers` to increment the current Compare minor version (eg `11.1.20` -> `11.2.1`)",
-                new HandlesCommands(commandParser, new RollBuildNumbers(Configuration.TeamcityCredentials)));
+                new HandlesCommands(commandParser, new RollBuildNumbers(configuration.TeamcityCredentials)));
         }
         private readonly string m_TeamcityCredentials;
         private readonly RegexCommandMessageProcessor m_Underlying;
