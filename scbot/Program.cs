@@ -44,10 +44,9 @@ namespace scbot
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
             var slackApi = new SlackApi(Configuration.SlackApiKey);
-            var slackRtmConnection = ReconnectingSlackRealTimeMessaging.CreateAsync(
-                async () => await slackApi.StartRtm());
 
-            var slackRtm = await slackRtmConnection;
+            var slackRtm = await (ReconnectingSlackRealTimeMessaging.CreateAsync(
+                async () => await slackApi.StartRtm()));
 
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
 
