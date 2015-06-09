@@ -49,8 +49,6 @@ namespace scbot
             var slackRtmConnection = ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm());
 
-            var teamcityApi = new TeamcityBuildApi(new JsonProxyTeamcityApi(Configuration.TeamcityApiBase));
-
             var time = new Time();
             var jiraApi = new CachedJiraApi(time, new JiraApi());
             var zendeskApi = new ErrorCatchingZendeskTicketApi(
@@ -62,10 +60,6 @@ namespace scbot
             var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
 
             var webClient = new WebClient();
-
-            var tcWebHooksProcessor = new TeamcityWebhooksMessageProcessor(persistence, commandParser);
-            var tcWebHooksStatus = StatusWebhooksHandler.Create(time, webClient, Configuration.GithubToken);
-            var webApp = TeamcityWebhooksEndpoint.Start(Configuration.TeamcityWebhooksEndpoint, new IAcceptTeamcityEvents[] {tcWebHooksProcessor, tcWebHooksStatus});
 
             var features = new FeatureMessageProcessor(commandParser,
                 NoteProcessor.Create(commandParser, persistence),
@@ -88,10 +82,9 @@ namespace scbot
                             features,
                             new JiraBugProcessor(commandParser, jiraApi),
                             new JiraLabelSuggester(commandParser, jiraApi),
-                            new ZendeskTicketProcessor(zendeskApi),
+                            new ZendeskTicketProcessor(zendeskApi)
                             //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
-                            //new TeamcityBuildTracker(commandParser, persistence, teamcityApi),
-                            tcWebHooksProcessor)));
+                            )));
 
             var bot = new Bot(processor);
 
