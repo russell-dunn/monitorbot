@@ -12,14 +12,14 @@ namespace scbot.jira
 {
     public static class Jira
     {
-        public static IMessageProcessor Create(ICommandParser commandParser)
+        public static IFeature Create(ICommandParser commandParser)
         {
             var time = new Time();
             var jiraApi = new CachedJiraApi(time, new JiraApi());
             var processor = new CompositeMessageProcessor(
                             new JiraBugProcessor(commandParser, jiraApi),
                             new JiraLabelSuggester(commandParser, jiraApi));
-            return processor;
+            return new BasicFeature("jira", "track jira tickets mentioned in chat", "", processor);
         }
     }
 }

@@ -63,13 +63,14 @@ namespace scbot
                 Polls.Create(commandParser),
                 RollBuildNumbers.Create(commandParser, Configuration.TeamcityCredentials),
                 ReviewFactory.Create(commandParser, webClient, Configuration.GithubToken, Configuration.GithubDefaultUser, Configuration.GithubDefaultRepo),
-                LabelPrinting.Create(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl)
+                LabelPrinting.Create(commandParser, webClient, Configuration.GithubDefaultUser, Configuration.GithubToken, Configuration.LabelPrinterApiUrl),
+                Jira.Create(commandParser)
                 );
 
             var bot = new Bot(
                 new ErrorCatchingMessageProcessor(
                     new ConcattingMessageProcessor(
-                        new CompositeMessageProcessor(features, Jira.Create(commandParser)))));
+                            features)));
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
             var cancellationToken = new CancellationToken();
