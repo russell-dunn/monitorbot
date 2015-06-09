@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Web.Helpers;
 
@@ -12,6 +13,7 @@ namespace scbot.core.utils
         public static Configuration Load()
         {
             var pathToConfig = Environment.GetEnvironmentVariable("SCBOT_CONFIG_FILE") ?? "config.json";
+            Trace.WriteLine("Loading config from " + pathToConfig);
             var dict = Json.Decode<Dictionary<string, string>>(File.ReadAllText(pathToConfig));
             return new Configuration(dict);
         }
