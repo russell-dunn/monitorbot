@@ -51,9 +51,6 @@ namespace scbot
 
             var time = new Time();
             var jiraApi = new CachedJiraApi(time, new JiraApi());
-            var zendeskApi = new ErrorCatchingZendeskTicketApi(
-                new ZendeskTicketApi(new CachedZendeskApi(time, await (ReconnectingZendeskApi.CreateAsync(
-                    async () => await ZendeskApi.CreateAsync(Configuration.RedgateId))))));
 
             var slackRtm = await slackRtmConnection;
 
@@ -63,7 +60,7 @@ namespace scbot
 
             var features = new FeatureMessageProcessor(commandParser,
                 NoteProcessor.Create(commandParser, persistence),
-                ZendeskTicketTracker.Create(commandParser, persistence, zendeskApi),
+                ZendeskTicketTracker.Create(commandParser, persistence),
                 RecordReplayTraceManagement.Create(commandParser),
                 SeatingPlans.Create(commandParser, webClient),
                 Webcams.Create(commandParser, Configuration.WebcamAuth),
@@ -81,8 +78,7 @@ namespace scbot
                         new CompositeMessageProcessor(
                             features,
                             new JiraBugProcessor(commandParser, jiraApi),
-                            new JiraLabelSuggester(commandParser, jiraApi),
-                            new ZendeskTicketProcessor(zendeskApi)
+                            new JiraLabelSuggester(commandParser, jiraApi)
                             //new HtmlTitleProcessor(new HtmlTitleParser(webClient), htmlDomainBlacklist),
                             )));
 

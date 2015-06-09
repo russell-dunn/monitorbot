@@ -6,16 +6,24 @@ using scbot.core.compareengine;
 using scbot.core.persistence;
 using scbot.core.utils;
 using scbot.zendesk.services;
+using scbot.core.meta;
 
 namespace scbot.zendesk
 {
     public class ZendeskTicketTracker : IMessageProcessor
     {
-        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence, IZendeskTicketApi zendeskApi)
+        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
         {
+            var zendeskApi = new ErrorCatchingZendeskTicketApi(
+                new ZendeskTicketApi(new CachedZendeskApi(new Time(), ReconnectingZendeskApi.CreateAsync(
+                    async () => await ZendeskApi.CreateAsync(Configuration.RedgateId)).Result)));
+
+            var zendeskTicketTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi);
+            var zendeskTicketProcessor = new ZendeskTicketProcessor(zendeskApi);
             return new BasicFeature("zdtracker", "track comments added to zendesk tickets", "use `track ZD#12345` to start tracking a zendesk ticket in the current channel",
-                                        new ZendeskTicketTracker(commandParser, persistence, zendeskApi));
+                                        new CompositeMessageProcessor(zendeskTicketProcessor, zendeskTicketTracker));
         }
+
         private readonly ICommandParser m_CommandParser;
         private readonly IListPersistenceApi<Tracked<ZendeskTicket>> m_Persistence;
         private readonly IZendeskTicketApi m_ZendeskApi;
