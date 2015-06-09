@@ -14,7 +14,7 @@ namespace scbot.zendesk.tests
         [Test, Explicit]
         public void CanCreateZendeskApiAndFetchIssue()
         {
-            var api = new ZendeskTicketApi(ZendeskApi.Create(m_Configuration.RedgateId));
+            var api = new ZendeskTicketApi(ZendeskApi.Create(m_Configuration.Get("redgate-id")));
             var ticket = api.FromId("34182").Result;
             Assert.AreEqual("SQL Packager 8 crash", ticket.Description);
             var comment = ticket.Comments.ElementAt(1);
@@ -27,7 +27,7 @@ namespace scbot.zendesk.tests
         [Test, Explicit]
         public void CanCacheZendeskApi()
         {
-            var cached = new CachedZendeskApi(new Time(), ZendeskApi.Create(m_Configuration.RedgateId));
+            var cached = new CachedZendeskApi(new Time(), ZendeskApi.Create(m_Configuration.Get("redgate-id")));
             TimeSpan uncachedTime, cachedTime;
             var stopwatch = new Stopwatch();
 
@@ -46,7 +46,7 @@ namespace scbot.zendesk.tests
         [Test, Explicit]
         public void ReturnsNullOnError()
         {
-            var api = new ErrorCatchingZendeskTicketApi(new ZendeskTicketApi(ZendeskApi.Create(m_Configuration.RedgateId)));
+            var api = new ErrorCatchingZendeskTicketApi(new ZendeskTicketApi(ZendeskApi.Create(m_Configuration.Get("redgate-id"))));
             Assert.AreEqual(default(ZendeskTicket), api.FromId("not a zd id").Result); 
         }
     }

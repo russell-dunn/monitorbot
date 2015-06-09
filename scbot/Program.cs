@@ -34,7 +34,7 @@ namespace scbot
         public static void Main(string[] args)
         {
             var configuration = Configuration.Load();
-            using (var dash = new LoggingDashboard(configuration.LoggingEndpoint))
+            using (var dash = new LoggingDashboard(configuration.Get("logging-dashboard-endpoint")))
             {
                 MainAsync(configuration).Wait();
             }
@@ -44,7 +44,7 @@ namespace scbot
         {
             var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
 
-            var slackApi = new SlackApi(configuration.SlackApiKey);
+            var slackApi = new SlackApi(configuration.Get("slack-api-key"));
 
             var slackRtm = await (ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm()));

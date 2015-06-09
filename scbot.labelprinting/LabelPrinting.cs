@@ -16,7 +16,7 @@ namespace scbot.labelprinting
         {
             return new BasicFeature("labelprinting", 
                 "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request",
-                new HandlesCommands(commandParser, new LabelPrinting(webClient, configuration.GithubDefaultUser, configuration.GithubToken, configuration.LabelPrinterApiUrl)));
+                new HandlesCommands(commandParser, new LabelPrinting(webClient, configuration.Get("github-default-user"), configuration.Get("github-token"), configuration.Get("printer-api-url"))));
         }
 
         private readonly string defaultGithubUser;

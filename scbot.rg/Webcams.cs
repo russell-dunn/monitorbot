@@ -16,7 +16,7 @@ namespace scbot.rg
             return new BasicFeature("webcams", 
                 "get links to webcams in the building",
                 "use `cafcam` or `fooscam` to get the relevant webcam",
-                new HandlesCommands(commandParser, new Webcams(configuration.WebcamAuth)));
+                new HandlesCommands(commandParser, new Webcams(configuration.Get("webcam-auth"))));
         }
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly string m_User;

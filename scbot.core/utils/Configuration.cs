@@ -28,29 +28,7 @@ namespace scbot.core.utils
             m_Values = values;
         }
 
-        public string SlackApiKey { get { return Get("slack-api-key"); } }
-
-        public string RedgateId { get { return Get("redgate-id"); } }
-
-        public string TeamcityApiBase { get { return Get("teamcity-api-base"); } }
-
-        public string TeamcityWebhooksEndpoint { get { return Get("teamcity-webhooks-endpoint"); } }
-
-        public string GithubToken { get { return Get("github-token"); } }
-
-        public string GithubDefaultRepo { get { return Get("github-default-repo"); } }
-
-        public string GithubDefaultUser { get { return Get("github-default-user"); } }
-
-        public string LoggingEndpoint { get { return Get("logging-dashboard-endpoint"); } }
-
-        public string WebcamAuth { get { return Get("webcam-auth"); } }
-
-        public string TeamcityCredentials { get { return Get("teamcity-auth"); } }
-
-        public string LabelPrinterApiUrl { get { return Get("printer-api-url"); } }
-
-        private string Get(string configKey)
+        public string Get(string configKey)
         {
             if (m_Values.ContainsKey(configKey))
             {

@@ -16,7 +16,7 @@ namespace scbot.zendesk
         {
             var zendeskApi = new ErrorCatchingZendeskTicketApi(
                 new ZendeskTicketApi(new CachedZendeskApi(new Time(), ReconnectingZendeskApi.CreateAsync(
-                    async () => await ZendeskApi.CreateAsync(configuration.RedgateId), new Time()).Result)));
+                    async () => await ZendeskApi.CreateAsync(configuration.Get("redgate-id")), new Time()).Result)));
 
             var zendeskTicketTracker = new ZendeskTicketTracker(commandParser, persistence, zendeskApi);
             var zendeskTicketProcessor = new ZendeskTicketProcessor(zendeskApi);
