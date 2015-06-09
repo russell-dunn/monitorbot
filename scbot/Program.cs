@@ -42,7 +42,7 @@ namespace scbot
 
         private static async Task MainAsync(Configuration configuration)
         {
-            var persistence = new JsonFileKeyValueStore(new FileInfo("scbot.db.json"));
+            var persistence = new JsonFileKeyValueStore(new FileInfo(configuration.Get("db-file-location")));
 
             var slackApi = new SlackApi(configuration.Get("slack-api-key"));
 
