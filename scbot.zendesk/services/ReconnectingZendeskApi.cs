@@ -52,6 +52,7 @@ namespace scbot.zendesk.services
                 var httpResponse = we.Response as HttpWebResponse;
                 if (httpResponse == null || httpResponse.StatusCode != HttpStatusCode.Unauthorized)
                 {
+                    Trace.WriteLine("Caught unhandled exception from zendesk ..");
                     SetBackoff(2.Minutes());
                     throw;
                 }
@@ -69,6 +70,7 @@ namespace scbot.zendesk.services
         private void SetBackoff(TimeSpan timeToDelay)
         {
             m_Backoff = m_Time.Now + timeToDelay;
+            Trace.WriteLine(string.Format("Setting backoff on zd api: {0} (to {1})", timeToDelay, m_Backoff));
         }
     }
 }
