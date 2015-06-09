@@ -8,3 +8,4 @@ bin
 packages
 local.config
 .vs
+config.json

@@ -1,0 +1,27 @@
+﻿{
+    // Fetch api token from Configured Integrations > Bots > bot > API token 
+    "slack-api-key": "FIXME",
+    // A Redgate Id account in the form user@example.com:password 
+    "redgate-id": "FIXME",
+    //  A url for the teamcity api in the form http://foo:2001/ 
+    "teamcity-api-base": "FIXME",
+    // An endpoint url for the tcWebHooks plugin 
+    // 
+    // Depending on the endpoint, you may need to run this as admin to fix Access Denied errors:
+    // netsh http add urlacl url=http://*:51307/ user=Everyone
+    "teamcity-webhooks-endpoint": "http://*:51307/",
+    //  A github OAUTH token 
+    "github-token": "FIXME",
+    //  The default repo for talking to github 
+    "github-default-repo": "FIXME",
+    //  The default user for talking to github 
+    "github-default-user": "FIXME",
+    //  Logging dashboard for seeing what's going on 
+    "logging-dashboard-endpoint": "http://*:51308/",
+    //  auth for rg webcams in the form user:pass 
+    "webcam-auth": "FIXME",
+    //  auth for teamcity in the form user:pass 
+    "teamcity-auth": "FIXME",
+    //  url for a label printer 
+    "printer-api-url":  "http://localhost:9000",
+}
