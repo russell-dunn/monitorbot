@@ -59,6 +59,7 @@
     <Compile Include="services\ZendeskApi.cs" />
     <Compile Include="services\ZendeskTicket.cs" />
     <Compile Include="services\ZendeskTicketApi.cs" />
+    <Compile Include="tests\ReconnectingApiTests.cs" />
     <Compile Include="tests\ZendeskIntegrationTests.cs" />
     <Compile Include="tests\ZendeskTicketParsingTests.cs" />
     <Compile Include="tests\ZendeskTicketTests.cs" />

@@ -52,5 +52,25 @@ namespace scbot.core.utils
         {
             return haystack.IndexOf(needle, stringComparison) != -1;
         }
+
+        public static TimeSpan Minutes(this int num)
+        {
+            return TimeSpan.FromMinutes(num);
+        }
+
+        public static TimeSpan Minute(this int num)
+        {
+            return TimeSpan.FromMinutes(num);
+        }
+
+        public static TimeSpan Seconds(this int num)
+        {
+            return TimeSpan.FromSeconds(num);
+        }
+
+        public static TimeSpan Second(this int num)
+        {
+            return TimeSpan.FromSeconds(num);
+        }
     }
 }
