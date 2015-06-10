@@ -53,7 +53,7 @@ namespace scbot.zendesk.services
                 if (httpResponse == null || httpResponse.StatusCode != HttpStatusCode.Unauthorized)
                 {
                     Trace.WriteLine("Caught unhandled exception from zendesk ..");
-                    SetBackoff(2.Minutes());
+                    TrySetBackoff(2.Minutes());
                     throw;
                 }
             }
@@ -61,16 +61,18 @@ namespace scbot.zendesk.services
             // You can trigger this code by going to the Zendesk profile page, 
             // selecting the Devices and apps tab and deleting other sessions
             Trace.WriteLine("Caught 401 from zendesk .. attempting to reauth");
-            SetBackoff(20.Seconds());
+            if (!TrySetBackoff(20.Seconds())) { return default(T); }
             // reconnect and retry once
             m_ZdApi = await m_ZdApiFactory();
             return await method();
         }
 
-        private void SetBackoff(TimeSpan timeToDelay)
+        private bool TrySetBackoff(TimeSpan timeToDelay)
         {
+            if (m_Backoff > m_Time.Now) { return false; }
             m_Backoff = m_Time.Now + timeToDelay;
             Trace.WriteLine(string.Format("Setting backoff on zd api: {0} (to {1})", timeToDelay, m_Backoff));
+            return true;
         }
     }
 }
