@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Topshelf;
 
 namespace scbot.windowsservice
 {
@@ -14,12 +14,22 @@ namespace scbot.windowsservice
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new ScbotService() 
-            };
-            ServiceBase.Run(ServicesToRun);
+            HostFactory.Run(x =>
+            {
+                x.Service<ScbotService>(sc =>
+                {
+                    sc.ConstructUsing(() => new ScbotService());
+
+                    sc.WhenStarted(s => s.Start());
+                    sc.WhenStopped(s => s.Stop());
+                });
+
+                x.RunAsLocalService();
+
+                x.SetDescription("https://github.com/red-gate/scbot");
+                x.SetDisplayName("scbot");
+                x.SetServiceName("ScbotService");
+            });
         }
     }
 }
