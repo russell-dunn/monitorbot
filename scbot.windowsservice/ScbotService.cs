@@ -37,8 +37,16 @@ namespace scbot.windowsservice
         {
             try
             {
-                m_StopTheBot.Cancel();
-                m_Bot.Wait();
+                if (m_StopTheBot != null)
+                {
+                    m_StopTheBot.Cancel();
+                    m_StopTheBot = null;
+                }
+                if (m_Bot != null)
+                {
+                    m_Bot.Wait();
+                    m_Bot = null;
+                }
             }
             catch (OperationCanceledException)
             {
