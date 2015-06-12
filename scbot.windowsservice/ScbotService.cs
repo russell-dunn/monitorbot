@@ -54,7 +54,8 @@ namespace scbot.windowsservice
             catch (Exception ex)
             {
                 m_EventLog.WriteEntry("Error stopping scbot: " + ex);
-                throw;
+                // throw; // TODO: figure out why TaskCanceledExceptions seem to be hitting here
+                // (they should get caught as an OperationCanceledException)
             }
             finally
             {
