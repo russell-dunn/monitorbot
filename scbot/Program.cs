@@ -29,18 +29,18 @@ using scbot.labelprinting;
 
 namespace scbot
 {
-    internal static class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             var configuration = Configuration.Load();
             using (var dash = new LoggingDashboard(configuration.Get("logging-dashboard-endpoint")))
             {
-                MainAsync(configuration).Wait();
+                MainAsync(configuration, new CancellationToken()).Wait();
             }
         }
 
-        private static async Task MainAsync(Configuration configuration)
+        public static async Task MainAsync(Configuration configuration, CancellationToken cancel)
         {
             var persistence = new JsonFileKeyValueStore(new FileInfo(configuration.Get("db-file-location")));
 
@@ -74,9 +74,8 @@ namespace scbot
                             features)));
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
-            var cancellationToken = new CancellationToken();
 
-            MainLoop(slackRtm, handler, slackApi, cancellationToken);
+            MainLoop(slackRtm, handler, slackApi, cancel);
         }
 
         private static void MainLoop(ISlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
