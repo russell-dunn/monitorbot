@@ -22,7 +22,7 @@ namespace scbot.labelprinting.tests
                 new[] { "Authorization: token githubToken" }))
                 .ReturnsAsync(@"{ title: 'test pull request', body: 'test pull request body', user: { avatar_url: 'example image' } }");
 
-            webClient.Setup(x => x.PostString("http://my_printer.com:9000", @"{""title"":""fooRepo#3: test pull request"",""text"":""test pull request body"",""images"":[""https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"",""example image"",""https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/fooCorp/fooRepo/pull/3""]}", new[] { "content-type:application/json" })).ReturnsAsync("Printing ...");
+            webClient.Setup(x => x.PostString("http://my_printer.com:9000", @"{""title"":""#3: test pull request"",""images"":[""https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"",""example image"",""https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/fooCorp/fooRepo/pull/3""]}", new[] { "content-type:application/json" })).ReturnsAsync("Printing ...");
 
             var result = processor.ProcessCommand("print label for fooRepo#3");
 

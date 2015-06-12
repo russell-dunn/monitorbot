@@ -66,8 +66,7 @@ namespace scbot.labelprinting
             var url = string.Format("https://api.github.com/repos/{0}/{1}/pulls/{2}", defaultGithubUser, repo, prNum);
             var pr = webClient.DownloadJson(url, headers).Result;
 
-            var title = string.Format("{0}#{1}: {2}", repo, prNum, pr.title);
-            var text = pr.body;
+            var title = string.Format("#{1}: {2}", repo, prNum, pr.title);
             var images = new List<string>
             {
                 "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
@@ -75,7 +74,7 @@ namespace scbot.labelprinting
                 string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", defaultGithubUser, repo, prNum),
             };
 
-            var printRequest = Json.Encode(new { title = title, text = text, images = images });
+            var printRequest = Json.Encode(new { title = title, images = images });
 
             var response = webClient.PostString(printingApiUrl, printRequest, new[] { "content-type:application/json" }).Result;
 
