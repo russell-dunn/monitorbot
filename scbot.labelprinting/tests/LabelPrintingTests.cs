@@ -16,7 +16,8 @@ namespace scbot.labelprinting.tests
         public void TestPrintLabel()
         {
             var webClient = new Mock<IWebClient>(MockBehavior.Strict);
-            var processor = new LabelPrinting(webClient.Object, "fooCorp", "githubToken", "http://my_printer.com:9000");
+            IWebClient webClient1 = webClient.Object;
+            var processor = new LabelPrinting(webClient1, "fooCorp", "githubToken",  new LabelPrinter("http://my_printer.com:9000", webClient1));
 
             webClient.Setup(x => x.DownloadString("https://api.github.com/repos/fooCorp/fooRepo/pulls/3",
                 new[] { "Authorization: token githubToken" }))

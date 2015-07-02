@@ -14,23 +14,24 @@ namespace scbot.labelprinting
     {
         public static IFeature Create(ICommandParser commandParser, IWebClient webClient, Configuration configuration)
         {
+            string printingApiUrl = configuration.Get("printer-api-url");
             return new BasicFeature("labelprinting", 
                 "[experimental] turn imaginary things into physical souvenirs to print out and keep", "use `print label for repo#34` to print a label for a pull request",
-                new HandlesCommands(commandParser, new LabelPrinting(webClient, configuration.Get("github-default-user"), configuration.Get("github-token"), configuration.Get("printer-api-url"))));
+                new HandlesCommands(commandParser, new LabelPrinting(webClient, configuration.Get("github-default-user"), configuration.Get("github-token"), new LabelPrinter(printingApiUrl, webClient))));
         }
 
         private readonly string defaultGithubUser;
         private readonly string githubToken;
-        private readonly string printingApiUrl;
         private readonly RegexCommandMessageProcessor underlying;
         private readonly IWebClient webClient;
+        private readonly LabelPrinter labelPrinter;
 
-        public LabelPrinting(IWebClient webClient, string defaultGithubUser, string githubToken, string printingApiUrl) 
+        public LabelPrinting(IWebClient webClient, string defaultGithubUser, string githubToken, LabelPrinter labelPrinter) 
         {
             this.webClient = webClient;
             this.defaultGithubUser = defaultGithubUser;
             this.githubToken = githubToken;
-            this.printingApiUrl = printingApiUrl;
+            this.labelPrinter = labelPrinter;
             this.underlying = new RegexCommandMessageProcessor(Commands);
         }
 
@@ -67,16 +68,15 @@ namespace scbot.labelprinting
             var pr = webClient.DownloadJson(url, headers).Result;
 
             var title = string.Format("#{1}: {2}", repo, prNum, pr.title);
+            var avatarUrl = pr.user.avatar_url;
             var images = new List<string>
             {
                 "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
-                pr.user.avatar_url,
+                avatarUrl,
                 string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", defaultGithubUser, repo, prNum),
             };
 
-            var printRequest = Json.Encode(new { title = title, images = images });
-
-            var response = webClient.PostString(printingApiUrl, printRequest, new[] { "content-type:application/json" }).Result;
+            var response = labelPrinter.PrintLabel(title, images);
 
             return Response.ToMessage(command, response.Substring(0, Math.Min(response.Length, 50)));
         }
