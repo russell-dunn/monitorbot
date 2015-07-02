@@ -67,7 +67,7 @@ namespace scbot.labelprinting
             var url = string.Format("https://api.github.com/repos/{0}/{1}/pulls/{2}", defaultGithubUser, repo, prNum);
             var pr = webClient.DownloadJson(url, headers).Result;
 
-            var title = string.Format("#{1}: {2}", repo, prNum, pr.title);
+            var title = string.Format("#{0}: {1}", prNum, pr.title);
             var avatarUrl = pr.user.avatar_url;
             var images = new List<string>
             {
