@@ -65,7 +65,8 @@ namespace scbot
                 RollBuildNumbers.Create(commandParser, configuration),
                 ReviewFactory.Create(commandParser, webClient, configuration),
                 LabelPrinting.Create(commandParser, webClient, configuration),
-                Jira.Create(commandParser)
+                Jira.Create(commandParser),
+                CompareTeamEmails.Create(commandParser, configuration)
                 );
 
             var bot = new Bot(

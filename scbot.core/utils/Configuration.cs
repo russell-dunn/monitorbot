@@ -31,5 +31,14 @@ namespace scbot.core.utils
             }
             throw new Exception(configKey + " needs to be set in config");
         }
+
+        public string GetWithDefault(string configKey, string defaultValue)
+        {
+            if (m_Values.ContainsKey(configKey))
+            {
+                return m_Values[configKey];
+            }
+            return defaultValue;
+        }
     }
 }
