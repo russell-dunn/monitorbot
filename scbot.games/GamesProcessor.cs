@@ -106,7 +106,7 @@ namespace scbot.games
                         oldRating = GetRatingForPlayer(oldRankings, x.Player),
                         newRating = GetRatingForPlayer(newRankings, x.Player)
                     })
-                .Select(x => string.Format("{0}: **{1}** (new rating - {2})", x.result.Position, x.result.Player, x.newRating))
+                .Select(x => string.Format("{0}: *{1}* (new rating - {2})", x.result.Position, x.result.Player, x.newRating))
                 .ToList();
         }
 

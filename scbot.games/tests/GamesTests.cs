@@ -22,9 +22,9 @@ namespace scbot.games.tests
                 "Adding new player `Dave`",
                 "Adding new player `Pete`",
                 "Adding new player `Paul`",
-                "1: **Dave** (new rating - 1022)", 
-                "2: **Pete** (new rating - 1000)", 
-                "3: **Paul** (new rating - 978)",
+                "1: *Dave* (new rating - 1022)", 
+                "2: *Pete* (new rating - 1000)", 
+                "3: *Paul* (new rating - 978)",
 
             };
             var responses = result.Responses.Select(x => x.Message).ToList();
@@ -33,9 +33,9 @@ namespace scbot.games.tests
             result = games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
             expected = new[]
             {
-                "1: **Dave** (new rating - 1041)", 
-                "2: **Pete** (new rating - 1000)", 
-                "3: **Paul** (new rating - 959)",
+                "1: *Dave* (new rating - 1041)", 
+                "2: *Pete* (new rating - 1000)", 
+                "3: *Paul* (new rating - 959)",
             };
             responses = result.Responses.Select(x => x.Message).ToList();
             CollectionAssert.AreEqual(expected, responses);
