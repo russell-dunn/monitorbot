@@ -82,20 +82,20 @@ namespace scbot.email.services
                     }
                     else
                     {
-                        Trace.WriteLine("Unknown event type " + e.GetType().Name);
+                        Trace.WriteLine("Unknown EWS event type " + e.GetType().Name);
                     }
                 }
             });
             connection.OnDisconnect += (sender, args) =>
             {
-                Trace.WriteLine("DISCONNECTED: " + args.Exception);
+                Trace.WriteLine("EWS subscription disconnected: " + args.Exception);
                 ((StreamingSubscriptionConnection)sender).Open();
-                Trace.WriteLine("RECONNECTED");
+                Trace.WriteLine("EWS subscription reconnected");
             };
             connection.OnSubscriptionError += (sender, args) =>
             {
-                Trace.WriteLine("ERROR: " + args.Exception);
-                Trace.WriteLine("Trying to resubscribe ..." + args.Exception);
+                Trace.WriteLine("EWS subscription ERROR: " + args.Exception);
+                Trace.WriteLine("Trying to resubscribe ...");
                 SubscribeToNewMails(service, emailHandlers);
             };
             connection.Open();
