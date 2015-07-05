@@ -16,8 +16,9 @@ namespace scbot.games
         {
             var processor = new GamesProcessor(persistence);
             return new BasicFeature("games", "record games and track rankings", 
-                "Use `record <league> game 1st <player1> 2nd <player2> [...]` to record a game.\n"
-                +"eg: `record worms game 1st James 2nd Luke 3rd MarkJ`",
+                "Use `record <league> game 1st <player1> 2nd <player2> [...]` to record a game.\n" +
+                "eg: `record worms game 1st James 2nd Luke 3rd MarkJ`\n" +
+                "Use `get <league> leaderboard to see overall ratings",
                 new HandlesCommands(commandParser, processor));
         }
 
@@ -38,7 +39,8 @@ namespace scbot.games
             {
                 return new Dictionary<string, MessageHandler>
                 {
-                    {@"record\s+(?<league>[^ ]+)\s+game\s*(?<results>.+)?", RecordGame}
+                    {@"record\s+(?<league>[^ ]+)\s+game\s*(?<results>.+)?", RecordGame},
+                    {@"(?<league>[^ ]+)\s+leaderboard", GetLeaderboard},
                 };
             }
         }
@@ -51,9 +53,8 @@ namespace scbot.games
             var existingGames = gamesPersistence.ReadList();
             var resultsString = args.Group("results");
             var gameResults = ParseGameResults(resultsString);
-            var playersPersistence = new ListPersistenceApi<PlayerRating>(m_Persistence, "players." + league);
-            var players = playersPersistence.ReadList();
-            var playerNames = new HashSet<string>(players.Select(x => x.Name));
+            var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + league);
+            var playerNames = playersPersistence.GetKeys();
             if (!existingGames.Any())
             {
                 responses.Add(Response.ToMessage(command, string.Format("Creating new league `{0}`", league)));
@@ -72,30 +73,47 @@ namespace scbot.games
                 if (!playerNames.Contains(result.Player))
                 {
                     responses.Add(Response.ToMessage(command, string.Format("Adding new player `{0}`", result.Player)));
-                    playersPersistence.AddToList(new PlayerRating(result.Player, s_StartingRating));
+                    playersPersistence.Set(result.Player, s_StartingRating);
                 }
             }
-            var rankingChanges = CalculateRankingChanges(existingGames, newGame);
+            var prLeague = new PlayerRank.League();
+            foreach (var existingGame in existingGames)
+            {
+                var leagueGame = GetPlayerRankGame(existingGame);
+                prLeague.RecordGame(leagueGame);
+            }
+            var oldRankings = prLeague.GetLeaderBoard(m_EloScoringStrategy);
+
+            prLeague.RecordGame(GetPlayerRankGame(newGame));
+
+            var newRankings = prLeague.GetLeaderBoard(m_EloScoringStrategy);
+            
+            foreach (var player in newGame.Results.Select(x => x.Player))
+            {
+                var newRanking = GetRatingForPlayer(newRankings.ToList(), player);
+                playersPersistence.Set(player, (int)newRanking);
+            }
+            var rankingChanges = CalculateRankingChanges(oldRankings.ToList(), newRankings.ToList(), newGame);
             responses.AddRange(rankingChanges.Select(x => Response.ToMessage(command, x)));
             gamesPersistence.AddToList(newGame);
             return new MessageResult(responses);
         }
 
-        private List<string> CalculateRankingChanges(List<Game> existingGames, Game newGame)
+        private MessageResult GetLeaderboard(Command command, Match args)
         {
-            var league = new PlayerRank.League();
-            foreach (var existingGame in existingGames)
+            var responses = new List<Response>();
+            var league = args.Group("league");
+            var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + league);
+            var position = 0;
+            foreach (var playerRating in playersPersistence
+                    .GetKeys()
+                    .Select(x => new PlayerRating(x, playersPersistence.Get(x)))
+                    .OrderByDescending(x => x.Rating))
             {
-                var leagueGame = GetPlayerRankGame(existingGame);
-                league.RecordGame(leagueGame);
+                position++;
+                responses.Add(Response.ToMessage(command, string.Format("{0}: *{1}* (rating {2})", position, playerRating.Name, playerRating.Rating)));
             }
-            var oldRankings = league.GetLeaderBoard(m_EloScoringStrategy);
-
-            league.RecordGame(GetPlayerRankGame(newGame));
-
-            var newRankings = league.GetLeaderBoard(m_EloScoringStrategy);
-
-            return CalculateRankingChanges(oldRankings.ToList(), newRankings.ToList(), newGame);
+            return new MessageResult(responses);
         }
 
         private List<string> CalculateRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)

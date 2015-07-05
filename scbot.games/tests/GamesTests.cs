@@ -42,6 +42,24 @@ namespace scbot.games.tests
         }
 
         [Test]
+        public void CanSeeOverallLeaderboard()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Larry");
+            var result = games.ProcessCommand("get worms leaderboard");
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            var expected = new[]
+            {
+                "1: *Dave* (rating 1042)",
+                "2: *Pete* (rating 1001)",
+                "3: *Larry* (rating 979)",
+                "4: *Paul* (rating 978)",
+            };
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
         public void ComplainsAboutBadlyFormattedResults()
         {
             var games = MakeGames();
