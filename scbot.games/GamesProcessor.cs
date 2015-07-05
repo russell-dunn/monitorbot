@@ -125,8 +125,12 @@ namespace scbot.games
             var league = args.Group("league");
             var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + league);
             var position = 0;
-            foreach (var playerRating in playersPersistence
-                    .GetKeys()
+            var players = playersPersistence.GetKeys();
+            if (!players.Any())
+            {
+                return Response.ToMessage(command, string.Format("No games found for league `{0}`", league));
+            }
+            foreach (var playerRating in players
                     .Select(x => new PlayerRating(x, playersPersistence.Get(x)))
                     .OrderByDescending(x => x.Rating))
             {

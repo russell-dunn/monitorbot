@@ -60,6 +60,19 @@ namespace scbot.games.tests
         }
 
         [Test]
+        public void ComplainsAboutEmptyLeaderboard()
+        {
+            var games = MakeGames();
+            var result = games.ProcessCommand("get asdf leaderboard");
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            var expected = new[]
+            {
+                "No games found for league `asdf`"
+            };
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
         public void ComplainsAboutBadlyFormattedResults()
         {
             var games = MakeGames();
