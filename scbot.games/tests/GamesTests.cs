@@ -60,6 +60,23 @@ namespace scbot.games.tests
         }
 
         [Test]
+        public void PlayersAreCaseInsensitive()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
+            games.ProcessCommand("record worms game 1st DAVE 2nd PETE 3rd PAUL");
+            var result = games.ProcessCommand("get worms leaderboard");
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            var expected = new[]
+            {
+                "1: *Dave* (rating 1041)",
+                "2: *Pete* (rating 1000)",
+                "3: *Paul* (rating 959)",
+            };
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
         public void ComplainsAboutEmptyLeaderboard()
         {
             var games = MakeGames();

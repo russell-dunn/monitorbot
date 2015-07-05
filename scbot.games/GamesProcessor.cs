@@ -73,6 +73,8 @@ namespace scbot.games
                 responses.Add(Response.ToMessage(command, string.Format("Creating new league `{0}`", leagueName)));
             }
 
+            gameResults = GetCanonicalPlayerNames(gameResults, playerNames);
+
             var newPlayers = FindNewPlayers(gameResults, playerNames);
             responses.AddRange(newPlayers.Select(x => Response.ToMessage(command, string.Format("Adding new player `{0}`", x))));
 
@@ -90,6 +92,17 @@ namespace scbot.games
             var rankingChanges = GetResultsWithRankingChanges(oldLeaderboard.ToList(), newLeaderboard.ToList(), newGame);
             responses.AddRange(rankingChanges.Select(x => Response.ToMessage(command, x)));
             return new MessageResult(responses);
+        }
+
+        private List<PlayerPosition> GetCanonicalPlayerNames(List<PlayerPosition> gameResults, List<string> playerNames)
+        {
+            var ciPlayerNames = playerNames.ToDictionary(x => x, x => x, StringComparer.InvariantCultureIgnoreCase);
+            return gameResults.Select(x => new PlayerPosition(GetCanonicalPlayerName(ciPlayerNames, x.Player), x.Position)).ToList();
+        }
+
+        private string GetCanonicalPlayerName(Dictionary<string, string> ciPlayerNames, string player)
+        {
+            return ciPlayerNames.ContainsKey(player) ? ciPlayerNames[player] : player;
         }
 
         private static List<string> FindNewPlayers(List<PlayerPosition> gameResults, List<string> playerNames)
