@@ -47,18 +47,9 @@ namespace scbot.games
 
         private MessageResult RecordGame(Command command, Match args)
         {
-            var responses = new List<Response>();
-            var league = args.Group("league");
-            var gamesPersistence = new ListPersistenceApi<Game>(m_Persistence, "games." + league);
-            var existingGames = gamesPersistence.ReadList();
+            // TODO: try and break up this method a bit more
             var resultsString = args.Group("results");
             var gameResults = ParseGameResults(resultsString);
-            var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + league);
-            var playerNames = playersPersistence.GetKeys();
-            if (!existingGames.Any())
-            {
-                responses.Add(Response.ToMessage(command, string.Format("Creating new league `{0}`", league)));
-            }
             if (!gameResults.Any())
             {
                 if (String.IsNullOrWhiteSpace(resultsString))
@@ -67,36 +58,65 @@ namespace scbot.games
                 }
                 return Response.ToMessage(command, string.Format("Could not parse results `{0}`", resultsString));
             }
+            var responses = new List<Response>();
+
+            var leagueName = args.Group("league");
+            var gamesPersistence = new ListPersistenceApi<Game>(m_Persistence, "games." + leagueName);
+            var existingGames = gamesPersistence.ReadList();
+            var league = GetCurrentLeague(existingGames);
+            var oldLeaderboard = league.GetLeaderBoard(m_EloScoringStrategy);
+
+            var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + leagueName);
+            var playerNames = playersPersistence.GetKeys();
+            if (!existingGames.Any())
+            {
+                responses.Add(Response.ToMessage(command, string.Format("Creating new league `{0}`", leagueName)));
+            }
+
+            var newPlayers = FindNewPlayers(gameResults, playerNames);
+            responses.AddRange(newPlayers.Select(x => Response.ToMessage(command, string.Format("Adding new player `{0}`", x))));
+
             var newGame = new Game(gameResults);
+            gamesPersistence.AddToList(newGame);
+            league.RecordGame(GetPlayerRankGame(newGame));
+
+            var newLeaderboard = league.GetLeaderBoard(m_EloScoringStrategy);
+            foreach (var player in newGame.Results.Select(x => x.Player))
+            {
+                var newRanking = GetRatingForPlayer(newLeaderboard.ToList(), player);
+                playersPersistence.Set(player, (int)newRanking);
+            }
+
+            var rankingChanges = GetResultsWithRankingChanges(oldLeaderboard.ToList(), newLeaderboard.ToList(), newGame);
+            responses.AddRange(rankingChanges.Select(x => Response.ToMessage(command, x)));
+            return new MessageResult(responses);
+        }
+
+        private static List<string> FindNewPlayers(List<PlayerPosition> gameResults, List<string> playerNames)
+        {
+            var newPlayers = new List<string>();
             foreach (var result in gameResults)
             {
                 if (!playerNames.Contains(result.Player))
                 {
-                    responses.Add(Response.ToMessage(command, string.Format("Adding new player `{0}`", result.Player)));
-                    playersPersistence.Set(result.Player, s_StartingRating);
+                    var newPlayer = result.Player;
+                    newPlayers.Add(newPlayer);
                 }
             }
+
+            return newPlayers;
+        }
+
+        private static League GetCurrentLeague(List<Game> existingGames)
+        {
             var prLeague = new PlayerRank.League();
             foreach (var existingGame in existingGames)
             {
                 var leagueGame = GetPlayerRankGame(existingGame);
                 prLeague.RecordGame(leagueGame);
             }
-            var oldRankings = prLeague.GetLeaderBoard(m_EloScoringStrategy);
 
-            prLeague.RecordGame(GetPlayerRankGame(newGame));
-
-            var newRankings = prLeague.GetLeaderBoard(m_EloScoringStrategy);
-            
-            foreach (var player in newGame.Results.Select(x => x.Player))
-            {
-                var newRanking = GetRatingForPlayer(newRankings.ToList(), player);
-                playersPersistence.Set(player, (int)newRanking);
-            }
-            var rankingChanges = CalculateRankingChanges(oldRankings.ToList(), newRankings.ToList(), newGame);
-            responses.AddRange(rankingChanges.Select(x => Response.ToMessage(command, x)));
-            gamesPersistence.AddToList(newGame);
-            return new MessageResult(responses);
+            return prLeague;
         }
 
         private MessageResult GetLeaderboard(Command command, Match args)
@@ -116,7 +136,7 @@ namespace scbot.games
             return new MessageResult(responses);
         }
 
-        private List<string> CalculateRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)
+        private List<string> GetResultsWithRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)
         {
             return newGame.Results.Select(
                 x => new {
