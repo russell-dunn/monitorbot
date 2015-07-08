@@ -6,6 +6,7 @@ using scbot.core.bot;
 using scbot.core.meta;
 using scbot.core.persistence;
 using scbot.core.utils;
+using scbot.games;
 using scbot.htmltitles;
 using scbot.htmltitles.services;
 using scbot.jira;
@@ -43,6 +44,7 @@ namespace scbot
         public static async Task MainAsync(Configuration configuration, CancellationToken cancel)
         {
             var persistence = new JsonFileKeyValueStore(new FileInfo(configuration.Get("db-file-location")));
+            var gamesPersistence = new JsonFileKeyValueStore(new FileInfo(configuration.Get("games-db-location")));
 
             var slackApi = new SlackApi(configuration.Get("slack-api-key"));
 
@@ -65,7 +67,8 @@ namespace scbot
                 RollBuildNumbers.Create(commandParser, configuration),
                 ReviewFactory.Create(commandParser, webClient, configuration),
                 LabelPrinting.Create(commandParser, webClient, configuration),
-                Jira.Create(commandParser)
+                Jira.Create(commandParser),
+                GamesProcessor.Create(commandParser, gamesPersistence)
                 );
 
             var bot = new Bot(
