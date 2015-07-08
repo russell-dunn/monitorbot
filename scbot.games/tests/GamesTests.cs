@@ -77,6 +77,22 @@ namespace scbot.games.tests
         }
 
         [Test]
+        public void CanUseColonsInsteadOfOrdinals()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record worms game 1:  Dave 2: Pete 3: Paul");
+            var result = games.ProcessCommand("get worms leaderboard");
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            var expected = new[]
+            {
+                "1: *Dave* (rating 1022)",
+                "2: *Pete* (rating 1000)",
+                "3: *Paul* (rating 978)",
+            };
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
         public void ComplainsAboutEmptyLeaderboard()
         {
             var games = MakeGames();
