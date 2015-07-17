@@ -95,8 +95,20 @@ namespace scbot.email.services
             connection.OnSubscriptionError += (sender, args) =>
             {
                 Trace.WriteLine("EWS subscription ERROR: " + args.Exception);
-                Trace.WriteLine("Trying to resubscribe ...");
-                SubscribeToNewMails(service, emailHandlers);
+                while (true)
+                {
+                    Trace.WriteLine("Trying to resubscribe ...");
+                    try
+                    {
+                        SubscribeToNewMails(service, emailHandlers);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
+                    }
+                }
             };
             connection.Open();
         }
