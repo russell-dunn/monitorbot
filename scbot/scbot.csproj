@@ -67,6 +67,10 @@
       <Project>{c7168f51-9f82-4d25-9792-f8ae92600c53}</Project>
       <Name>scbot.core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.email\scbot.email.csproj">
+      <Project>{9274B15C-094A-4544-B091-C1BC33D2B907}</Project>
+      <Name>scbot.email</Name>
+    </ProjectReference>
     <ProjectReference Include="..\scbot.games\scbot.games.csproj">
       <Project>{0DC0D42D-C606-4442-AD6D-AF2A6B292103}</Project>
       <Name>scbot.games</Name>

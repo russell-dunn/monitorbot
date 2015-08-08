@@ -68,6 +68,7 @@ namespace scbot
                 ReviewFactory.Create(commandParser, webClient, configuration),
                 LabelPrinting.Create(commandParser, webClient, configuration),
                 Jira.Create(commandParser),
+                CompareTeamEmails.Create(commandParser, configuration),
                 GamesProcessor.Create(commandParser, gamesPersistence)
                 );
 
