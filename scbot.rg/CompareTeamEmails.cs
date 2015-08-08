@@ -105,7 +105,8 @@ namespace scbot.rg
                         new List<string> {m_OutlookLogo});
                 }
             }
-            return new MessageResult(result);
+            //return new MessageResult(result);
+            return MessageResult.Empty;
         }
 
         public MessageResult ProcessCommand(Command command)
