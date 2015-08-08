@@ -4,6 +4,7 @@ bin
 *.suo
 *.user
 *_NCrunch*
+*_ReSharper*
 *.sln.ide
 packages
 local.config
