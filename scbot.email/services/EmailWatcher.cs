@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Web.Helpers;
 using Microsoft.Exchange.WebServices.Data;
 using scbot.core.utils;
 using scbot.labelprinting;

@@ -18,7 +18,7 @@ namespace scbot.rg
         public static IFeature Create(ICommandParser commandParser, Configuration config)
         {
             var processor = new CompareTeamEmails(
-                config.Get("email-channel"), 
+                config.GetWithDefault("email-channel", null), 
                 new LabelPrinter(config.Get("printer-api-url"), new WebClient()));
 
             EmailWatcher.Start(config, new[] {processor});
@@ -105,7 +105,10 @@ namespace scbot.rg
                         new List<string> {m_OutlookLogo});
                 }
             }
-            //return new MessageResult(result);
+            if (!String.IsNullOrWhiteSpace(m_ChannelToPostEmailsTo))
+            {
+                return new MessageResult(result);
+            }
             return MessageResult.Empty;
         }
 

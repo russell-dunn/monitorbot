@@ -66,5 +66,18 @@ namespace scbot.rg.tests
             Assert.AreEqual("New support escalation for ZD#41572\n**a-subject**\n*Rob Clenshaw* (Support)\nMay 28, 14:57 \nHe\'s not happy :(\nIs there anything we can do?\n*Ticket #* 41572 \n*Status* On-hold \n*Requester* A Customer  \n*CCs* - \n*Group* SQL \n*Assignee* Rob Clenshaw \n*Priority* Normal \n*Type* Incident \n*Channel* By mail \n&nbsp;\n<http://www.zendesk.com|Zendesk>. Message-Id:NJGVB39A_55671ee12ddf9_a3103fe9d48cd3382809a3_sprutTicket-Id:41572Account-Subdomain:redgatesupport",
                 result.Message); 
         }
+
+        [Test]
+        public void DoesNotPrintEmailToSlackIfSlackChannelIsNull()
+        {
+            var escalationMessageBody = MessageParsingTests.EscalationMessageText;
+            var email = new Email("a-subject", escalationMessageBody, EmailParser.GetSlackFormattedSummary(escalationMessageBody), "asdf", DateTime.Now,
+                 new List<string> { "sqlcomparesupport@red-gate.com" }, true);
+
+            var processor = new CompareTeamEmails(null, new Mock<ILabelPrinter>().Object);
+
+            processor.Accept(email);
+            CollectionAssert.IsEmpty(processor.ProcessTimerTick().Responses);
+        }
     }
 }
