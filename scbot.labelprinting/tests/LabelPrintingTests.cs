@@ -47,5 +47,17 @@ namespace scbot.labelprinting.tests
 
             Assert.AreEqual("Printing ...", result.Responses.Single().Message);
         }
+
+        [Test]
+        public void PrintsErrorForUnknownThingToPrint()
+        {
+            var printer = new Mock<ILabelPrinter>(MockBehavior.Strict);
+            var github = new Mock<IGithubPRApi>(MockBehavior.Strict);
+            var processor = new LabelPrinting("fooCorp", github.Object, printer.Object);
+
+            var result = processor.ProcessCommand("print label for asdfasdfasdf");
+
+            Assert.AreEqual("Sorry, I don't know how to print \"asdfasdfasdf\"", result.Responses.Single().Message);
+        }
     }
 }

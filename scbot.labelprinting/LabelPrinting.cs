@@ -63,6 +63,15 @@ namespace scbot.labelprinting
         {
             var thingToPrint = args.Group("thingToPrint");
             var githubRef = GithubReferenceParser.Parse(thingToPrint);
+            if (githubRef.Issue > 0 && githubRef.Repo != null)
+            {
+                return PrintGithubPullRequest(command, githubRef);
+            }
+            return Response.ToMessage(command, "Sorry, I don't know how to print \"" + thingToPrint + "\"");
+        }
+
+        private MessageResult PrintGithubPullRequest(Command command, GithubReference githubRef)
+        {
             var user = githubRef.User ?? defaultGithubUser;
             var repo = githubRef.Repo;
             var prNum = githubRef.Issue;
@@ -74,7 +83,8 @@ namespace scbot.labelprinting
             {
                 "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
                 avatarUrl,
-                string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", user, repo, prNum),
+                string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", user, repo,
+                    prNum),
             };
 
             var response = labelPrinter.PrintLabel(title, images);
