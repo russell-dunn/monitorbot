@@ -31,5 +31,21 @@ namespace scbot.labelprinting.tests
 
             Assert.AreEqual("Printing ...", result.Responses.Single().Message);
         }
+
+        [Test]
+        public void TestPrintLabelFromFullGithubReference()
+        {
+            var printer = new Mock<ILabelPrinter>(MockBehavior.Strict);
+            var github = new Mock<IGithubPRApi>(MockBehavior.Strict);
+            var processor = new LabelPrinting("fooCorp", github.Object, printer.Object);
+
+            printer.Setup(x => x.PrintLabel("#3: test pull request", new List<string> { "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png","example image","https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/fooCorp/fooRepo/pull/3" } )).Returns("Printing ...");
+
+            github.Setup(x => x.PullRequest("barCorp", "barRepo", 3)).ReturnsAsync(new { title = "test pull request", user = new { avatar_url = "example image" } });
+
+            var result = processor.ProcessCommand("print label for barCorp/barRepo#3");
+
+            Assert.AreEqual("Printing ...", result.Responses.Single().Message);
+        }
     }
 }

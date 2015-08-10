@@ -27,9 +27,9 @@ namespace scbot.labelprinting
         private readonly string defaultGithubUser;
         private readonly IGithubPRApi githubApi;
         private readonly RegexCommandMessageProcessor underlying;
-        private readonly LabelPrinter labelPrinter;
+        private readonly ILabelPrinter labelPrinter;
 
-        public LabelPrinting(string defaultGithubUser, IGithubPRApi githubApi, LabelPrinter labelPrinter) 
+        public LabelPrinting(string defaultGithubUser, IGithubPRApi githubApi, ILabelPrinter labelPrinter) 
         {
             this.defaultGithubUser = defaultGithubUser;
             this.githubApi = githubApi;
