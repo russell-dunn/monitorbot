@@ -11,6 +11,12 @@ namespace scbot.review.services
     {
         public static GithubReference Parse(string input)
         {
+            Uri uri;
+            if (Uri.TryCreate(input, UriKind.Absolute, out uri))
+            {
+                return ParseGithubUrl(uri);
+            }
+
             if (input.Trim().Contains(" "))
             {
                 return null;
@@ -57,6 +63,38 @@ namespace scbot.review.services
             }
 
             return ParseCommitOrBranch(null, null, input);
+        }
+
+        private static GithubReference ParseGithubUrl(Uri input)
+        {
+            if (input.Host != "github.com")
+            {
+                return null;
+            }
+            var pathParts = input.PathAndQuery.Split(new[] {'/'}, 4, StringSplitOptions.RemoveEmptyEntries);
+
+            int issue;
+
+            if (pathParts.Length == 4 &&
+                pathParts[2] == "pull" &&
+                Int32.TryParse(pathParts[3], out issue))
+            {
+                return GithubReference.FromIssue(pathParts[0], pathParts[1], issue);
+            }
+
+            if (pathParts.Length == 4 &&
+                pathParts[2] == "tree")
+            {
+                return GithubReference.FromBranch(pathParts[0], pathParts[1], pathParts[3]);
+            }
+
+            if (pathParts.Length == 4 &&
+                pathParts[2] == "compare")
+            {
+                return ParseCommitOrBranch(pathParts[0], pathParts[1], pathParts[3]);
+            }
+
+            return null;
         }
 
         private static GithubReference ParseCommitOrBranch(string user, string repo, string commitOrBranch)
