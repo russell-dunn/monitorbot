@@ -51,9 +51,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\GithubDiffApi.cs" />
+    <Compile Include="services\GithubPRApi.cs" />
     <Compile Include="services\GithubReference.cs" />
     <Compile Include="services\GithubReferenceParser.cs" />
     <Compile Include="services\IGithubDiffApi.cs" />
+    <Compile Include="services\IGithubPRApi.cs" />
     <Compile Include="tests\GithubReferenceParsingTests.cs" />
   </ItemGroup>
   <ItemGroup>

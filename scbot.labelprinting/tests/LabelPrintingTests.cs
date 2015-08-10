@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using scbot.github.services;
 
 namespace scbot.labelprinting.tests
 {
@@ -16,8 +17,9 @@ namespace scbot.labelprinting.tests
         public void TestPrintLabel()
         {
             var webClient = new Mock<IWebClient>(MockBehavior.Strict);
-            IWebClient webClient1 = webClient.Object;
-            var processor = new LabelPrinting(webClient1, "fooCorp", "githubToken",  new LabelPrinter("http://my_printer.com:9000", webClient1));
+            var processor = new LabelPrinting("fooCorp", 
+                new GithubPRApi(webClient.Object, "githubToken"),
+                new LabelPrinter("http://my_printer.com:9000", webClient.Object));
 
             webClient.Setup(x => x.DownloadString("https://api.github.com/repos/fooCorp/fooRepo/pulls/3",
                 new[] { "Authorization: token githubToken" }))
