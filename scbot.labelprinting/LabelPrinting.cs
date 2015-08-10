@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Web.Helpers;
 using scbot.github.services;
+using scbot.review.services;
 
 namespace scbot.labelprinting
 {
@@ -43,7 +44,7 @@ namespace scbot.labelprinting
             {
                 return new Dictionary<string, MessageHandler>
                 {
-                    { @"print label for (?<repo>[^ ]+?)#(?<num>[^ ]+)", PrintLabel }
+                    { @"print label for (?<thingToPrint>.*)", PrintLabel }
                 };
             }
         }
@@ -60,9 +61,12 @@ namespace scbot.labelprinting
 
         private MessageResult PrintLabel(Command command, Match args)
         {
-            var repo = args.Group("repo");
-            var prNum = args.Group("num");
-            var pr = githubApi.PullRequest(defaultGithubUser, repo, Int32.Parse(prNum)).Result;
+            var thingToPrint = args.Group("thingToPrint");
+            var githubRef = GithubReferenceParser.Parse(thingToPrint);
+            var user = githubRef.User ?? defaultGithubUser;
+            var repo = githubRef.Repo;
+            var prNum = githubRef.Issue;
+            var pr = githubApi.PullRequest(user, repo, prNum).Result;
 
             var title = string.Format("#{0}: {1}", prNum, pr.title);
             var avatarUrl = pr.user.avatar_url;
@@ -70,7 +74,7 @@ namespace scbot.labelprinting
             {
                 "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
                 avatarUrl,
-                string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", defaultGithubUser, repo, prNum),
+                string.Format("https://api.qrserver.com/v1/create-qr-code/?data=https://github.com/{0}/{1}/pull/{2}", user, repo, prNum),
             };
 
             var response = labelPrinter.PrintLabel(title, images);
