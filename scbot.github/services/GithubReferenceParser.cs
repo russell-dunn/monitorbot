@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace scbot.review.services
 {
-    static class GithubReferenceParser
+    public static class GithubReferenceParser
     {
         public static GithubReference Parse(string input)
         {

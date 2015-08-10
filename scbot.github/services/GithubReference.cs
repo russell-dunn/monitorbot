@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scbot.review.services
 {
-    class GithubReference
+    public class GithubReference
     {
         public readonly string Branch;
         public readonly string Commit;
