@@ -89,5 +89,33 @@ namespace scbot.review.tests
         {
             Assert.Null(GithubReferenceParser.Parse("not a reference"));
         }
+
+        [Test]
+        public void ParsesPRInUrl()
+        {
+            var gref = GithubReferenceParser.Parse("https://github.com/fooCorp/fooRepo/pull/28");
+            Assert.AreEqual("fooCorp", gref.User);
+            Assert.AreEqual("fooRepo", gref.Repo);
+            Assert.AreEqual(28, gref.Issue);
+        }
+
+        [Test]
+        public void ParsesBranchInUrl()
+        {
+            var gref = GithubReferenceParser.Parse("https://github.com/fooCorp/fooRepo/tree/labelprinting-extensions");
+            Assert.AreEqual("fooCorp", gref.User);
+            Assert.AreEqual("fooRepo", gref.Repo);
+            Assert.AreEqual("labelprinting-extensions", gref.Branch);
+        }
+
+        [Test]
+        public void ParsesComparisonInUrl()
+        {
+            var gref = GithubReferenceParser.Parse("https://github.com/fooCorp/fooRepo/compare/master...bug/SC-1234");
+            Assert.AreEqual("fooCorp", gref.User);
+            Assert.AreEqual("fooRepo", gref.Repo);
+            Assert.AreEqual("master", gref.BaseBranch);
+            Assert.AreEqual("bug/SC-1234", gref.Branch);
+        }
     }
 }

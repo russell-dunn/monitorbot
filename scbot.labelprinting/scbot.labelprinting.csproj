@@ -64,6 +64,10 @@
       <Project>{c7168f51-9f82-4d25-9792-f8ae92600c53}</Project>
       <Name>scbot.core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\scbot.github\scbot.github.csproj">
+      <Project>{5dfa7c00-e9e0-409b-b303-7f19d3b9b718}</Project>
+      <Name>scbot.github</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
