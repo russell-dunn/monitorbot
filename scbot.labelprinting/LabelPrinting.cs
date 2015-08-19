@@ -44,7 +44,7 @@ namespace scbot.labelprinting
             {
                 return new Dictionary<string, MessageHandler>
                 {
-                    { @"print label for (?<thingToPrint>.*)", PrintLabel }
+                    { @"print label for \<?(?<thingToPrint>.*?)\>?$", PrintLabel }
                 };
             }
         }
