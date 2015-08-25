@@ -39,6 +39,7 @@ namespace scbot.release
             {
                 var creds = m_TeamcityCredentials.Split(new[] { ':' }, 2);
                 webClient.Credentials = new NetworkCredential(creds[0], creds[1]);
+                webClient.Headers.Add("content-type", "text/plain");
 
                 var baseUrl = "http://teamcity.red-gate.com/httpAuth/app/rest/9.0/{0}";
 

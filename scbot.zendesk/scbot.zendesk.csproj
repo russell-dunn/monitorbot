@@ -52,9 +52,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\CachedZendeskApi.cs" />
-    <Compile Include="services\CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="services\CookieAwareWebClient.cs" />
     <Compile Include="services\ErrorCatchingZendeskTicketApi.cs" />
     <Compile Include="services\IZendeskApi.cs" />
     <Compile Include="services\IZendeskTicketApi.cs" />
