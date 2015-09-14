@@ -56,12 +56,14 @@ namespace scbot.release
 
                     var newVersion = new Version(parsedVersion.Major, parsedVersion.Minor, parsedVersion.Build + 1);
 
+                    webClient.Headers.Add("content-type", "text/plain");
                     webClient.UploadString(projectVersionSetUrl, "PUT", newVersion.ToString(3));
 
                     foreach (var bt in buildTypes)
                     {
                         var btCounterUrl = string.Format(baseUrl,
                             "buildTypes/id:" + bt + "/settings/buildNumberCounter");
+                        webClient.Headers.Add("content-type", "text/plain");
                         webClient.UploadString(btCounterUrl, "PUT", "1");
                     }
 
