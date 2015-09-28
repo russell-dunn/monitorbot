@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PlayerRank;
-using PlayerRank.Scoring;
+using PlayerRank.Scoring.Elo;
 using scbot.core.bot;
 using scbot.core.persistence;
 using scbot.core.utils;
