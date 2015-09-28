@@ -155,14 +155,22 @@ namespace scbot.games
 
         private List<string> GetResultsWithRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)
         {
-            return newGame.Results.Select(
-                x => new {
-                        result = x,
-                        oldRating = GetRatingForPlayer(oldRankings, x.Player),
-                        newRating = GetRatingForPlayer(newRankings, x.Player)
-                    })
-                .Select(x => string.Format("{0}: *{1}* (new rating - {2})", x.result.Position, x.result.Player, x.newRating))
-                .ToList();
+            var resultsText = new List<string>();
+
+            foreach (var result in newGame.Results)
+            {
+                var oldRating = GetRatingForPlayer(oldRankings, result.Player);
+                var newRating = GetRatingForPlayer(newRankings, result.Player);
+
+                // HACK to get +/- infront of the rating change
+                var change = newRating - oldRating;
+                var sign = change > new Points(0) ? "+" : "";
+                var ratingChange = sign + change;
+
+                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*))", result.Position, result.Player, newRating, ratingChange));
+            }
+
+            return resultsText;
         }
 
         private Points GetRatingForPlayer(List<PlayerScore> rankings, string player)
