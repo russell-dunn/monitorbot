@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PlayerRank;
-using PlayerRank.Scoring;
+using PlayerRank.Scoring.Elo;
 using scbot.core.bot;
 using scbot.core.persistence;
 using scbot.core.utils;
@@ -24,7 +24,7 @@ namespace scbot.games
 
         private readonly IKeyValueStore m_Persistence;
         private readonly RegexCommandMessageProcessor m_Underlying;
-        private readonly EloScoringStrategy m_EloScoringStrategy = new EloScoringStrategy(maxRatingChange: 64, maxSkillGap: 400, startingRating: s_StartingRating);
+        private readonly EloScoringStrategy m_EloScoringStrategy = new EloScoringStrategy(maxRatingChange: new Points(64), maxSkillGap: new Points(400), startingRating: new Points(s_StartingRating));
         private static readonly int s_StartingRating = 1000;
 
         public GamesProcessor(IKeyValueStore persistence)
@@ -86,7 +86,7 @@ namespace scbot.games
             foreach (var player in newGame.Results.Select(x => x.Player))
             {
                 var newRanking = GetRatingForPlayer(newLeaderboard.ToList(), player);
-                playersPersistence.Set(player, (int)newRanking);
+                playersPersistence.Set(player, int.Parse(newRanking.ToString()));
             }
 
             var rankingChanges = GetResultsWithRankingChanges(oldLeaderboard.ToList(), newLeaderboard.ToList(), newGame);
@@ -155,20 +155,28 @@ namespace scbot.games
 
         private List<string> GetResultsWithRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)
         {
-            return newGame.Results.Select(
-                x => new {
-                        result = x,
-                        oldRating = GetRatingForPlayer(oldRankings, x.Player),
-                        newRating = GetRatingForPlayer(newRankings, x.Player)
-                    })
-                .Select(x => string.Format("{0}: *{1}* (new rating - {2})", x.result.Position, x.result.Player, x.newRating))
-                .ToList();
+            var resultsText = new List<string>();
+
+            foreach (var result in newGame.Results)
+            {
+                var oldRating = GetRatingForPlayer(oldRankings, result.Player);
+                var newRating = GetRatingForPlayer(newRankings, result.Player);
+
+                // HACK to get +/- infront of the rating change
+                var change = newRating - oldRating;
+                var sign = change > new Points(0) ? "+" : "";
+                var ratingChange = sign + change;
+
+                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*))", result.Position, result.Player, newRating, ratingChange));
+            }
+
+            return resultsText;
         }
 
-        private double GetRatingForPlayer(List<PlayerScore> rankings, string player)
+        private Points GetRatingForPlayer(List<PlayerScore> rankings, string player)
         {
             var ranking = rankings.FirstOrDefault(x => x.Name == player);
-            return ranking != null ? ranking.Score : s_StartingRating;
+            return ranking != null ? ranking.Points : new Points(s_StartingRating);
         }
 
         private static PlayerRank.Game GetPlayerRankGame(Game existingGame)
@@ -177,7 +185,7 @@ namespace scbot.games
             foreach (var result in existingGame.Results)
             {
                 // PlayerRank assumes that higher is better for scoring
-                leagueGame.AddResult(result.Player, 9999 - result.Position);
+                leagueGame.AddResult(result.Player, new Position(result.Position));
             }
             return leagueGame;
         }

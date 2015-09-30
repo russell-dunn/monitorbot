@@ -39,8 +39,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="PlayerRank">
-      <HintPath>..\packages\PlayerRank.1.0.0\lib\PlayerRank.dll</HintPath>
+    <Reference Include="PlayerRank, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PlayerRank.1.2.0\lib\net45\PlayerRank.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
