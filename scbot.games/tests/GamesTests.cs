@@ -22,7 +22,7 @@ namespace scbot.games.tests
                 "Adding new player `Dave`",
                 "Adding new player `Pete`",
                 "Adding new player `Paul`",
-                "1: *Dave* (new rating - *1032* (*+32*), new ladder position - *1*)",
+                "1: *Dave* (new rating - *1032* (*+32*), new ladder position - *1*) :star: #professional",
                 "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2*)",
                 "3: *Paul* (new rating - *968* (*-32*), new ladder position - *3*)",
 
@@ -33,7 +33,7 @@ namespace scbot.games.tests
             result = games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
             expected = new[]
             {
-                "1: *Dave* (new rating - *1060* (*+28*), new ladder position - *1*)",
+                "1: *Dave* (new rating - *1060* (*+28*), new ladder position - *1*) :star: #professional",
                 "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2*)",
                 "3: *Paul* (new rating - *940* (*-28*), new ladder position - *3*)",
             };
