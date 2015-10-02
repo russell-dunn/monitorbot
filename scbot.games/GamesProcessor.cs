@@ -162,12 +162,15 @@ namespace scbot.games
                 var oldRating = GetRatingForPlayer(oldRankings, result.Player);
                 var newRating = GetRatingForPlayer(newRankings, result.Player);
 
-                // HACK to get +/- infront of the rating change
-                var change = newRating - oldRating;
-                var sign = change > new Points(0) ? "+" : "";
-                var ratingChange = sign + change;
+                var newPosition = GetPositionForPlayer(newRankings, result.Player);
 
-                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*))", result.Position, result.Player, newRating, ratingChange));
+                // HACK to get +/- infront of the rating change
+                var ratingChange = newRating - oldRating;
+                var ratingSign = ratingChange > new Points(0) ? "+" : "";
+                var ratingChangeWithSign = ratingSign + ratingChange;
+
+                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}*)"
+                    , result.Position, result.Player, newRating, ratingChangeWithSign, newPosition));
             }
 
             return resultsText;
@@ -177,6 +180,12 @@ namespace scbot.games
         {
             var ranking = rankings.FirstOrDefault(x => x.Name == player);
             return ranking != null ? ranking.Points : new Points(s_StartingRating);
+        }
+
+        private Position GetPositionForPlayer(List<PlayerScore> rankings, string player)
+        {
+            var position = rankings.FirstOrDefault(x => x.Name == player);
+            return position != null ? position.Position : null;
         }
 
         private static PlayerRank.Game GetPlayerRankGame(Game existingGame)
