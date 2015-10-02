@@ -169,8 +169,28 @@ namespace scbot.games
                 var ratingSign = ratingChange > new Points(0) ? "+" : "";
                 var ratingChangeWithSign = ratingSign + ratingChange;
 
-                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}*)"
-                    , result.Position, result.Player, newRating, ratingChangeWithSign, newPosition));
+                // #Bands
+                var leagueBand = "";
+
+                if (newRating > new Points(1500))
+                {
+                    leagueBand = " :sparkles: #godLike";
+                }
+                else if (newRating > new Points(1250))
+                {
+                    leagueBand = " :star2: #elite";
+                }
+                else if (newRating > new Points(1000))
+                {
+                    leagueBand = " :star: #professional";
+                }
+                else if (newRating < new Points(800))
+                {
+                    leagueBand = " :earth_americas: #mostlyHarmless";
+                }
+
+                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}*){5}"
+                    , result.Position, result.Player, newRating, ratingChangeWithSign, newPosition, leagueBand));
             }
 
             return resultsText;
