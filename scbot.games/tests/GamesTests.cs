@@ -22,9 +22,9 @@ namespace scbot.games.tests
                 "Adding new player `Dave`",
                 "Adding new player `Pete`",
                 "Adding new player `Paul`",
-                "1: *Dave* (new rating - *1022* (*+22*))",
-                "2: *Pete* (new rating - *1000* (*0*))",
-                "3: *Paul* (new rating - *978* (*-22*))",
+                "1: *Dave* (new rating - *1032* (*+32*), new ladder position - *1*)",
+                "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2*)",
+                "3: *Paul* (new rating - *968* (*-32*), new ladder position - *3*)",
 
             };
             var responses = result.Responses.Select(x => x.Message).ToList();
@@ -33,9 +33,9 @@ namespace scbot.games.tests
             result = games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
             expected = new[]
             {
-                "1: *Dave* (new rating - *1041* (*+19*))",
-                "2: *Pete* (new rating - *1000* (*0*))",
-                "3: *Paul* (new rating - *959* (*-19*))",
+                "1: *Dave* (new rating - *1060* (*+28*), new ladder position - *1*)",
+                "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2*)",
+                "3: *Paul* (new rating - *940* (*-28*), new ladder position - *3*)",
             };
             responses = result.Responses.Select(x => x.Message).ToList();
             CollectionAssert.AreEqual(expected, responses);
@@ -51,10 +51,10 @@ namespace scbot.games.tests
             var responses = result.Responses.Select(x => x.Message).ToList();
             var expected = new[]
             {
-                "1: *Dave* (rating 1042)",
+                "1: *Dave* (rating 1062)",
                 "2: *Pete* (rating 1001)",
-                "3: *Larry* (rating 979)",
-                "4: *Paul* (rating 978)",
+                "3: *Larry* (rating 969)",
+                "4: *Paul* (rating 968)",
             };
             CollectionAssert.AreEqual(expected, responses);
         }
@@ -69,9 +69,9 @@ namespace scbot.games.tests
             var responses = result.Responses.Select(x => x.Message).ToList();
             var expected = new[]
             {
-                "1: *Dave* (rating 1041)",
+                "1: *Dave* (rating 1060)",
                 "2: *Pete* (rating 1000)",
-                "3: *Paul* (rating 959)",
+                "3: *Paul* (rating 940)",
             };
             CollectionAssert.AreEqual(expected, responses);
         }
@@ -85,9 +85,9 @@ namespace scbot.games.tests
             var responses = result.Responses.Select(x => x.Message).ToList();
             var expected = new[]
             {
-                "1: *Dave* (rating 1022)",
+                "1: *Dave* (rating 1032)",
                 "2: *Pete* (rating 1000)",
-                "3: *Paul* (rating 978)",
+                "3: *Paul* (rating 968)",
             };
             CollectionAssert.AreEqual(expected, responses);
         }
