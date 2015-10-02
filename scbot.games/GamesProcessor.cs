@@ -169,31 +169,37 @@ namespace scbot.games
                 var ratingSign = ratingChange > new Points(0) ? "+" : "";
                 var ratingChangeWithSign = ratingSign + ratingChange;
 
-                // #Bands
-                var leagueBand = "";
-
-                if (newRating > new Points(1500))
-                {
-                    leagueBand = " :sparkles: #godLike";
-                }
-                else if (newRating > new Points(1250))
-                {
-                    leagueBand = " :star2: #elite";
-                }
-                else if (newRating > new Points(1000))
-                {
-                    leagueBand = " :star: #professional";
-                }
-                else if (newRating < new Points(800))
-                {
-                    leagueBand = " :earth_americas: #mostlyHarmless";
-                }
+                // #Tags
+                var leagueBand = GetLeagueBandText(newRating);
 
                 resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}*){5}"
                     , result.Position, result.Player, newRating, ratingChangeWithSign, newPosition, leagueBand));
             }
 
             return resultsText;
+        }
+
+        private static string GetLeagueBandText(Points newRating)
+        {
+            var leagueBand = "";
+
+            if (newRating > new Points(1500))
+            {
+                leagueBand = " :sparkles: #godLike";
+            }
+            else if (newRating > new Points(1250))
+            {
+                leagueBand = " :star2: #elite";
+            }
+            else if (newRating > new Points(1000))
+            {
+                leagueBand = " :star: #professional";
+            }
+            else if (newRating < new Points(800))
+            {
+                leagueBand = " :earth_americas: #mostlyHarmless";
+            }
+            return leagueBand;
         }
 
         private Points GetRatingForPlayer(List<PlayerScore> rankings, string player)
