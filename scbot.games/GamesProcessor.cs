@@ -185,18 +185,15 @@ namespace scbot.games
 
         private static string GetArrowText(int positionChange)
         {
-            if (positionChange == 0)
-            {
-                return ":left_right_arrow:";
-            }
             if (positionChange > 0)
             {
                 return ":arrow_up:";
             }
-            else
+            if (positionChange < 0)
             {
                 return ":arrow_down:";
             }
+            return ":left_right_arrow:";
         }
 
         private static string GetLeagueBandText(Points newRating)
