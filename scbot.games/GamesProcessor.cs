@@ -170,13 +170,33 @@ namespace scbot.games
                 var ratingChangeWithSign = ratingSign + result.PointsChange;
 
                 // #Tags
+                var arrow = GetArrowText(result.PositionChange);
+                var positionChange = Math.Abs(result.PositionChange);
+
+                // #Tags
                 var leagueBand = GetLeagueBandText(result.Points);
 
-                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}*){5}"
-                    , result.Position, result.Name, result.Points, ratingChangeWithSign, result.Position, leagueBand));
+                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), new ladder position - *{4}* {5} {6}){7}"
+                    , result.Position, result.Name, result.Points, ratingChangeWithSign, result.Position, arrow, positionChange, leagueBand));
             }
 
             return resultsText;
+        }
+
+        private static string GetArrowText(int positionChange)
+        {
+            if (positionChange == 0)
+            {
+                return ":left_right_arrow:";
+            }
+            if (positionChange > 0)
+            {
+                return ":arrow_up:";
+            }
+            else
+            {
+                return ":arrow_down:";
+            }
         }
 
         private static string GetLeagueBandText(Points newRating)
