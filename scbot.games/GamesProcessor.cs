@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using PlayerRank;
 using PlayerRank.Scoring.Elo;
+using PlayerRank.Stats;
 using scbot.core.bot;
 using scbot.core.persistence;
 using scbot.core.utils;
@@ -64,7 +65,6 @@ namespace scbot.games
             var gamesPersistence = new ListPersistenceApi<Game>(m_Persistence, "games." + leagueName);
             var existingGames = gamesPersistence.ReadList();
             var league = GetCurrentLeague(existingGames);
-            var oldLeaderboard = league.GetLeaderBoard(m_EloScoringStrategy);
 
             var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + leagueName);
             var playerNames = playersPersistence.GetKeys();
@@ -82,14 +82,20 @@ namespace scbot.games
             gamesPersistence.AddToList(newGame);
             league.RecordGame(GetPlayerRankGame(newGame));
 
-            var newLeaderboard = league.GetLeaderBoard(m_EloScoringStrategy);
+            var leaderboardHistory = league.GetLeaderBoardHistory(m_EloScoringStrategy).ToList();
+            var totalGames = leaderboardHistory.Count;
+            var latestLeaderboard = leaderboardHistory[totalGames - 1].Leaderboard.ToList();
+
+            var leaderboardChanges = ResultChangeStats.GetResultChangesBewteenGames(
+                leaderboardHistory, totalGames, totalGames > 1 ? totalGames - 1 : 1);
+            
             foreach (var player in newGame.Results.Select(x => x.Player))
             {
-                var newRanking = GetRatingForPlayer(newLeaderboard.ToList(), player);
+                var newRanking = GetRatingForPlayer(latestLeaderboard, player);
                 playersPersistence.Set(player, int.Parse(newRanking.ToString()));
             }
 
-            var rankingChanges = GetResultsWithRankingChanges(oldLeaderboard.ToList(), newLeaderboard.ToList(), newGame);
+            var rankingChanges = GetResultsWithRankingChanges(leaderboardChanges);
             responses.AddRange(rankingChanges.Select(x => Response.ToMessage(command, x)));
             return new MessageResult(responses);
         }
@@ -153,30 +159,74 @@ namespace scbot.games
             return new MessageResult(responses);
         }
 
-        private List<string> GetResultsWithRankingChanges(List<PlayerScore> oldRankings, List<PlayerScore> newRankings, Game newGame)
+        private List<string> GetResultsWithRankingChanges(IEnumerable<ResultsChange> resultChanges)
         {
             var resultsText = new List<string>();
 
-            foreach (var result in newGame.Results)
+            foreach (var result in resultChanges)
             {
-                var oldRating = GetRatingForPlayer(oldRankings, result.Player);
-                var newRating = GetRatingForPlayer(newRankings, result.Player);
-
                 // HACK to get +/- infront of the rating change
-                var change = newRating - oldRating;
-                var sign = change > new Points(0) ? "+" : "";
-                var ratingChange = sign + change;
+                var ratingSign = result.PointsChange > 0 ? "+" : "";
+                var ratingChangeWithSign = ratingSign + result.PointsChange;
 
-                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*))", result.Position, result.Player, newRating, ratingChange));
+                // #Position Change
+                var positionText = GetPositionText(result.Position, result.PositionChange);
+
+                // #Tags
+                var leagueBand = GetLeagueBandText(result.Points);
+
+                resultsText.Add($"{result.Position}: *{result.Name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
             }
 
             return resultsText;
+        }
+
+        private static string GetPositionText(Position newPosition, int positionChange)
+        {
+            if (positionChange > 0)
+            {
+                return $"new ladder position - *{newPosition}* ⇧ {Math.Abs(positionChange)}";
+            }
+            if (positionChange < 0)
+            {
+                return $"new ladder position - *{newPosition}* ⇩ {Math.Abs(positionChange)}";
+            }
+            return $"ladder position still - *{newPosition}*";
+        }
+
+        private static string GetLeagueBandText(Points newRating)
+        {
+            var leagueBand = "";
+
+            if (newRating > new Points(1500))
+            {
+                leagueBand = " :sparkles: #godLike";
+            }
+            else if (newRating > new Points(1250))
+            {
+                leagueBand = " :star2: #elite";
+            }
+            else if (newRating > new Points(1000))
+            {
+                leagueBand = " :star: #professional";
+            }
+            else if (newRating < new Points(800))
+            {
+                leagueBand = " :earth_americas: #mostlyHarmless";
+            }
+            return leagueBand;
         }
 
         private Points GetRatingForPlayer(List<PlayerScore> rankings, string player)
         {
             var ranking = rankings.FirstOrDefault(x => x.Name == player);
             return ranking != null ? ranking.Points : new Points(s_StartingRating);
+        }
+
+        private Position GetPositionForPlayer(List<PlayerScore> rankings, string player)
+        {
+            var position = rankings.FirstOrDefault(x => x.Name == player);
+            return position != null ? position.Position : null;
         }
 
         private static PlayerRank.Game GetPlayerRankGame(Game existingGame)
