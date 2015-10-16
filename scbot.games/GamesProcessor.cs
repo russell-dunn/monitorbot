@@ -176,8 +176,7 @@ namespace scbot.games
                 // #Tags
                 var leagueBand = GetLeagueBandText(result.Points);
 
-                resultsText.Add(string.Format("{0}: *{1}* (new rating - *{2}* (*{3}*), {4}){5}"
-                    , result.Position, result.Name, result.Points, ratingChangeWithSign, positionText, leagueBand));
+                resultsText.Add($"{result.Position}: *{result.Name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
             }
 
             return resultsText;
