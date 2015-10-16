@@ -171,7 +171,6 @@ namespace scbot.games
 
                 // #Position Change
                 var positionText = GetPositionText(result.Position, result.PositionChange);
-                var positionChange = Math.Abs(result.PositionChange);
 
                 // #Tags
                 var leagueBand = GetLeagueBandText(result.Points);
