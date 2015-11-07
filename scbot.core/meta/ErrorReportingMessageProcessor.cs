@@ -47,7 +47,7 @@ namespace scbot.core.meta
         private MessageResult LogException(Exception exception, Message? incomingMessage = null)
         {
             var pasteUrl = m_Pastebin.UploadPaste(exception.ToString());
-            var message = string.Format("DANGER WILL ROBINSON: A <{0}|{1}> WAS ENCOUNTERED WHILE PROCESSING YOUR REQUEST",
+            var message = string.Format("DANGER WILL ROBINSON: A <{0}|{1}> was encountered while processing this request.",
                 pasteUrl, exception.GetType().Name);
             Trace.TraceError(message + "\n" + exception.ToString());
             if (incomingMessage != null)

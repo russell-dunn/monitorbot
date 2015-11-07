@@ -37,7 +37,7 @@ namespace scbot.core.tests
 
             var processor = new ErrorReportingMessageProcessor(underlying.Object, pastebin.Object);
             var result = processor.ProcessMessage(new Message("asdf", "a-user", "some-text"));
-            Assert.AreEqual("DANGER WILL ROBINSON: A <http://pastebin/link/to/paste|ArgumentNullException> WAS ENCOUNTERED WHILE PROCESSING YOUR REQUEST", result.Responses.Single().Message);
+            Assert.AreEqual("DANGER WILL ROBINSON: A <http://pastebin/link/to/paste|ArgumentNullException> was encountered while processing this request.", result.Responses.Single().Message);
         }
     }
 }
