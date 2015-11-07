@@ -57,7 +57,7 @@ namespace scbot
 
             var features = new FeatureMessageProcessor(commandParser,
                 NoteProcessor.Create(commandParser, persistence),
-                ZendeskTicketTracker.Create(commandParser, persistence, configuration),
+                //ZendeskTicketTracker.Create(commandParser, persistence, configuration),
                 RecordReplayTraceManagement.Create(commandParser),
                 SeatingPlans.Create(commandParser, webClient),
                 Webcams.Create(commandParser, configuration),
