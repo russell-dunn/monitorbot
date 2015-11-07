@@ -68,6 +68,9 @@
     <Compile Include="meta\CompositeMessageProcessor.cs" />
     <Compile Include="meta\ConcattingMessageProcessor.cs" />
     <Compile Include="meta\ErrorCatchingMessageProcessor.cs" />
+    <Compile Include="meta\ErrorReportingMessageProcessor.cs" />
+    <Compile Include="utils\HasteServerPasteBin.cs" />
+    <Compile Include="utils\IPasteBin.cs" />
     <Compile Include="persistence\HashPersistenceApi.cs" />
     <Compile Include="persistence\IHashPersistenceApi.cs" />
     <Compile Include="persistence\IKeyValueStore.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="tests\CachingTests.cs" />
     <Compile Include="tests\CommandParser.cs" />
     <Compile Include="tests\CompositeMessageProcessingTests.cs" />
+    <Compile Include="tests\ErrorReportingMessageProcessorTests.cs" />
     <Compile Include="tests\Extensions.cs" />
     <Compile Include="tests\FeatureMessageProcessorTests.cs" />
     <Compile Include="tests\persistence\InMemoryKeyValueStoreTests.cs" />

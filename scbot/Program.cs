@@ -72,10 +72,11 @@ namespace scbot
                 GamesProcessor.Create(commandParser, gamesPersistence)
                 );
 
+            var pasteBin = new HasteServerPasteBin(webClient, configuration.Get("haste-server-url"));
             var bot = new Bot(
-                new ErrorCatchingMessageProcessor(
+                new ErrorReportingMessageProcessor(
                     new ConcattingMessageProcessor(
-                            features)));
+                            features), pasteBin));
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
 
