@@ -31,7 +31,7 @@ namespace scbot.slack
         public async Task<string> Receive(CancellationToken cancellationToken)
         {
             var result = await m_StringClientWebSocket.ReceiveString(cancellationToken);
-            Trace.WriteLine("Got: "+result);
+            //Trace.WriteLine("Got: "+result);
             return result;
         }
 
