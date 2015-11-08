@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web.Helpers;
 using scbot.core.bot;
 
@@ -31,6 +32,7 @@ namespace scbot.slack
                     result = m_Handler.Hello();
                     break;
                 case "message":
+                    Trace.TraceInformation("Got message: "+json);
                     // Sometimes slack will re-acknowledge the last message we posted
                     // if it thinks we disconected
                     var replyTo = message.reply_to;
