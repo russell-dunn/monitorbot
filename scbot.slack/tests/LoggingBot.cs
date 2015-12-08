@@ -41,5 +41,11 @@ namespace scbot.slack.tests
                 Trace.WriteLine(string.Format(message, args));
             }
         }
+
+        public MessageResult ChannelCreated(string newChannelId, string newChannelName, string creatorId)
+        {
+            Log("got new channel message for channel {0} ({1}) created by {2}", newChannelId, newChannelName, creatorId);
+            return MessageResult.Empty;
+        }
     }
 }
