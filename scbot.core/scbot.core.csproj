@@ -57,8 +57,10 @@
     <Compile Include="bot\ICommandParser.cs" />
     <Compile Include="bot\IFeature.cs" />
     <Compile Include="bot\IMessageProcessor.cs" />
+    <Compile Include="bot\INewChannelProcessor.cs" />
     <Compile Include="bot\Message.cs" />
     <Compile Include="bot\MessageResult.cs" />
+    <Compile Include="bot\NullNewChannelProcessor.cs" />
     <Compile Include="bot\Response.cs" />
     <Compile Include="compareengine\CompareEngine.cs" />
     <Compile Include="compareengine\ComparisonResult.cs" />

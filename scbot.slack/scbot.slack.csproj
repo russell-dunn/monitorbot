@@ -57,6 +57,7 @@
     <Compile Include="SlackCommandParser.cs" />
     <Compile Include="SlackMessageHandler.cs" />
     <Compile Include="SlackRealTimeMessaging.cs" />
+    <Compile Include="TellSlackChannelAboutNewChannels.cs" />
     <Compile Include="tests\SlackCommandParsingTests.cs" />
     <Compile Include="tests\SlackMessageParsingTests.cs" />
     <Compile Include="tests\LoggingBot.cs" />

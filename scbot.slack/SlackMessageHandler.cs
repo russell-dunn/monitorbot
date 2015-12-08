@@ -47,6 +47,10 @@ namespace scbot.slack
                     }
                     result = m_Handler.Message(new Message(message.channel, userId, text));
                     break;
+                case "channel_created":
+                    Trace.TraceInformation("Got new channel message: " + json);
+                    result = m_Handler.ChannelCreated(message.channel.id, message.channel.name, message.channel.creator);
+                    break;
                 default:
                     result = m_Handler.Unknown(json);
                     break;

@@ -63,5 +63,14 @@ namespace scbot.slack.tests
             parser.Handle("{\"type\":\"message\",\"subtype\":\"bot_message\",\"channel\":\"D03JWF44C\",\"user\":\"U03JU40UP\",\"text\":\"this is a test\",\"ts\":\"1423514301.000002\",\"team\":\"T03JU3JV5\"}");
             bot.Verify(x => x.Message(It.IsAny<Message>()), Times.Never); 
         }
+
+        [Test]
+        public void CanParseChannelCreatedMessage()
+        {
+            var bot = m_Mock;
+            var parser = new SlackMessageHandler(bot.Object, "bot-id");
+            parser.Handle("{ \"type\": \"channel_created\", \"channel\": { \"id\": \"C024BE91L\", \"name\": \"fun\", \"created\": 1360782804, \"creator\": \"U024BE7LH\" } }");
+            bot.Verify(x => x.ChannelCreated("C024BE91L", "fun", "U024BE7LH"));
+        }
     }
 }

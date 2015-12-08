@@ -27,6 +27,7 @@ using scbot.release;
 using scbot.rg;
 using scbot.silly;
 using scbot.labelprinting;
+using System.Diagnostics;
 
 namespace scbot
 {
@@ -73,14 +74,31 @@ namespace scbot
                 );
 
             var pasteBin = new HasteServerPasteBin(webClient, configuration.Get("haste-server-url"));
+
+            var newChannelNotificationsChannel = configuration.GetWithDefault("new-channels-notification-channel", null);
+            var newChannelProcessor = GetNewChannelProcessor(newChannelNotificationsChannel);
+
             var bot = new Bot(
                 new ErrorReportingMessageProcessor(
-                    new ConcattingMessageProcessor(
-                            features), pasteBin));
+                    new ConcattingMessageProcessor(features),
+                    pasteBin),
+                newChannelProcessor);
 
             var handler = new SlackMessageHandler(bot, slackRtm.BotId);
 
             MainLoop(slackRtm, handler, slackApi, cancel);
+        }
+
+        private static INewChannelProcessor GetNewChannelProcessor(string newChannelNotificationsChannel)
+        {
+            var newChannelProcessor = !String.IsNullOrWhiteSpace(newChannelNotificationsChannel)
+                ? (INewChannelProcessor) new TellSlackChannelAboutNewChannels(newChannelNotificationsChannel)
+                : new NullNewChannelProcessor();
+
+            Trace.TraceInformation(string.Format("new channel processor: {0} [{1}]", newChannelProcessor.GetType().Name,
+                newChannelNotificationsChannel));
+
+            return newChannelProcessor;
         }
 
         private static void MainLoop(ISlackRealTimeMessaging slackRtm, SlackMessageHandler handler, SlackApi slackApi, CancellationToken cancellationToken)
