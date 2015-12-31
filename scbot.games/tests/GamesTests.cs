@@ -152,6 +152,20 @@ namespace scbot.games.tests
             var responses = result.Responses.Select(x => x.Message).ToList();
             CollectionAssert.IsSubsetOf(expected, responses);
         }
+        [Test]
+        public void UsesAliasesForDisplayNamesInLeaderboard()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1st GreatestSwordsman 2nd Y.T. ");
+            var result = games.ProcessCommand("get racing leaderboard");
+            var expected = new[]
+            {
+                "1: *Hiro Protagonist* (rating 1032)",
+                "2: *Yours Truly* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.IsSubsetOf(expected, responses);
+        }
 
         private GamesProcessor MakeGames()
         {

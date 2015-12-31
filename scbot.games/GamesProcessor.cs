@@ -156,7 +156,8 @@ namespace scbot.games
                     .OrderByDescending(x => x.Rating))
             {
                 position++;
-                responses.Add(Response.ToMessage(command, string.Format("{0}: *{1}* (rating {2})", position, playerRating.Name, playerRating.Rating)));
+                var name = m_AliasList.GetDisplayNameFor(playerRating.Name);
+                responses.Add(Response.ToMessage(command, string.Format("{0}: *{1}* (rating {2})", position, name, playerRating.Rating)));
             }
             return new MessageResult(responses);
         }
