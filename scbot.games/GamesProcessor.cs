@@ -185,11 +185,11 @@ namespace scbot.games
         {
             if (positionChange > 0)
             {
-                return $"new ladder position - *{newPosition}* ⇧ {Math.Abs(positionChange)}";
+                return $"new ladder position - *{newPosition}* ⇧{Math.Abs(positionChange)}";
             }
             if (positionChange < 0)
             {
-                return $"new ladder position - *{newPosition}* ⇩ {Math.Abs(positionChange)}";
+                return $"new ladder position - *{newPosition}* ⇩{Math.Abs(positionChange)}";
             }
             return $"ladder position still - *{newPosition}*";
         }
