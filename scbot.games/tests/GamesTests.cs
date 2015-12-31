@@ -152,6 +152,7 @@ namespace scbot.games.tests
             var responses = result.Responses.Select(x => x.Message).ToList();
             CollectionAssert.IsSubsetOf(expected, responses);
         }
+
         [Test]
         public void UsesAliasesForDisplayNamesInLeaderboard()
         {
@@ -165,6 +166,27 @@ namespace scbot.games.tests
             };
             var responses = result.Responses.Select(x => x.Message).ToList();
             CollectionAssert.IsSubsetOf(expected, responses);
+        }
+
+        [Test]
+        public void UsesCanonicalNamesToDeduplicatePlayers()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1st TheDeliverator 2nd Y.T. ");
+            games.ProcessCommand("record racing game 1st Y.T. 2nd GreatestSwordsman ");
+            games.ProcessCommand("record racing game 1st Y.T. 2nd GreatestSwordsman ");
+            
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Yours Truly* (rating 1037)",
+                "2: *Hiro Protagonist* (rating 963)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            Assert.AreEqual(2, result.Responses.Count(),
+                "We're not expecting a third player even though we used two names for Hiro");
+            CollectionAssert.AreEqual(expected, responses);
         }
 
         private GamesProcessor MakeGames()
@@ -188,7 +210,9 @@ namespace scbot.games.tests
                     {
                         case "GreatestSwordsman": return "Hiro Protagonist";
                         case "TheDeliverator": return "Hiro Protagonist";
+                        case "hiro.protagonist": return "Hiro Protagonist";
                         case "Y.T.": return "Yours Truly";
+                        case "kourier.1992": return "Yours Truly";
                         default: return name;
                     }
                 });
