@@ -11,6 +11,15 @@ namespace scbot.core.tests
     public class AliasListTests
     {
         [Test]
+        public void EmptyAliasListJustPassesThroughStrings()
+        {
+            var subject = new AliasList();
+
+            Assert.AreEqual("foo", subject.GetCanonicalNameFor("foo"));
+            Assert.AreEqual("foo", subject.GetDisplayNameFor("foo"));
+        }
+
+        [Test]
         public void CanAddAndFetchDisplayName()
         {
             var subject = new AliasList();
