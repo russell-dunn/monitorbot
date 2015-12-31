@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using scbot.core.persistence;
 using scbot.core.tests;
+using scbot.core.utils;
 
 namespace scbot.games.tests
 {
@@ -137,9 +139,46 @@ namespace scbot.games.tests
             Assert.AreEqual("Please provide some game results", result.Responses.Single().Message);
         }
 
+        [Test]
+        public void UsesAliasesForDisplayNamesInResults()
+        {
+            var games = MakeGames();
+            var result = games.ProcessCommand("record racing game 1st GreatestSwordsman 2nd Y.T. ");
+            var expected = new[]
+            {
+                "1: *Hiro Protagonist* (new rating - *1032* (*+32*), ladder position still - *1*) :star: #professional",
+                "2: *Yours Truly* (new rating - *968* (*-32*), new ladder position - *2* ⇩1)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.IsSubsetOf(expected, responses);
+        }
+
         private GamesProcessor MakeGames()
         {
-            return new GamesProcessor(new InMemoryKeyValueStore());
+            var aliasList = new Mock<IAliasList>();
+            aliasList.Setup(x => x.GetCanonicalNameFor(It.IsAny<string>()))
+                .Returns<string>(name =>
+                {
+                    switch (name)
+                    {
+                        case "GreatestSwordsman": return "hiro.protagonist";
+                        case "TheDeliverator": return "hiro.protagonist";
+                        case "Y.T.": return "kourier.1992";
+                        default: return name;
+                    }
+                });
+            aliasList.Setup(x => x.GetDisplayNameFor(It.IsAny<string>()))
+                .Returns<string>(name =>
+                {
+                    switch (name)
+                    {
+                        case "GreatestSwordsman": return "Hiro Protagonist";
+                        case "TheDeliverator": return "Hiro Protagonist";
+                        case "Y.T.": return "Yours Truly";
+                        default: return name;
+                    }
+                });
+            return new GamesProcessor(new InMemoryKeyValueStore(), aliasList.Object);
         }
     }
 }

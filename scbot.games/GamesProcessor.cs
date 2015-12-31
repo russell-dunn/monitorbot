@@ -15,7 +15,7 @@ namespace scbot.games
     {
         public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
         {
-            var processor = new GamesProcessor(persistence);
+            var processor = new GamesProcessor(persistence, new NullAliasList());
             return new BasicFeature("games", "record games and track rankings", 
                 "Use `record <league> game 1st <player1> 2nd <player2> [...]` to record a game.\n" +
                 "eg: `record worms game 1st James 2nd Luke 3rd MarkJ`\n" +
@@ -27,10 +27,12 @@ namespace scbot.games
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly EloScoringStrategy m_EloScoringStrategy = new EloScoringStrategy(maxRatingChange: new Points(64), maxSkillGap: new Points(400), startingRating: new Points(s_StartingRating));
         private static readonly int s_StartingRating = 1000;
+        private readonly IAliasList m_AliasList;
 
-        public GamesProcessor(IKeyValueStore persistence)
+        public GamesProcessor(IKeyValueStore persistence, IAliasList aliasList)
         {
             m_Persistence = persistence;
+            m_AliasList = aliasList;
             m_Underlying = new RegexCommandMessageProcessor(Commands);
         }
 
@@ -165,17 +167,13 @@ namespace scbot.games
 
             foreach (var result in resultChanges)
             {
-                // HACK to get +/- infront of the rating change
                 var ratingSign = result.PointsChange > 0 ? "+" : "";
                 var ratingChangeWithSign = ratingSign + result.PointsChange;
-
-                // #Position Change
                 var positionText = GetPositionText(result.Position, result.PositionChange);
-
-                // #Tags
                 var leagueBand = GetLeagueBandText(result.Points);
+                var name = m_AliasList.GetDisplayNameFor(result.Name);
 
-                resultsText.Add($"{result.Position}: *{result.Name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
+                resultsText.Add($"{result.Position}: *{name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
             }
 
             return resultsText;
