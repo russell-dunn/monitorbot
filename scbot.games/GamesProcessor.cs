@@ -15,7 +15,7 @@ namespace scbot.games
     {
         public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
         {
-            var processor = new GamesProcessor(persistence, new NullAliasList());
+            var processor = new GamesProcessor(persistence, new AliasList());
             return new BasicFeature("games", "record games and track rankings", 
                 "Use `record <league> game 1st <player1> 2nd <player2> [...]` to record a game.\n" +
                 "eg: `record worms game 1st James 2nd Luke 3rd MarkJ`\n" +

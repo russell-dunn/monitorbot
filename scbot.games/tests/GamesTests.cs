@@ -191,32 +191,32 @@ namespace scbot.games.tests
 
         private GamesProcessor MakeGames()
         {
-            var aliasList = new Mock<IAliasList>();
-            aliasList.Setup(x => x.GetCanonicalNameFor(It.IsAny<string>()))
-                .Returns<string>(name =>
-                {
-                    switch (name)
-                    {
-                        case "GreatestSwordsman": return "hiro.protagonist";
-                        case "TheDeliverator": return "hiro.protagonist";
-                        case "Y.T.": return "kourier.1992";
-                        default: return name;
-                    }
-                });
-            aliasList.Setup(x => x.GetDisplayNameFor(It.IsAny<string>()))
-                .Returns<string>(name =>
-                {
-                    switch (name)
-                    {
-                        case "GreatestSwordsman": return "Hiro Protagonist";
-                        case "TheDeliverator": return "Hiro Protagonist";
-                        case "hiro.protagonist": return "Hiro Protagonist";
-                        case "Y.T.": return "Yours Truly";
-                        case "kourier.1992": return "Yours Truly";
-                        default: return name;
-                    }
-                });
-            return new GamesProcessor(new InMemoryKeyValueStore(), aliasList.Object);
+            var aliasList = new AliasList();
+            //aliasList.Setup(x => x.GetCanonicalNameFor(It.IsAny<string>()))
+            //    .Returns<string>(name =>
+            //    {
+            //        switch (name)
+            //        {
+            //            case "GreatestSwordsman": return "hiro.protagonist";
+            //            case "TheDeliverator": return "hiro.protagonist";
+            //            case "Y.T.": return "kourier.1992";
+            //            default: return name;
+            //        }
+            //    });
+            //aliasList.Setup(x => x.GetDisplayNameFor(It.IsAny<string>()))
+            //    .Returns<string>(name =>
+            //    {
+            //        switch (name)
+            //        {
+            //            case "GreatestSwordsman": return "Hiro Protagonist";
+            //            case "TheDeliverator": return "Hiro Protagonist";
+            //            case "hiro.protagonist": return "Hiro Protagonist";
+            //            case "Y.T.": return "Yours Truly";
+            //            case "kourier.1992": return "Yours Truly";
+            //            default: return name;
+            //        }
+            //    });
+            return new GamesProcessor(new InMemoryKeyValueStore(), aliasList);
         }
     }
 }

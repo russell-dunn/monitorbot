@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace scbot.core.utils
 {
-    public class NullAliasList : IAliasList
+    public class AliasList : IAliasList
     {
         public string GetCanonicalNameFor(string name)
         {
@@ -16,6 +16,10 @@ namespace scbot.core.utils
         public string GetDisplayNameFor(string name)
         {
             return name;
+        }
+
+        public void AddAlias(string canonicalName, string displayName, IEnumerable<string> otherAliases)
+        {
         }
     }
 }
