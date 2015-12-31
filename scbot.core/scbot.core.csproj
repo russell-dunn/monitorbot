@@ -72,6 +72,7 @@
     <Compile Include="meta\ErrorCatchingMessageProcessor.cs" />
     <Compile Include="meta\ErrorReportingMessageProcessor.cs" />
     <Compile Include="utils\HasteServerPasteBin.cs" />
+    <Compile Include="utils\IAliasList.cs" />
     <Compile Include="utils\IPasteBin.cs" />
     <Compile Include="persistence\HashPersistenceApi.cs" />
     <Compile Include="persistence\IHashPersistenceApi.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="utils\ICommandProcessor.cs" />
     <Compile Include="utils\ITime.cs" />
     <Compile Include="utils\IWebClient.cs" />
+    <Compile Include="utils\NullAliasList.cs" />
     <Compile Include="utils\RegexCommandMessageProcessor.cs" />
     <Compile Include="utils\StringClientWebSocket.cs" />
     <Compile Include="utils\Time.cs" />
