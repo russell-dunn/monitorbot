@@ -8,11 +8,21 @@ namespace scbot.core.utils
 {
     public class AliasList : IAliasList
     {
+        // there's actually two symmetric classes here -
+        // could easily dedupe into one nested class, but not sure what to call it
+
         private readonly Dictionary<string, string> m_NamesToDisplayName
+            = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly Dictionary<string, string> m_NamesToCanonicalName
             = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
         public string GetCanonicalNameFor(string name)
         {
+            string canonicalName;
+            if (m_NamesToCanonicalName.TryGetValue(name, out canonicalName))
+            {
+                return canonicalName;
+            }
             return name;
         }
 
@@ -33,6 +43,13 @@ namespace scbot.core.utils
             foreach (var otherAlias in otherAliases)
             {
                 m_NamesToDisplayName.Add(otherAlias, displayName);
+            }
+
+            m_NamesToCanonicalName.Add(canonicalName, canonicalName);
+            m_NamesToCanonicalName.Add(displayName, canonicalName);
+            foreach (var otherAlias in otherAliases)
+            {
+                m_NamesToCanonicalName.Add(otherAlias, canonicalName);
             }
         }
     }
