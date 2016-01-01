@@ -79,7 +79,8 @@ namespace scbot.games
             gameResults = GetCanonicalPlayerNames(gameResults, playerNames);
 
             var newPlayers = FindNewPlayers(gameResults, playerNames);
-            responses.AddRange(newPlayers.Select(x => Response.ToMessage(command, string.Format("Adding new player `{0}`", x))));
+            responses.AddRange(newPlayers.Select(x =>
+                Response.ToMessage(command, string.Format("Adding new player *{0}*", m_AliasList.GetDisplayNameFor(x)))));
 
             var newGame = new Game(gameResults);
             gamesPersistence.AddToList(newGame);

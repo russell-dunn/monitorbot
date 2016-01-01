@@ -21,9 +21,9 @@ namespace scbot.games.tests
             var expected = new[]
             {
                 "Creating new league `worms`",
-                "Adding new player `Dave`",
-                "Adding new player `Pete`",
-                "Adding new player `Paul`",
+                "Adding new player *Dave*",
+                "Adding new player *Pete*",
+                "Adding new player *Paul*",
                 "1: *Dave* (new rating - *1032* (*+32*), ladder position still - *1*) :star: #professional",
                 "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2* ⇩1)",
                 "3: *Paul* (new rating - *968* (*-32*), new ladder position - *3* ⇩2)",
