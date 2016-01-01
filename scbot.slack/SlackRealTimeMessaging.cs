@@ -9,23 +9,24 @@ namespace scbot.slack
     public class SlackRealTimeMessaging : ISlackRealTimeMessaging
     {
         private readonly StringClientWebSocket m_StringClientWebSocket;
-        private readonly string m_BotId;
+        private readonly SlackInstanceInfo m_InstanceInfo;
 
-        public string BotId
+        public SlackInstanceInfo InstanceInfo
         {
-            get { return m_BotId; }
+            get { return m_InstanceInfo; }
         }
 
-        private SlackRealTimeMessaging(StringClientWebSocket webSocket, string botId)
+        private SlackRealTimeMessaging(StringClientWebSocket webSocket, SlackInstanceInfo instanceInfo)
         {
             m_StringClientWebSocket = webSocket;
-            m_BotId = botId;
+            m_InstanceInfo = instanceInfo;
         }
 
-        public static async Task<SlackRealTimeMessaging> Connect(Uri wsUrl, string botId, CancellationToken cancellationToken)
+        public static async Task<SlackRealTimeMessaging> Connect(Uri wsUrl,
+            SlackInstanceInfo instanceInfo, CancellationToken cancellationToken)
         {
             var ws = await StringClientWebSocket.Connect(wsUrl, cancellationToken);
-            return new SlackRealTimeMessaging(ws, botId);
+            return new SlackRealTimeMessaging(ws, instanceInfo);
         }
 
         public async Task<string> Receive(CancellationToken cancellationToken)

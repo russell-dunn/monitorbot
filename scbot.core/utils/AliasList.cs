@@ -38,18 +38,18 @@ namespace scbot.core.utils
 
         public void AddAlias(string canonicalName, string displayName, IEnumerable<string> otherAliases)
         {
-            m_NamesToDisplayName.Add(canonicalName, displayName);
-            m_NamesToDisplayName.Add(displayName, displayName);
+            m_NamesToDisplayName[canonicalName] = displayName;
+            m_NamesToDisplayName[displayName] = displayName;
             foreach (var otherAlias in otherAliases)
             {
-                m_NamesToDisplayName.Add(otherAlias, displayName);
+                m_NamesToDisplayName[otherAlias] = displayName;
             }
 
-            m_NamesToCanonicalName.Add(canonicalName, canonicalName);
-            m_NamesToCanonicalName.Add(displayName, canonicalName);
+            m_NamesToCanonicalName[canonicalName] = canonicalName;
+            m_NamesToCanonicalName[displayName] = canonicalName;
             foreach (var otherAlias in otherAliases)
             {
-                m_NamesToCanonicalName.Add(otherAlias, canonicalName);
+                m_NamesToCanonicalName[otherAlias] = canonicalName;
             }
         }
     }

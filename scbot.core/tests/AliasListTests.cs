@@ -58,5 +58,16 @@ namespace scbot.core.tests
             Assert.AreEqual("hiro.protagonist", subject.GetCanonicalNameFor("HIRO PROTAGONIST"),
                 "should not be case-sensitive");
         }
+
+        [Test]
+        public void DoesntCrashOnDuplicates()
+        {
+            var subject = new AliasList();
+            Assert.DoesNotThrow(() =>
+            {
+                subject.AddAlias("foo", "foo", new[] { "foo", "foo" });
+                subject.AddAlias("foo", "foo", new[] { "foo", "foo" });
+            });
+        }
     }
 }

@@ -28,6 +28,7 @@ using scbot.rg;
 using scbot.silly;
 using scbot.labelprinting;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace scbot
 {
@@ -51,8 +52,9 @@ namespace scbot
 
             var slackRtm = await (ReconnectingSlackRealTimeMessaging.CreateAsync(
                 async () => await slackApi.StartRtm()));
+            var aliasList = GetAliasList(slackRtm.InstanceInfo.Users);
 
-            var commandParser = new SlackCommandParser("scbot", slackRtm.BotId);
+            var commandParser = new SlackCommandParser("scbot", slackRtm.InstanceInfo.BotId);
 
             var webClient = new WebClient();
 
@@ -70,7 +72,7 @@ namespace scbot
                 LabelPrinting.Create(commandParser, webClient, configuration),
                 Jira.Create(commandParser),
                 CompareTeamEmails.Create(commandParser, configuration),
-                GamesProcessor.Create(commandParser, gamesPersistence)
+                GamesProcessor.Create(commandParser, gamesPersistence, aliasList)
                 );
 
             var pasteBin = new HasteServerPasteBin(webClient, configuration.Get("haste-server-url"));
@@ -84,9 +86,19 @@ namespace scbot
                     pasteBin),
                 newChannelProcessor);
 
-            var handler = new SlackMessageHandler(bot, slackRtm.BotId);
+            var handler = new SlackMessageHandler(bot, slackRtm.InstanceInfo.BotId);
 
             MainLoop(slackRtm, handler, slackApi, cancel);
+        }
+
+        private static IAliasList GetAliasList(IEnumerable<SlackUser> users)
+        {
+            var aliasList = new AliasList();
+            foreach (var user in users)
+            {
+                aliasList.AddAlias(user.SlackId, user.DisplayName, new[] { user.UserName });
+            }
+            return aliasList;
         }
 
         private static INewChannelProcessor GetNewChannelProcessor(string newChannelNotificationsChannel)
