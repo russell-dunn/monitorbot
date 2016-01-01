@@ -189,11 +189,46 @@ namespace scbot.games.tests
             CollectionAssert.AreEqual(expected, responses);
         }
 
+        [Test]
+        public void CanParsePlayerNamesContainingSpaces()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1:faith 2: Robert Pope");
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Faith Connors* (rating 1032)",
+                "2: *Robert Pope* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
+        public void DoesntParsePositionsInTheMiddleOfPlayerNames()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1:faith 2:<@UXX2NDXX>");
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Faith Connors* (rating 1032)",
+                // Even though '2ND' is a valid position string it needs to stay part of the username
+                "2: *<@UXX2NDXX>* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
         private GamesProcessor MakeGames()
         {
             var aliasList = new AliasList();
             aliasList.AddAlias("hiro.protagonist", "Hiro Protagonist", new[] { "GreatestSwordsman", "TheDeliverator" });
             aliasList.AddAlias("kourier.1992", "Yours Truly", new[] { "Y.T.", "YT" });
+            aliasList.AddAlias("runner.2008", "Faith Connors", new[] { "Faith" });
+            aliasList.AddAlias("robert.pope", "Robert Pope", new[] { "Pope" });
             return new GamesProcessor(new InMemoryKeyValueStore(), aliasList);
         }
     }

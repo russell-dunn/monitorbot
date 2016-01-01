@@ -53,6 +53,7 @@ namespace scbot.games
             // TODO: try and break up this method a bit more
             var resultsString = args.Group("results");
             var gameResults = ParseGameResults(resultsString);
+            //Console.WriteLine(String.Join("\n", gameResults.Select(x => $"{x.Player} {x.Position}")));
             if (!gameResults.Any())
             {
                 if (String.IsNullOrWhiteSpace(resultsString))
@@ -244,7 +245,14 @@ namespace scbot.games
 
         private List<PlayerPosition> ParseGameResults(string input)
         {
-            var resultsRegex = new Regex(@"(?<resultString>(?<position>\d+)(st|nd|rd|th|:)\s*(?<player>[^\s]+))");
+            var resultsRegex = new Regex(@"
+(?<resultString>
+ (\s|^)
+ (?<position>\d+)(st|nd|rd|th|:)    # Match a position string (such as '1st' or '3:')
+ \s*                                # followed by optional whitespace
+ (?<player>.+?)                     # and then a player name, which is a string of characters until ...
+ ((?=\s+\d+(st|nd|rd|th|:)) | $)    # another position string (with a zero-width lookahead match) or the end of the line
+)", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
             return resultsRegex.Matches(input)
                 .Cast<Match>()
                 .Select(result =>
