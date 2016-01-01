@@ -244,7 +244,7 @@ namespace scbot.games
 
         private List<PlayerPosition> ParseGameResults(string input)
         {
-            var resultsRegex = new Regex(@"(?<resultString>(?<position>\d+)(st|nd|rd|th|:)\s*(?<player>[^\d]+))");
+            var resultsRegex = new Regex(@"(?<resultString>(?<position>\d+)(st|nd|rd|th|:)\s*(?<player>[^\s]+))");
             return resultsRegex.Matches(input)
                 .Cast<Match>()
                 .Select(result =>
