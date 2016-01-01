@@ -96,7 +96,10 @@ namespace scbot
             var aliasList = new AliasList();
             foreach (var user in users)
             {
-                aliasList.AddAlias(user.SlackId, user.DisplayName, new[] { user.UserName });
+                aliasList.AddAlias(user.SlackId, user.DisplayName, new[] {
+                    user.UserName,
+                    string.Format("<@{0}>", user.SlackId)
+                });
             }
             return aliasList;
         }
