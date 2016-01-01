@@ -111,8 +111,6 @@ namespace scbot.games
 
         private string GetCanonicalPlayerName(Dictionary<string, string> ciPlayerNames, string player)
         {
-            // TODO: we'll need to make sure that IAliasList is case-insensitive, and then we can get
-            // rid of the other bit of this logic
             player = m_AliasList.GetCanonicalNameFor(player);
             return ciPlayerNames.ContainsKey(player) ? ciPlayerNames[player] : player;
         }
