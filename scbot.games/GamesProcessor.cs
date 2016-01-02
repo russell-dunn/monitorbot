@@ -13,9 +13,9 @@ namespace scbot.games
 {
     public class GamesProcessor : ICommandProcessor
     {
-        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence)
+        public static IFeature Create(ICommandParser commandParser, IKeyValueStore persistence, IAliasList aliasList)
         {
-            var processor = new GamesProcessor(persistence);
+            var processor = new GamesProcessor(persistence, aliasList);
             return new BasicFeature("games", "record games and track rankings", 
                 "Use `record <league> game 1st <player1> 2nd <player2> [...]` to record a game.\n" +
                 "eg: `record worms game 1st James 2nd Luke 3rd MarkJ`\n" +
@@ -27,10 +27,12 @@ namespace scbot.games
         private readonly RegexCommandMessageProcessor m_Underlying;
         private readonly EloScoringStrategy m_EloScoringStrategy = new EloScoringStrategy(maxRatingChange: new Points(64), maxSkillGap: new Points(400), startingRating: new Points(s_StartingRating));
         private static readonly int s_StartingRating = 1000;
+        private readonly IAliasList m_AliasList;
 
-        public GamesProcessor(IKeyValueStore persistence)
+        public GamesProcessor(IKeyValueStore persistence, IAliasList aliasList)
         {
             m_Persistence = persistence;
+            m_AliasList = aliasList;
             m_Underlying = new RegexCommandMessageProcessor(Commands);
         }
 
@@ -51,6 +53,7 @@ namespace scbot.games
             // TODO: try and break up this method a bit more
             var resultsString = args.Group("results");
             var gameResults = ParseGameResults(resultsString);
+            //Console.WriteLine(String.Join("\n", gameResults.Select(x => $"{x.Player} {x.Position}")));
             if (!gameResults.Any())
             {
                 if (String.IsNullOrWhiteSpace(resultsString))
@@ -76,7 +79,8 @@ namespace scbot.games
             gameResults = GetCanonicalPlayerNames(gameResults, playerNames);
 
             var newPlayers = FindNewPlayers(gameResults, playerNames);
-            responses.AddRange(newPlayers.Select(x => Response.ToMessage(command, string.Format("Adding new player `{0}`", x))));
+            responses.AddRange(newPlayers.Select(x =>
+                Response.ToMessage(command, string.Format("Adding new player *{0}*", m_AliasList.GetDisplayNameFor(x)))));
 
             var newGame = new Game(gameResults);
             gamesPersistence.AddToList(newGame);
@@ -108,6 +112,7 @@ namespace scbot.games
 
         private string GetCanonicalPlayerName(Dictionary<string, string> ciPlayerNames, string player)
         {
+            player = m_AliasList.GetCanonicalNameFor(player);
             return ciPlayerNames.ContainsKey(player) ? ciPlayerNames[player] : player;
         }
 
@@ -154,7 +159,8 @@ namespace scbot.games
                     .OrderByDescending(x => x.Rating))
             {
                 position++;
-                responses.Add(Response.ToMessage(command, string.Format("{0}: *{1}* (rating {2})", position, playerRating.Name, playerRating.Rating)));
+                var name = m_AliasList.GetDisplayNameFor(playerRating.Name);
+                responses.Add(Response.ToMessage(command, string.Format("{0}: *{1}* (rating {2})", position, name, playerRating.Rating)));
             }
             return new MessageResult(responses);
         }
@@ -165,17 +171,13 @@ namespace scbot.games
 
             foreach (var result in resultChanges)
             {
-                // HACK to get +/- infront of the rating change
                 var ratingSign = result.PointsChange > 0 ? "+" : "";
                 var ratingChangeWithSign = ratingSign + result.PointsChange;
-
-                // #Position Change
                 var positionText = GetPositionText(result.Position, result.PositionChange);
-
-                // #Tags
                 var leagueBand = GetLeagueBandText(result.Points);
+                var name = m_AliasList.GetDisplayNameFor(result.Name);
 
-                resultsText.Add($"{result.Position}: *{result.Name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
+                resultsText.Add($"{result.Position}: *{name}* (new rating - *{result.Points}* (*{ratingChangeWithSign}*), {positionText}){leagueBand}");
             }
 
             return resultsText;
@@ -185,11 +187,11 @@ namespace scbot.games
         {
             if (positionChange > 0)
             {
-                return $"new ladder position - *{newPosition}* ⇧ {Math.Abs(positionChange)}";
+                return $"new ladder position - *{newPosition}* ⇧{Math.Abs(positionChange)}";
             }
             if (positionChange < 0)
             {
-                return $"new ladder position - *{newPosition}* ⇩ {Math.Abs(positionChange)}";
+                return $"new ladder position - *{newPosition}* ⇩{Math.Abs(positionChange)}";
             }
             return $"ladder position still - *{newPosition}*";
         }
@@ -242,7 +244,14 @@ namespace scbot.games
 
         private List<PlayerPosition> ParseGameResults(string input)
         {
-            var resultsRegex = new Regex(@"(?<resultString>(?<position>\d+)(st|nd|rd|th|:)\s*(?<player>[^\d]+))");
+            var resultsRegex = new Regex(@"
+(?<resultString>
+ (\s|^)
+ (?<position>\d+)(st|nd|rd|th|:)    # Match a position string (such as '1st' or '3:')
+ \s*                                # followed by optional whitespace
+ (?<player>.+?)                     # and then a player name, which is a string of characters until ...
+ ((?=\s+\d+(st|nd|rd|th|:)) | $)    # another position string (with a zero-width lookahead match) or the end of the line
+)", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
             return resultsRegex.Matches(input)
                 .Cast<Match>()
                 .Select(result =>

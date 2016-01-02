@@ -55,8 +55,10 @@
     <Compile Include="ReconnectingSlackRealTimeMessaging.cs" />
     <Compile Include="SlackApi.cs" />
     <Compile Include="SlackCommandParser.cs" />
+    <Compile Include="SlackInstanceInfo.cs" />
     <Compile Include="SlackMessageHandler.cs" />
     <Compile Include="SlackRealTimeMessaging.cs" />
+    <Compile Include="SlackUser.cs" />
     <Compile Include="TellSlackChannelAboutNewChannels.cs" />
     <Compile Include="tests\SlackCommandParsingTests.cs" />
     <Compile Include="tests\SlackMessageParsingTests.cs" />

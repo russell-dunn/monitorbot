@@ -71,7 +71,10 @@
     <Compile Include="meta\ConcattingMessageProcessor.cs" />
     <Compile Include="meta\ErrorCatchingMessageProcessor.cs" />
     <Compile Include="meta\ErrorReportingMessageProcessor.cs" />
+    <Compile Include="tests\AliasListTests.cs" />
+    <Compile Include="utils\AliasList.cs" />
     <Compile Include="utils\HasteServerPasteBin.cs" />
+    <Compile Include="utils\IAliasList.cs" />
     <Compile Include="utils\IPasteBin.cs" />
     <Compile Include="persistence\HashPersistenceApi.cs" />
     <Compile Include="persistence\IHashPersistenceApi.cs" />

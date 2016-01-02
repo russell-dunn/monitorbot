@@ -75,6 +75,6 @@ namespace scbot.slack
             }
         }
 
-        public string BotId { get { return m_Underlying.BotId; } }
+        public SlackInstanceInfo InstanceInfo { get { return m_Underlying.InstanceInfo; } }
     }
 }

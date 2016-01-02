@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using scbot.core.persistence;
 using scbot.core.tests;
+using scbot.core.utils;
 
 namespace scbot.games.tests
 {
@@ -19,12 +21,12 @@ namespace scbot.games.tests
             var expected = new[]
             {
                 "Creating new league `worms`",
-                "Adding new player `Dave`",
-                "Adding new player `Pete`",
-                "Adding new player `Paul`",
+                "Adding new player *Dave*",
+                "Adding new player *Pete*",
+                "Adding new player *Paul*",
                 "1: *Dave* (new rating - *1032* (*+32*), ladder position still - *1*) :star: #professional",
-                "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2* ⇩ 1)",
-                "3: *Paul* (new rating - *968* (*-32*), new ladder position - *3* ⇩ 2)",
+                "2: *Pete* (new rating - *1000* (*0*), new ladder position - *2* ⇩1)",
+                "3: *Paul* (new rating - *968* (*-32*), new ladder position - *3* ⇩2)",
 
             };
             var responses = result.Responses.Select(x => x.Message).ToList();
@@ -137,9 +139,97 @@ namespace scbot.games.tests
             Assert.AreEqual("Please provide some game results", result.Responses.Single().Message);
         }
 
+        [Test]
+        public void UsesAliasesForDisplayNamesInResults()
+        {
+            var games = MakeGames();
+            var result = games.ProcessCommand("record racing game 1st GreatestSwordsman 2nd Y.T. ");
+            var expected = new[]
+            {
+                "1: *Hiro Protagonist* (new rating - *1032* (*+32*), ladder position still - *1*) :star: #professional",
+                "2: *Yours Truly* (new rating - *968* (*-32*), new ladder position - *2* ⇩1)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.IsSubsetOf(expected, responses);
+        }
+
+        [Test]
+        public void UsesAliasesForDisplayNamesInLeaderboard()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1st GreatestSwordsman 2nd Y.T. ");
+            var result = games.ProcessCommand("get racing leaderboard");
+            var expected = new[]
+            {
+                "1: *Hiro Protagonist* (rating 1032)",
+                "2: *Yours Truly* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.IsSubsetOf(expected, responses);
+        }
+
+        [Test]
+        public void UsesCanonicalNamesToDeduplicatePlayers()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1st TheDeliverator 2nd Y.T. ");
+            games.ProcessCommand("record racing game 1st Y.T. 2nd GreatestSwordsman ");
+            games.ProcessCommand("record racing game 1st Y.T. 2nd GreatestSwordsman ");
+            
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Yours Truly* (rating 1037)",
+                "2: *Hiro Protagonist* (rating 963)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            Assert.AreEqual(2, result.Responses.Count(),
+                "We're not expecting a third player even though we used two names for Hiro");
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
+        public void CanParsePlayerNamesContainingSpaces()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1:faith 2: Robert Pope");
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Faith Connors* (rating 1032)",
+                "2: *Robert Pope* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
+        public void DoesntParsePositionsInTheMiddleOfPlayerNames()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record racing game 1:faith 2:<@UXX2NDXX>");
+            var result = games.ProcessCommand("get racing leaderboard");
+
+            var expected = new[]
+            {
+                "1: *Faith Connors* (rating 1032)",
+                // Even though '2ND' is a valid position string it needs to stay part of the username
+                "2: *<@UXX2NDXX>* (rating 968)",
+            };
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
         private GamesProcessor MakeGames()
         {
-            return new GamesProcessor(new InMemoryKeyValueStore());
+            var aliasList = new AliasList();
+            aliasList.AddAlias("hiro.protagonist", "Hiro Protagonist", new[] { "GreatestSwordsman", "TheDeliverator" });
+            aliasList.AddAlias("kourier.1992", "Yours Truly", new[] { "Y.T.", "YT" });
+            aliasList.AddAlias("runner.2008", "Faith Connors", new[] { "Faith" });
+            aliasList.AddAlias("robert.pope", "Robert Pope", new[] { "Pope" });
+            return new GamesProcessor(new InMemoryKeyValueStore(), aliasList);
         }
     }
 }

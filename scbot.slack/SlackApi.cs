@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Helpers;
 using scbot.core.bot;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace scbot.slack
 {
@@ -24,8 +25,21 @@ namespace scbot.slack
             PrintRtmData(result);
             var wsUrl = result.url;
             // TODO: getting the bot id here seems to be the most convenient but it's probably not the best idea since we have to pass it around so much 
-            var botId = result.self.id; 
-            return await SlackRealTimeMessaging.Connect(new Uri(wsUrl), botId, new CancellationToken());
+            var botId = result.self.id;
+            var users = GetUserList(result.users);
+            var instanceInfo = new SlackInstanceInfo(botId, users);
+            return await SlackRealTimeMessaging.Connect(new Uri(wsUrl), instanceInfo, new CancellationToken());
+        }
+
+        private IEnumerable<SlackUser> GetUserList(dynamic users)
+        {
+            var result = new List<SlackUser>();
+            foreach (var user in users)
+            {
+                var displayName = String.IsNullOrWhiteSpace(user.real_name) ? user.name : user.real_name;
+                result.Add(new SlackUser(displayName, user.name, user.id));
+            }
+            return result;
         }
 
         private void PrintRtmData(dynamic result)

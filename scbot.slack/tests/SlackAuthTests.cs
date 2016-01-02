@@ -25,7 +25,7 @@ namespace scbot.slack.tests
             var slackApi = new SlackApi(m_Configuration.Get("slack-api-key"));
             using (var rtm = await slackApi.StartRtm())
             {
-                var handler = new SlackMessageHandler(new LoggingBot(), rtm.BotId);
+                var handler = new SlackMessageHandler(new LoggingBot(), rtm.InstanceInfo.BotId);
                 while (true)
                 {
                     var message = await rtm.Receive(new CancellationToken());
