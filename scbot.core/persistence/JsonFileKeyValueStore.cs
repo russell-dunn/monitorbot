@@ -37,5 +37,10 @@ namespace scbot.core.persistence
             }
             return null;
         }
+
+        public void Clear()
+        {
+            File.WriteAllText(m_File.FullName, "");
+        }
     }
 }

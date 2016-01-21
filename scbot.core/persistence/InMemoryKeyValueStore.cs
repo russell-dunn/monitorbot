@@ -25,5 +25,10 @@ namespace scbot.core.persistence
             }
             return null;
         }
+
+        public void Clear()
+        {
+            m_Store.Clear();
+        }
     }
 }
