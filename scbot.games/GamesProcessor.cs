@@ -44,8 +44,37 @@ namespace scbot.games
                 {
                     {@"record\s+(?<league>[^ ]+)\s+game\s*(?<results>.+)?", RecordGame},
                     {@"(?<league>[^ ]+)\s+leaderboard", GetLeaderboard},
+                    {@"rollback last\s+(?<league>[^ ]+)\s+game", RollbackGame},
                 };
             }
+        }
+
+        private MessageResult RollbackGame(Command command, Match args)
+        {
+            var leagueName = args.Group("league");
+            var gamesPersistence = new ListPersistenceApi<Game>(m_Persistence, "games." + leagueName);
+            var existingGames = gamesPersistence.ReadList();
+
+            var lastGame = existingGames.Last();
+            gamesPersistence.RemoveFromList(x => x.Id == lastGame.Id);
+
+            existingGames = gamesPersistence.ReadList();
+            var league = GetCurrentLeague(existingGames);
+
+            // Wipe the leaderboard
+            var playersPersistence = new HashPersistenceApi<int>(m_Persistence, "players." + leagueName);
+            playersPersistence.Clear();
+
+            // Recalculate
+            var leaderboard = league.GetLeaderBoard(m_EloScoringStrategy).ToList();
+            
+            foreach (var player in leaderboard.Select(x => x.Name))
+            {
+                var newRanking = GetRatingForPlayer(leaderboard, player);
+                playersPersistence.Set(player, int.Parse(newRanking.ToString()));
+            }
+
+            return new MessageResult(new List<Response>() { Response.ToMessage(command,"Successfully rolled back the last game")});
         }
 
         private MessageResult RecordGame(Command command, Match args)
@@ -82,7 +111,9 @@ namespace scbot.games
             responses.AddRange(newPlayers.Select(x =>
                 Response.ToMessage(command, string.Format("Adding new player *{0}*", m_AliasList.GetDisplayNameFor(x)))));
 
-            var newGame = new Game(gameResults);
+            var nextId = existingGames.Count != 0 ? existingGames.Max(x => x.Id) + 1 : 1;
+
+            var newGame = new Game(gameResults, nextId);
             gamesPersistence.AddToList(newGame);
             league.RecordGame(GetPlayerRankGame(newGame));
 
@@ -300,10 +331,12 @@ namespace scbot.games
     internal struct Game
     {
         public readonly List<PlayerPosition> Results;
+        public readonly int Id;
 
-        public Game(List<PlayerPosition> results)
+        public Game(List<PlayerPosition> results, int id)
         {
             Results = results;
+            Id = id;
         }
     }
 }

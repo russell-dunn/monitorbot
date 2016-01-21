@@ -222,7 +222,8 @@ namespace scbot.games.tests
             };
             CollectionAssert.AreEqual(expected, responses);
             
-            result = games.ProcessCommand("rollback last worms game");
+            games.ProcessCommand("rollback last worms game");
+            result = games.ProcessCommand("get worms leaderboard");
             expected = new[]
             {
                 "1: *Dave* (rating 1032)",
