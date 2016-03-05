@@ -46,5 +46,10 @@ namespace scbot.core.persistence
             dict[key] = value;
             m_Underlying.Set(m_UnderlyingKey, Json.Encode(dict));
         }
+
+        public void Clear()
+        {
+            m_Underlying.Clear();
+        }
     }
 }
