@@ -49,7 +49,7 @@ namespace scbot.core.persistence
 
         public void Clear()
         {
-            m_Underlying.Clear();
+            m_Underlying.Set(m_UnderlyingKey, "");
         }
     }
 }

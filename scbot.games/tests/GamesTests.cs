@@ -235,6 +235,37 @@ namespace scbot.games.tests
         }
 
         [Test]
+        public void RollbackLastGamePlayedDoesntDestroyAllHistory()
+        {
+            var games = MakeGames();
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Paul");
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Larry");
+            var result = games.ProcessCommand("get worms leaderboard");
+            var responses = result.Responses.Select(x => x.Message).ToList();
+            var expected = new[]
+            {
+                "1: *Dave* (rating 1062)",
+                "2: *Pete* (rating 1001)",
+                "3: *Larry* (rating 969)",
+                "4: *Paul* (rating 968)",
+            };
+            CollectionAssert.AreEqual(expected, responses);
+
+            games.ProcessCommand("rollback last worms game");
+            games.ProcessCommand("record worms game 1st Dave 2nd Pete 3rd Larry");
+            result = games.ProcessCommand("get worms leaderboard");
+            expected = new[]
+            {
+                "1: *Dave* (rating 1062)",
+                "2: *Pete* (rating 1001)",
+                "3: *Larry* (rating 969)",
+                "4: *Paul* (rating 968)",
+            };
+            responses = result.Responses.Select(x => x.Message).ToList();
+            CollectionAssert.AreEqual(expected, responses);
+        }
+
+        [Test]
         public void DoesntParsePositionsInTheMiddleOfPlayerNames()
         {
             var games = MakeGames();
