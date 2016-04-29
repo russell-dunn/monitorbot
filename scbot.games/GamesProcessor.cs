@@ -231,11 +231,11 @@ namespace scbot.games
         {
             var leagueBand = "";
 
-            if (newRating > new Points(1500))
+            if (newRating > new Points(1200))
             {
                 leagueBand = " :sparkles: #godLike";
             }
-            else if (newRating > new Points(1250))
+            else if (newRating > new Points(1100))
             {
                 leagueBand = " :star2: #elite";
             }
@@ -243,7 +243,7 @@ namespace scbot.games
             {
                 leagueBand = " :star: #professional";
             }
-            else if (newRating < new Points(800))
+            else if (newRating < new Points(900))
             {
                 leagueBand = " :earth_americas: #mostlyHarmless";
             }
