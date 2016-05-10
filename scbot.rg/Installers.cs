@@ -41,10 +41,15 @@ namespace scbot.rg
             }
             catch (Exception)
             {
-                return Response.ToMessage(message, string.Format("Could not find installer for {0} {1}", product, version));
+                return Response.ToMessage(message, $"Could not find installer for {product} {version}");
             }
-            var installerUrl = json.file[0].content.href;
-            var installerName = json.file[0].name;
+            var installer = new List<dynamic>(json.file).FirstOrDefault(x => x.name.EndsWith(".exe"));
+            if (installer == null)
+            {
+                return Response.ToMessage(message, $"Could not find .exe artifact for {product} {version}");
+            }
+            var installerUrl = installer.content.href;
+            var installerName = installer.name;
             return Response.ToMessage(message, string.Format("<http://teamcity.red-gate.com{0}|{1}>", installerUrl, installerName));
         }
 
