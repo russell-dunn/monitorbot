@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B2258502-E3A8-4E53-86B8-56C62D32B92B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>monitorbot</RootNamespace>
+    <AssemblyName>monitorbot</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="config.example.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\monitorbot.core\monitorbot.core.csproj">
+      <Project>{c7168f51-9f82-4d25-9792-f8ae92600c53}</Project>
+      <Name>monitorbot.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.email\monitorbot.email.csproj">
+      <Project>{9274B15C-094A-4544-B091-C1BC33D2B907}</Project>
+      <Name>monitorbot.email</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.games\monitorbot.games.csproj">
+      <Project>{0DC0D42D-C606-4442-AD6D-AF2A6B292103}</Project>
+      <Name>monitorbot.games</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.htmltitles\monitorbot.htmltitles.csproj">
+      <Project>{fc74046e-0556-4e61-9152-36812a1ad181}</Project>
+      <Name>monitorbot.htmltitles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.jira\monitorbot.jira.csproj">
+      <Project>{189207b2-c9d7-49aa-8958-74d1490c5c57}</Project>
+      <Name>monitorbot.jira</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.labelprinting\monitorbot.labelprinting.csproj">
+      <Project>{5dea1219-37b0-413e-9d29-832f66b48118}</Project>
+      <Name>monitorbot.labelprinting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.logging\monitorbot.logging.csproj">
+      <Project>{4d975da4-e829-4b0b-9c82-5c1ebd0fa398}</Project>
+      <Name>monitorbot.logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.notes\monitorbot.notes.csproj">
+      <Project>{f1bfb84c-f9aa-4759-9088-466c1239b58b}</Project>
+      <Name>monitorbot.notes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.polls\monitorbot.polls.csproj">
+      <Project>{e0bf2d12-442f-4752-9398-cef173e56051}</Project>
+      <Name>monitorbot.polls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.review\monitorbot.review.csproj">
+      <Project>{cf6cf142-744e-4ce7-bb38-5bac479ab244}</Project>
+      <Name>monitorbot.review</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.rg\monitorbot.rg.csproj">
+      <Project>{0f742b7f-2429-473e-813c-b4bb317c307b}</Project>
+      <Name>monitorbot.rg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.silly\monitorbot.silly.csproj">
+      <Project>{f2e31598-496f-4095-899c-0f96e4d250fc}</Project>
+      <Name>monitorbot.silly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.slack\monitorbot.slack.csproj">
+      <Project>{299c0492-d039-4daa-8183-08d97a16639c}</Project>
+      <Name>monitorbot.slack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.teamcity.webhooks.endpoint\monitorbot.teamcity.webhooks.endpoint.csproj">
+      <Project>{41c297f3-6693-43e0-8dd8-948f3d87be2b}</Project>
+      <Name>monitorbot.teamcity.webhooks.endpoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.teamcity.webhooks.githubstatus\monitorbot.teamcity.webhooks.githubstatus.csproj">
+      <Project>{31ee92c7-81ff-4202-a19e-d70eb45b26d8}</Project>
+      <Name>monitorbot.teamcity.webhooks.githubstatus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.teamcity.webhooks\monitorbot.teamcity.webhooks.csproj">
+      <Project>{AB7B27FF-6EC0-4998-8191-56826E758DC7}</Project>
+      <Name>monitorbot.teamcity.webhooks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.teamcity\monitorbot.teamcity.csproj">
+      <Project>{73b57496-a862-4570-ae9a-ff02ac1d1fd4}</Project>
+      <Name>monitorbot.teamcity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monitorbot.zendesk\monitorbot.zendesk.csproj">
+      <Project>{3ddcfc4e-aff8-490b-8293-a34822f4eb01}</Project>
+      <Name>monitorbot.zendesk</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
