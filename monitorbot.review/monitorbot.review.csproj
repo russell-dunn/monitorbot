@@ -7,8 +7,8 @@
     <ProjectGuid>{CF6CF142-744E-4CE7-BB38-5BAC479AB244}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.review</RootNamespace>
-    <AssemblyName>scbot.review</AssemblyName>
+    <RootNamespace>monitorbot.review</RootNamespace>
+    <AssemblyName>monitorbot.review</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -7,8 +7,8 @@
     <ProjectGuid>{C7168F51-9F82-4D25-9792-F8AE92600C53}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.core</RootNamespace>
-    <AssemblyName>scbot.core</AssemblyName>
+    <RootNamespace>monitorbot.core</RootNamespace>
+    <AssemblyName>monitorbot.core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

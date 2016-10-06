@@ -7,8 +7,8 @@
     <ProjectGuid>{F2E31598-496F-4095-899C-0F96E4D250FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.silly</RootNamespace>
-    <AssemblyName>scbot.silly</AssemblyName>
+    <RootNamespace>monitorbot.silly</RootNamespace>
+    <AssemblyName>monitorbot.silly</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

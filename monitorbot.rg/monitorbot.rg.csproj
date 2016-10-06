@@ -7,8 +7,8 @@
     <ProjectGuid>{0F742B7F-2429-473E-813C-B4BB317C307B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.rg</RootNamespace>
-    <AssemblyName>scbot.rg</AssemblyName>
+    <RootNamespace>monitorbot.rg</RootNamespace>
+    <AssemblyName>monitorbot.rg</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

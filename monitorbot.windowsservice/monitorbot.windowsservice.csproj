@@ -7,8 +7,8 @@
     <ProjectGuid>{443B9684-A7F4-42BE-AAC6-52A1A4649B09}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.windowsservice</RootNamespace>
-    <AssemblyName>scbot.windowsservice</AssemblyName>
+    <RootNamespace>monitorbot.windowsservice</RootNamespace>
+    <AssemblyName>monitorbot.windowsservice</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

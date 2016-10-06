@@ -7,8 +7,8 @@
     <ProjectGuid>{299C0492-D039-4DAA-8183-08D97A16639C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.slack</RootNamespace>
-    <AssemblyName>scbot.slack</AssemblyName>
+    <RootNamespace>monitorbot.slack</RootNamespace>
+    <AssemblyName>monitorbot.slack</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

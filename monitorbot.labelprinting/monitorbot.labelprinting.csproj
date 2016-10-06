@@ -7,8 +7,8 @@
     <ProjectGuid>{5DEA1219-37B0-413E-9D29-832F66B48118}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.labelprinting</RootNamespace>
-    <AssemblyName>scbot.labelprinting</AssemblyName>
+    <RootNamespace>monitorbot.labelprinting</RootNamespace>
+    <AssemblyName>monitorbot.labelprinting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

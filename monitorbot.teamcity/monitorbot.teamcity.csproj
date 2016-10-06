@@ -7,8 +7,8 @@
     <ProjectGuid>{73B57496-A862-4570-AE9A-FF02AC1D1FD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.teamcity</RootNamespace>
-    <AssemblyName>scbot.teamcity</AssemblyName>
+    <RootNamespace>monitorbot.teamcity</RootNamespace>
+    <AssemblyName>monitorbot.teamcity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

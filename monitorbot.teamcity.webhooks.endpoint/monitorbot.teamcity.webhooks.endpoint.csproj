@@ -7,8 +7,8 @@
     <ProjectGuid>{41C297F3-6693-43E0-8DD8-948F3D87BE2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.teamcity.webhooks.endpoint</RootNamespace>
-    <AssemblyName>scbot.teamcity.webhooks.endpoint</AssemblyName>
+    <RootNamespace>monitorbot.teamcity.webhooks.endpoint</RootNamespace>
+    <AssemblyName>monitorbot.teamcity.webhooks.endpoint</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

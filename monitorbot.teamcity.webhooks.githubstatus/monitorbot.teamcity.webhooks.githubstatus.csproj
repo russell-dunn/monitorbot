@@ -7,8 +7,8 @@
     <ProjectGuid>{31EE92C7-81FF-4202-A19E-D70EB45B26D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.teamcity.webhooks.githubstatus</RootNamespace>
-    <AssemblyName>scbot.teamcity.webhooks.githubstatus</AssemblyName>
+    <RootNamespace>monitorbot.teamcity.webhooks.githubstatus</RootNamespace>
+    <AssemblyName>monitorbot.teamcity.webhooks.githubstatus</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
