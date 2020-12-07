@@ -54,7 +54,7 @@ namespace monitorbot
                 async () => await slackApi.StartRtm()));
             var aliasList = GetAliasList(slackRtm.InstanceInfo.Users);
 
-            var commandParser = new SlackCommandParser("scbot", slackRtm.InstanceInfo.BotId);
+            var commandParser = new SlackCommandParser("monitorbot", slackRtm.InstanceInfo.BotId);
 
             var webClient = new WebClient();
 

@@ -7,8 +7,8 @@
     <ProjectGuid>{189207B2-C9D7-49AA-8958-74D1490C5C57}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.jira</RootNamespace>
-    <AssemblyName>scbot.jira</AssemblyName>
+    <RootNamespace>monitorbot.jira</RootNamespace>
+    <AssemblyName>monitorbot.jira</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

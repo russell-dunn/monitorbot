@@ -7,8 +7,8 @@
     <ProjectGuid>{FC74046E-0556-4E61-9152-36812A1AD181}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.htmltitles</RootNamespace>
-    <AssemblyName>scbot.htmltitles</AssemblyName>
+    <RootNamespace>monitorbot.htmltitles</RootNamespace>
+    <AssemblyName>monitorbot.htmltitles</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

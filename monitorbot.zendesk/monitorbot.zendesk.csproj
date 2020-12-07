@@ -7,8 +7,8 @@
     <ProjectGuid>{3DDCFC4E-AFF8-490B-8293-A34822F4EB01}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.zendesk</RootNamespace>
-    <AssemblyName>scbot.zendesk</AssemblyName>
+    <RootNamespace>monitorbot.zendesk</RootNamespace>
+    <AssemblyName>monitorbot.zendesk</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

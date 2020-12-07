@@ -7,8 +7,8 @@
     <ProjectGuid>{4D975DA4-E829-4B0B-9C82-5C1EBD0FA398}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.logging</RootNamespace>
-    <AssemblyName>scbot.logging</AssemblyName>
+    <RootNamespace>monitorbot.logging</RootNamespace>
+    <AssemblyName>monitorbot.logging</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

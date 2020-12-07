@@ -7,8 +7,8 @@
     <ProjectGuid>{E0BF2D12-442F-4752-9398-CEF173E56051}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.polls</RootNamespace>
-    <AssemblyName>scbot.polls</AssemblyName>
+    <RootNamespace>monitorbot.polls</RootNamespace>
+    <AssemblyName>monitorbot.polls</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -7,8 +7,8 @@
     <ProjectGuid>{5DFA7C00-E9E0-409B-B303-7F19D3B9B718}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.github</RootNamespace>
-    <AssemblyName>scbot.github</AssemblyName>
+    <RootNamespace>monitorbot.github</RootNamespace>
+    <AssemblyName>monitorbot.github</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

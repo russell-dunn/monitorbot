@@ -7,8 +7,8 @@
     <ProjectGuid>{0DC0D42D-C606-4442-AD6D-AF2A6B292103}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.games</RootNamespace>
-    <AssemblyName>scbot.games</AssemblyName>
+    <RootNamespace>monitorbot.games</RootNamespace>
+    <AssemblyName>monitorbot.games</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

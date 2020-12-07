@@ -7,8 +7,8 @@
     <ProjectGuid>{9274B15C-094A-4544-B091-C1BC33D2B907}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scbot.email</RootNamespace>
-    <AssemblyName>scbot.email</AssemblyName>
+    <RootNamespace>monitorbot.email</RootNamespace>
+    <AssemblyName>monitorbot.email</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
